@@ -1,0 +1,118 @@
+.device {
+	position: absolute;
+	border: 3px solid #579;
+	border-left: 0;
+	border-bottom-right-radius: 0.4em;
+	border-top-right-radius: 0.4em;
+	-webkit-border-bottom-right-radius: 0.4em;
+	-webkit-border-top-right-radius: 0.4em;
+	-moz-border-radius-bottomright: 0.4em;
+	-moz-border-radius-topright: 0.4em;	
+	background-color: #79B;
+	padding: 3px;
+	padding-right: 0.5em;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	white-space: nowrap;
+	-webkit-box-shadow: 2px 2px 5px #AAA;	
+}
+
+.popup {
+	background-color: #F0E68C;
+	border: 3px solid #F0E68C;
+	border-radius: 0.5em;
+	border-top-right-radius: 0.5em;
+	-webkit-border-radius: 0.5em;
+	-webkit-box-shadow: 2px 2px 5px #AAA;		
+}
+
+.grey {
+	border: 3px solid #777;	
+	border-left: 0;	
+	background-color: #999;
+}
+
+.deviceLine {
+	position: absolute;
+	top: 0px;
+	width: 5px;
+	left: 20px;
+	bottom: 0px;
+	background-color: #579;
+	-webkit-box-shadow: 2px 0px 2px #AAA;	
+}
+
+.detailPanel {
+	font-size: 10px;	
+	height: 100%;
+	overflow: hidden;
+	position: absolute;
+	background-color: #79B;
+	right: 0px;
+	z-index: 10;
+	width: 0px;
+	border-left: 3px solid #579;
+}
+
+.devicePanel {
+	height: 100%;
+	width: 100%;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+
+.zone {
+	font-size: 18px;
+	text-align: center;
+	position: absolute;
+	bottom: 3px;
+}
+
+.zoneBar {
+	position: absolute;
+	height: 100%;
+	border-right: 1px solid #CCC;
+}
+
+.buttonPanel {
+	position: absolute;
+	right: 0px;
+	z-index: 10;
+	border-bottom: 3px solid #579;
+	border-left: 3px solid #579;
+	background-color: #79B;
+	border-bottom-left-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;	
+}
+
+.detailTitle {
+	font-size: 18px;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-top: 5px;
+	width: 180px;	
+}
+
+.detailItem {
+	padding-left: 10px;
+	padding-top: 2px;	
+	width: 180px;
+}
+
+.deviceError {
+	position: absolute;
+	z-index: -5;
+	background-color: #D53;
+}
+
+.trafficPanel {
+	margin-top: 10px;
+	width: 165px;
+	padding: 5px;
+	border: 2px solid #579;
+	background-color: #BCD;	
+	border-radius: 10px;	
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}

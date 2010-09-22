@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+	<!-- Servlets -->
+	<servlet>
+		<servlet-name>linkServlet</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.LinkServlet</servlet-class>
+		<!--<load-on-startup>0</load-on-startup>-->
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>linkServlet</servlet-name>
+		<url-pattern>/device/links</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>zoneServlet</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.ZoneServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>permitServlet</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.PermitServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>denyServlet</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.DenyServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>permitServlet</servlet-name>
+		<url-pattern>/device/permit</url-pattern>
+	</servlet-mapping>	
+
+	<servlet-mapping>
+		<servlet-name>denyServlet</servlet-name>
+		<url-pattern>/device/deny</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>nameServlet</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.NameServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>nameServlet</servlet-name>
+		<url-pattern>/device/setName</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>resourceServlet</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.ResourceServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>resourceServlet</servlet-name>
+		<url-pattern>/device/setResource</url-pattern>
+	</servlet-mapping>
+
+
+	<!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>Device.html</welcome-file>
+	</welcome-file-list>
+</web-app>
