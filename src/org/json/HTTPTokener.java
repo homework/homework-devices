@@ -40,7 +40,7 @@ public class HTTPTokener extends JSONTokener
 	 * @param s
 	 *            A source string.
 	 */
-	public HTTPTokener(String s)
+	public HTTPTokener(final String s)
 	{
 		super(s);
 	}
@@ -55,7 +55,7 @@ public class HTTPTokener extends JSONTokener
 	{
 		char c;
 		char q;
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		do
 		{
 			c = next();

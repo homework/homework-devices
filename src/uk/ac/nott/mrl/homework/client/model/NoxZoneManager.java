@@ -11,19 +11,7 @@ public class NoxZoneManager implements ZoneManager
 	}
 
 	@Override
-	public String[] getZones()
-	{
-		return new String[] { "Denied Access", "Not Connected", "Internet" };
-	}
-
-	@Override
-	public int getZoneCount()
-	{
-		return 3;
-	}
-
-	@Override
-	public int getZone(Link link)
+	public int getZone(final Link link)
 	{
 		if (link.isResource() && link.getDeviceName().equals("Router")) { return 2; }
 		if (!link.isPermitted())
@@ -35,7 +23,19 @@ public class NoxZoneManager implements ZoneManager
 	}
 
 	@Override
-	public void setZone(final DevicesService service, Link link, int zone)
+	public int getZoneCount()
+	{
+		return 3;
+	}
+
+	@Override
+	public String[] getZones()
+	{
+		return new String[] { "Denied Access", "Not Connected", "Internet" };
+	}
+
+	@Override
+	public void setZone(final DevicesService service, final Link link, final int zone)
 	{
 		if (zone > 0)
 		{

@@ -83,7 +83,7 @@ public class Zone extends FlowPanel
 		// addDomHandler(handler, MouseOverEvent.getType());
 	}
 
-	public void decrementDevices(Device device)
+	public void decrementDevices(final Device device)
 	{
 		devices--;
 		GWT.log("Device removed from " + getName() + ":" + device + " (" + devices + ")");
@@ -104,7 +104,7 @@ public class Zone extends FlowPanel
 		return resources.values();
 	}
 
-	public void incrementDevices(Device device)
+	public void incrementDevices(final Device device)
 	{
 		devices++;
 		GWT.log("Device added to " + getName() + ":" + device + " (" + devices + ")");
@@ -118,6 +118,28 @@ public class Zone extends FlowPanel
 	public void remove(final Link resource)
 	{
 		resources.remove(resource.getMacAddress());
+	}
+
+	public void update(final Link link)
+	{
+		if (link.isResource() && link.getDeviceName().equals("Router"))
+		{
+			if (link.getByteCount() > bandWidthMax)
+			{
+				bandWidthMax = link.getByteCount();
+				bandWidthTime = link.getTimestamp();
+			}
+			bandWidthPercent = ((float) link.getByteCount()) / bandWidthMax;
+			// GWT.log("Zone update: " + label.getText() + " (" + Model.zoneManager.getZone(link) +
+			// ") " + (bandWidthPercent * 100) + "%");
+			mostRecent = link.getTimestamp();
+
+			if (mostRecent - bandWidthTime > Model.TIMEOUT)
+			{
+				bandWidthMax *= Model.DECAY;
+			}
+			updateImage(label.getText());
+		}
 	}
 
 	private void updateImage(final String zoneName)
@@ -152,28 +174,6 @@ public class Zone extends FlowPanel
 		else if (zoneName.equals("Denied Access"))
 		{
 			image.setResource(DevicesClient.resources.denied());
-		}
-	}
-
-	public void update(Link link)
-	{
-		if (link.isResource() && link.getDeviceName().equals("Router"))
-		{
-			if (link.getByteCount() > bandWidthMax)
-			{
-				bandWidthMax = link.getByteCount();
-				bandWidthTime = link.getTimestamp();
-			}
-			bandWidthPercent = ((float) link.getByteCount()) / bandWidthMax;
-			// GWT.log("Zone update: " + label.getText() + " (" + Model.zoneManager.getZone(link) +
-			// ") " + (bandWidthPercent * 100) + "%");
-			mostRecent = link.getTimestamp();
-
-			if (mostRecent - bandWidthTime > Model.TIMEOUT)
-			{
-				bandWidthMax *= Model.DECAY;
-			}
-			updateImage(label.getText());
 		}
 	}
 }

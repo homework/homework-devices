@@ -20,7 +20,6 @@ public class Link
 	public static final Map<String, String> macCorporations = new HashMap<String, String>();
 
 	private static final String ieeeURL = "http://standards.ieee.org/cgi-bin/ouisearch?";
-	private long lastTried = 0;
 
 	public static Link parseLink(final String logLine)
 	{
@@ -86,6 +85,8 @@ public class Link
 		return links;
 	}
 
+	private long lastTried = 0;
+
 	private double timeStamp;
 	private String macAddress;
 	private String corporation;
@@ -126,7 +127,7 @@ public class Link
 			if (corporation == null)
 			{
 				corporation = "Unknown";
-				if(lastTried == 0 || (new Date().getTime() - lastTried) > 360000)
+				if (lastTried == 0 || (new Date().getTime() - lastTried) > 360000)
 				{
 					try
 					{
@@ -153,8 +154,8 @@ public class Link
 					{
 						lastTried = new Date().getTime();
 						e.printStackTrace();
-					}				
-				}				
+					}
+				}
 			}
 		}
 
@@ -184,6 +185,30 @@ public class Link
 	public double getTimeStamp()
 	{
 		return timeStamp;
+	}
+
+	public boolean isResource()
+	{
+		return resource;
+	}
+
+	public void setPermitted(final boolean b, final double since)
+	{
+		if (permitted != b)
+		{
+			permitted = b;
+			timeStamp = since;
+		}
+	}
+
+	public void setResource(final boolean resource)
+	{
+		this.resource = resource;
+	}
+
+	public void setUsername(final String name)
+	{
+		userName = name;
 	}
 
 	public String toJSON()
@@ -298,17 +323,6 @@ public class Link
 		return timeStamp + ": " + macAddress;
 	}
 
-	public void update(final Link link)
-	{
-		timeStamp = link.timeStamp;
-		macAddress = link.macAddress;
-		packetCount = link.packetCount;
-		retryCount = link.retryCount;
-		byteCount = link.byteCount;
-		rssi = link.rssi;
-
-	}
-
 	public void update(final Lease lease)
 	{
 		if (lease.getAction() == Action.del)
@@ -322,27 +336,14 @@ public class Link
 		}
 	}
 
-	public void setUsername(String name)
+	public void update(final Link link)
 	{
-		userName = name;
-	}
+		timeStamp = link.timeStamp;
+		macAddress = link.macAddress;
+		packetCount = link.packetCount;
+		retryCount = link.retryCount;
+		byteCount = link.byteCount;
+		rssi = link.rssi;
 
-	public boolean isResource()
-	{
-		return resource;
-	}
-
-	public void setResource(boolean resource)
-	{
-		this.resource = resource;
-	}
-
-	public void setPermitted(boolean b, double since)
-	{
-		if (permitted != b)
-		{
-			permitted = b;
-			timeStamp = since;
-		}
 	}
 }

@@ -22,43 +22,60 @@ public class PollingThread extends Thread
 	private final int TIME_DELTA = 3000;
 	private final JavaSRPC rpc = new JavaSRPC();
 
-	private void updateLinks() throws Exception
+	@Override
+	public void run()
 	{
-		String linkQuery;
-		if (LinkServlet.last != null)
+		try
 		{
-			final String s = String.format("@%016x@", LinkServlet.last.getTime() * 1000000);
-			linkQuery = String.format(	"SQL:select * from Links [ range %d seconds ] where timestamp > %s",
-										TIME_DELTA + 1000, s);
-		}
-		else
-		{
-			linkQuery = String.format("SQL:select * from Links [ range %d seconds ]", TIME_DELTA + 1000);
-		}
-
-		final String linkResults = rpc.call(linkQuery);
-		//logger.info(linkResults);
-
-		if (linkResults != null)
-		{
-			final Iterable<Link> newLinks = Link.parseResultSet(linkResults);
-			for (final Link link : newLinks)
+			while (true)
 			{
-				final Link existingLink = LinkServlet.getLink(link.getMacAddress());
-				if (existingLink != null)
+				if (!rpc.isConnected())
 				{
-					existingLink.update(link);
-				}
-				else
-				{
-					LinkServlet.addLink(link);
-					final Lease lease = leases.get(link.getMacAddress());
-					if (lease != null)
+					try
 					{
-						link.update(lease);
+						rpc.connect(InetAddress.getByName("192.168.9.1"), 987);
+					}
+					catch (final Exception e)
+					{
+						logger.log(Level.SEVERE, e.getMessage(), e);
 					}
 				}
+
+				while (rpc.isConnected())
+				{
+					try
+					{
+						updateLinks();
+						updateLeases();
+						// updatePermitted();
+						LinkServlet.last = new Date();
+					}
+					catch (final Exception e)
+					{
+						logger.log(Level.SEVERE, e.getMessage(), e);
+					}
+
+					try
+					{
+						Thread.sleep(TIME_DELTA);
+					}
+					catch (final Exception e)
+					{
+					}
+				}
+
+				try
+				{
+					Thread.sleep(5000);
+				}
+				catch (final Exception e)
+				{
+				}
 			}
+		}
+		catch (final Exception e)
+		{
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -93,60 +110,43 @@ public class PollingThread extends Thread
 		}
 	}
 
-	@Override
-	public void run()
+	private void updateLinks() throws Exception
 	{
-		try
+		String linkQuery;
+		if (LinkServlet.last != null)
 		{
-			while (true)
+			final String s = String.format("@%016x@", LinkServlet.last.getTime() * 1000000);
+			linkQuery = String.format(	"SQL:select * from Links [ range %d seconds ] where timestamp > %s",
+										TIME_DELTA + 1000, s);
+		}
+		else
+		{
+			linkQuery = String.format("SQL:select * from Links [ range %d seconds ]", TIME_DELTA + 1000);
+		}
+
+		final String linkResults = rpc.call(linkQuery);
+		// logger.info(linkResults);
+
+		if (linkResults != null)
+		{
+			final Iterable<Link> newLinks = Link.parseResultSet(linkResults);
+			for (final Link link : newLinks)
 			{
-				if (!rpc.isConnected())
+				final Link existingLink = LinkServlet.getLink(link.getMacAddress());
+				if (existingLink != null)
 				{
-					try
-					{
-						rpc.connect(InetAddress.getByName("192.168.9.1"), 987);
-					}
-					catch (final Exception e)
-					{
-						logger.log(Level.SEVERE, e.getMessage(), e);
-					}
+					existingLink.update(link);
 				}
-
-				while (rpc.isConnected())
+				else
 				{
-					try
+					LinkServlet.addLink(link);
+					final Lease lease = leases.get(link.getMacAddress());
+					if (lease != null)
 					{
-						updateLinks();
-						updateLeases();
-						// updatePermitted();
-						LinkServlet.last = new Date();
+						link.update(lease);
 					}
-					catch (Exception e)
-					{
-						logger.log(Level.SEVERE, e.getMessage(), e);
-					}
-
-					try
-					{
-						Thread.sleep(TIME_DELTA);
-					}
-					catch (final Exception e)
-					{
-					}
-				}
-
-				try
-				{
-					Thread.sleep(5000);
-				}
-				catch (final Exception e)
-				{
 				}
 			}
-		}
-		catch (Exception e)
-		{
-			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class PollingThread extends Thread
 			final URL url = new URL("http://192.168.9.1/ws.v1/homework/status");
 			final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
-			
+
 			LinkServlet.updatePermitted(conn.getInputStream(), LinkServlet.last.getTime());
 		}
 		catch (final Exception e)

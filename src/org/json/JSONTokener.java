@@ -39,12 +39,28 @@ import java.io.StringReader;
 public class JSONTokener
 {
 
+	/**
+	 * Get the hex value of a character (base16).
+	 * 
+	 * @param c
+	 *            A character between '0' and '9' or between 'A' and 'F' or between 'a' and 'f'.
+	 * @return An int between 0 and 15, or -1 if c was not a hex digit.
+	 */
+	public static int dehexchar(final char c)
+	{
+		if (c >= '0' && c <= '9') { return c - '0'; }
+		if (c >= 'A' && c <= 'F') { return c - ('A' - 10); }
+		if (c >= 'a' && c <= 'f') { return c - ('a' - 10); }
+		return -1;
+	}
+
 	private int character;
 	private boolean eof;
 	private int index;
 	private int line;
 	private char previous;
-	private Reader reader;
+	private final Reader reader;
+
 	private boolean usePrevious;
 
 	/**
@@ -53,7 +69,7 @@ public class JSONTokener
 	 * @param reader
 	 *            A reader.
 	 */
-	public JSONTokener(Reader reader)
+	public JSONTokener(final Reader reader)
 	{
 		this.reader = reader.markSupported() ? reader : new BufferedReader(reader);
 		this.eof = false;
@@ -70,7 +86,7 @@ public class JSONTokener
 	 * @param s
 	 *            A source string.
 	 */
-	public JSONTokener(String s)
+	public JSONTokener(final String s)
 	{
 		this(new StringReader(s));
 	}
@@ -86,21 +102,6 @@ public class JSONTokener
 		this.character -= 1;
 		this.usePrevious = true;
 		this.eof = false;
-	}
-
-	/**
-	 * Get the hex value of a character (base16).
-	 * 
-	 * @param c
-	 *            A character between '0' and '9' or between 'A' and 'F' or between 'a' and 'f'.
-	 * @return An int between 0 and 15, or -1 if c was not a hex digit.
-	 */
-	public static int dehexchar(char c)
-	{
-		if (c >= '0' && c <= '9') { return c - '0'; }
-		if (c >= 'A' && c <= 'F') { return c - ('A' - 10); }
-		if (c >= 'a' && c <= 'f') { return c - ('a' - 10); }
-		return -1;
 	}
 
 	public boolean end()
@@ -140,7 +141,7 @@ public class JSONTokener
 			{
 				c = this.reader.read();
 			}
-			catch (IOException exception)
+			catch (final IOException exception)
 			{
 				throw new JSONException(exception);
 			}
@@ -179,9 +180,9 @@ public class JSONTokener
 	 * @throws JSONException
 	 *             if the character does not match.
 	 */
-	public char next(char c) throws JSONException
+	public char next(final char c) throws JSONException
 	{
-		char n = next();
+		final char n = next();
 		if (n != c) { throw syntaxError("Expected '" + c + "' and instead saw '" + n + "'"); }
 		return n;
 	}
@@ -196,11 +197,11 @@ public class JSONTokener
 	 *             Substring bounds error if there are not n characters remaining in the source
 	 *             string.
 	 */
-	public String next(int n) throws JSONException
+	public String next(final int n) throws JSONException
 	{
 		if (n == 0) { return ""; }
 
-		char[] buffer = new char[n];
+		final char[] buffer = new char[n];
 		int pos = 0;
 
 		while (pos < n)
@@ -222,7 +223,7 @@ public class JSONTokener
 	{
 		for (;;)
 		{
-			char c = next();
+			final char c = next();
 			if (c == 0 || c > ' ') { return c; }
 		}
 	}
@@ -239,10 +240,10 @@ public class JSONTokener
 	 * @throws JSONException
 	 *             Unterminated string.
 	 */
-	public String nextString(char quote) throws JSONException
+	public String nextString(final char quote) throws JSONException
 	{
 		char c;
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		for (;;)
 		{
 			c = next();
@@ -299,12 +300,12 @@ public class JSONTokener
 	 *            A delimiter character.
 	 * @return A string.
 	 */
-	public String nextTo(char d) throws JSONException
+	public String nextTo(final char d) throws JSONException
 	{
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		for (;;)
 		{
-			char c = next();
+			final char c = next();
 			if (c == d || c == 0 || c == '\n' || c == '\r')
 			{
 				if (c != 0)
@@ -325,10 +326,10 @@ public class JSONTokener
 	 *            A set of delimiter characters.
 	 * @return A string, trimmed.
 	 */
-	public String nextTo(String delimiters) throws JSONException
+	public String nextTo(final String delimiters) throws JSONException
 	{
 		char c;
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		for (;;)
 		{
 			c = next();
@@ -380,7 +381,7 @@ public class JSONTokener
 		 * Accumulate characters until we reach the end of the text or a formatting character.
 		 */
 
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		while (c >= ' ' && ",:]}/\\\"[{;=#".indexOf(c) < 0)
 		{
 			sb.append(c);
@@ -401,14 +402,14 @@ public class JSONTokener
 	 *            A character to skip to.
 	 * @return The requested character, or zero if the requested character is not found.
 	 */
-	public char skipTo(char to) throws JSONException
+	public char skipTo(final char to) throws JSONException
 	{
 		char c;
 		try
 		{
-			int startIndex = this.index;
-			int startCharacter = this.character;
-			int startLine = this.line;
+			final int startIndex = this.index;
+			final int startCharacter = this.character;
+			final int startLine = this.line;
 			reader.mark(Integer.MAX_VALUE);
 			do
 			{
@@ -424,7 +425,7 @@ public class JSONTokener
 			}
 			while (c != to);
 		}
-		catch (IOException exc)
+		catch (final IOException exc)
 		{
 			throw new JSONException(exc);
 		}
@@ -440,7 +441,7 @@ public class JSONTokener
 	 *            The error message.
 	 * @return A JSONException object, suitable for throwing
 	 */
-	public JSONException syntaxError(String message)
+	public JSONException syntaxError(final String message)
 	{
 		return new JSONException(message + toString());
 	}
@@ -450,6 +451,7 @@ public class JSONTokener
 	 * 
 	 * @return " at {index} [character {character} line {line}]"
 	 */
+	@Override
 	public String toString()
 	{
 		return " at " + index + " [character " + this.character + " line " + this.line + "]";

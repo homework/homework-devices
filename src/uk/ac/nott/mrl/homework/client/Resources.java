@@ -6,20 +6,32 @@ import com.google.gwt.resources.client.TextResource;
 
 public interface Resources extends ClientBundleWithLookup
 {
+	@Source("network-workgroup.png")
+	public ImageResource all();
+
+	@Source("process-stop.png")
+	public ImageResource denied();
+
+	@Source("drive-harddisk.png")
+	public ImageResource drive();
+
+	@Source("printer.png")
+	public ImageResource printer();
+
 	@Source("testlinks.txt")
 	public TextResource testLinks();
 
 	@Source("testlinkssimple.txt")
 	public TextResource testLinksSimple();
 
-	@Source("printer.png")
-	public ImageResource printer();
+	@Source("tray-bandwidth.png")
+	public ImageResource trayBandwidth();
 
-	@Source("network-workgroup.png")
-	public ImageResource all();
+	@Source("tray-events.png")
+	public ImageResource trayEvents();
 
-	@Source("drive-harddisk.png")
-	public ImageResource drive();
+	@Source("tray-signal.png")
+	public ImageResource traySignal();
 
 	@Source("web-blue.png")
 	public ImageResource webblue();
@@ -29,16 +41,4 @@ public interface Resources extends ClientBundleWithLookup
 
 	@Source("web-red.png")
 	public ImageResource webred();
-
-	@Source("process-stop.png")
-	public ImageResource denied();
-	
-	@Source("tray-bandwidth.png")
-	public ImageResource trayBandwidth();
-	
-	@Source("tray-signal.png")
-	public ImageResource traySignal();
-
-	@Source("tray-events.png")
-	public ImageResource trayEvents();
 }

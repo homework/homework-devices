@@ -17,7 +17,7 @@ public abstract class AnimatedInt implements Updatable
 	private final int min;
 	private final int max;
 
-	public AnimatedInt(int value, int delta, int min, int max)
+	public AnimatedInt(final int value, final int delta, final int min, final int max)
 	{
 		this.target = value;
 		this.current = value;
@@ -25,6 +25,11 @@ public abstract class AnimatedInt implements Updatable
 		this.min = min;
 		this.max = max;
 		update(current);
+	}
+
+	public int getValue()
+	{
+		return current;
 	}
 
 	public void setValue(final int value)
@@ -46,9 +51,10 @@ public abstract class AnimatedInt implements Updatable
 		}
 	}
 
-	public int getValue()
+	public void setValueImmeadiately()
 	{
-		return current;
+		current = target;
+		update(target);
 	}
 
 	public void setValueImmeadiately(final int value)
@@ -58,15 +64,10 @@ public abstract class AnimatedInt implements Updatable
 		update(value);
 	}
 
-	public void setValueImmeadiately()
-	{
-		current = target;
-		update(target);
-	}
-
+	@Override
 	public boolean update()
 	{
-		int change = Math.max(Math.min(Math.round(Math.abs(current - target) / 5), delta), 1);
+		final int change = Math.max(Math.min(Math.round(Math.abs(current - target) / 5), delta), 1);
 		if (target > current)
 		{
 			if (target - current < change)

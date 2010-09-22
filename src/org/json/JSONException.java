@@ -20,17 +20,18 @@ public class JSONException extends Exception
 	 * @param message
 	 *            Detail about the reason for the exception.
 	 */
-	public JSONException(String message)
+	public JSONException(final String message)
 	{
 		super(message);
 	}
 
-	public JSONException(Throwable t)
+	public JSONException(final Throwable t)
 	{
 		super(t.getMessage());
 		this.cause = t;
 	}
 
+	@Override
 	public Throwable getCause()
 	{
 		return this.cause;

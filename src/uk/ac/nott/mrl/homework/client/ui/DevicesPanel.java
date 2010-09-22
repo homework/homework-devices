@@ -53,12 +53,18 @@ public class DevicesPanel extends FlowPanel
 
 	public static final native int getWinOffsetY() /*-{ return $wnd.pageYOffset || 0; }-*/;
 
+	static int getZoneWidth()
+	{
+		return 1000 / Model.zoneManager.getZoneCount();
+	}
+
 	private final Map<String, Device> deviceMap = new HashMap<String, Device>();
 	private Object selected;
 	private Device drag;
 	private Device popupDevice;
 	private final SimplePanel dragLine = new SimplePanel();
 	private final PopupPanel popup = new PopupPanel(true);
+
 	private final AnimatedFloat popupOpacity;
 
 	private final Timer fadeTimer = new Timer()
@@ -97,7 +103,7 @@ public class DevicesPanel extends FlowPanel
 				device.addClickHandler(new ClickHandler()
 				{
 					@Override
-					public void onClick(ClickEvent event)
+					public void onClick(final ClickEvent event)
 					{
 						setPopup(device);
 						popup.setPopupPosition(	device.getAbsoluteLeft() + 10,
@@ -111,7 +117,7 @@ public class DevicesPanel extends FlowPanel
 				device.addDoubleClickHandler(new DoubleClickHandler()
 				{
 					@Override
-					public void onDoubleClick(DoubleClickEvent event)
+					public void onDoubleClick(final DoubleClickEvent event)
 					{
 						popup.hide();
 						device.edit(service);
@@ -211,45 +217,16 @@ public class DevicesPanel extends FlowPanel
 	private final List<Zone> zones = new ArrayList<Zone>();
 
 	private final DevicesService service;
-
 	private final String[] trayStates = { "Wireless Signal Strength", "Bandwidth", "Network Events" };
-	private final ImageResource[] trayImages = { DevicesClient.resources.traySignal(), DevicesClient.resources.trayBandwidth(), DevicesClient.resources.trayEvents() };
+
+	private final ImageResource[] trayImages = { DevicesClient.resources.traySignal(),
+												DevicesClient.resources.trayBandwidth(),
+												DevicesClient.resources.trayEvents() };
 
 	private int trayState = 0;
-	
 	private final Image trayIcon = new Image(DevicesClient.resources.traySignal());
+
 	private final Label trayLabel = new Label(trayStates[0]);
-
-	
-	private void setPopup(final Device device)
-	{
-		FlowPanel panel = new FlowPanel();
-		
-		FlowPanel panel2 = new FlowPanel();
-		panel2.add(new InlineLabel("Manufacturer: "));
-		panel2.add(new Anchor(device.getLink().getCorporation(), "http://www.google.co.uk/search?q="
-				+ URL.encodeComponent(device.getLink().getCorporation()), "_blank"));
-		panel.add(panel2);
-		
-		Anchor renameLink = new Anchor("Rename Device");
-		renameLink.addClickHandler(new ClickHandler()
-		{
-			@Override
-			public void onClick(ClickEvent event)
-			{
-				popup.setVisible(false);
-				device.edit(service);
-			}
-		});
-		panel.add(renameLink);
-		popup.setWidget(panel);
-		popupDevice = device;
-	}
-
-	static int getZoneWidth()
-	{
-		return 1000 / Model.zoneManager.getZoneCount();
-	}
 
 	public DevicesPanel(final DevicesService service)
 	{
@@ -388,36 +365,25 @@ public class DevicesPanel extends FlowPanel
 		}, ClickEvent.getType());
 
 		registerDomTouchEvents();
-		
-		FlowPanel trayPanel = new FlowPanel();
+
+		final FlowPanel trayPanel = new FlowPanel();
 		trayPanel.add(trayIcon);
 		trayPanel.add(trayLabel);
 		setTrayState(0);
-		
-		ClickHandler clickHandler = new ClickHandler()
+
+		final ClickHandler clickHandler = new ClickHandler()
 		{
 			@Override
-			public void onClick(ClickEvent event)
+			public void onClick(final ClickEvent event)
 			{
-				setTrayState(trayState + 1);				
+				setTrayState(trayState + 1);
 			}
 		};
-		
+
 		trayIcon.addClickHandler(clickHandler);
 		trayLabel.addClickHandler(clickHandler);
 	}
 
-	private void setTrayState(int trayState)
-	{
-		if(this.trayState == trayState)
-		{
-			return;
-		}
-		this.trayState = trayState;
-		trayIcon.setResource(trayImages[trayState]);
-		trayLabel.setText(trayStates[trayState]);		
-	}
-	
 	public LinkListener getListener()
 	{
 		return linkListener;
@@ -426,17 +392,6 @@ public class DevicesPanel extends FlowPanel
 	public Object getSelected()
 	{
 		return selected;
-	}
-
-	private Zone getZone(final int index)
-	{
-		if (index >= zones.size()) { return zones.get(zones.size() - 1); }
-		return zones.get(index);
-	}
-
-	private Zone getZone(final Link link)
-	{
-		return getZone(Model.zoneManager.getZone(link));
 	}
 
 	protected void onTouchEnd(final TouchEvent event)
@@ -485,6 +440,17 @@ public class DevicesPanel extends FlowPanel
 		}
 	}
 
+	private Zone getZone(final int index)
+	{
+		if (index >= zones.size()) { return zones.get(zones.size() - 1); }
+		return zones.get(index);
+	}
+
+	private Zone getZone(final Link link)
+	{
+		return getZone(Model.zoneManager.getZone(link));
+	}
+
 	private void reflowDevices()
 	{
 		final List<Device> deviceList = new ArrayList<Device>(deviceMap.values());
@@ -493,8 +459,8 @@ public class DevicesPanel extends FlowPanel
 			@Override
 			public int compare(final Device o1, final Device o2)
 			{
-				int zone1 = o1.getZone();
-				int zone2 = o2.getZone();
+				final int zone1 = o1.getZone();
+				final int zone2 = o2.getZone();
 				if (zone1 != zone2 && (zone1 == 0 || zone2 == 0)) { return zone2 - zone1; }
 
 				return o1.getLink().getMacAddress().compareTo(o2.getLink().getMacAddress());
@@ -547,10 +513,43 @@ public class DevicesPanel extends FlowPanel
 		this.offsetx = offsetx;
 	}
 
+	private void setPopup(final Device device)
+	{
+		final FlowPanel panel = new FlowPanel();
+
+		final FlowPanel panel2 = new FlowPanel();
+		panel2.add(new InlineLabel("Manufacturer: "));
+		panel2.add(new Anchor(device.getLink().getCorporation(), "http://www.google.co.uk/search?q="
+				+ URL.encodeQueryString(device.getLink().getCorporation()), "_blank"));
+		panel.add(panel2);
+
+		final Anchor renameLink = new Anchor("Rename Device");
+		renameLink.addClickHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(final ClickEvent event)
+			{
+				popup.setVisible(false);
+				device.edit(service);
+			}
+		});
+		panel.add(renameLink);
+		popup.setWidget(panel);
+		popupDevice = device;
+	}
+
 	private void setSelected(final Object object)
 	{
 		GWT.log("Selected " + object, null);
 		this.selected = object;
+	}
+
+	private void setTrayState(final int trayState)
+	{
+		if (this.trayState == trayState) { return; }
+		this.trayState = trayState;
+		trayIcon.setResource(trayImages[trayState]);
+		trayLabel.setText(trayStates[trayState]);
 	}
 
 	private void updateClientHeight(final int newHeight)

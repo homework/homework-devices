@@ -1,5 +1,8 @@
 package org.json;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /*
  Copyright (c) 2002 JSON.org
 
@@ -38,11 +41,11 @@ public class XMLTokener extends JSONTokener
 	 * The table of entity values. It initially contains Character values for amp, apos, gt, lt,
 	 * quot.
 	 */
-	public static final java.util.HashMap entity;
+	public static final Map<String, Character> entity;
 
 	static
 	{
-		entity = new java.util.HashMap(8);
+		entity = new HashMap<String, Character>(8);
 		entity.put("amp", XML.AMP);
 		entity.put("apos", XML.APOS);
 		entity.put("gt", XML.GT);
@@ -56,7 +59,7 @@ public class XMLTokener extends JSONTokener
 	 * @param s
 	 *            A source string.
 	 */
-	public XMLTokener(String s)
+	public XMLTokener(final String s)
 	{
 		super(s);
 	}
@@ -72,7 +75,7 @@ public class XMLTokener extends JSONTokener
 	{
 		char c;
 		int i;
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		for (;;)
 		{
 			c = next();
@@ -137,12 +140,12 @@ public class XMLTokener extends JSONTokener
 	 * @throws JSONException
 	 *             If missing ';' in XML entity.
 	 */
-	public Object nextEntity(char a) throws JSONException
+	public Object nextEntity(final char a) throws JSONException
 	{
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		for (;;)
 		{
-			char c = next();
+			final char c = next();
 			if (Character.isLetterOrDigit(c) || c == '#')
 			{
 				sb.append(Character.toLowerCase(c));
@@ -156,8 +159,8 @@ public class XMLTokener extends JSONTokener
 				throw syntaxError("Missing ';' in XML entity: &" + sb);
 			}
 		}
-		String s = sb.toString();
-		Object e = entity.get(s);
+		final String s = sb.toString();
+		final Object e = entity.get(s);
 		return e != null ? e : a + s + ";";
 	}
 
@@ -323,15 +326,15 @@ public class XMLTokener extends JSONTokener
 	 *            A string to skip past.
 	 * @throws JSONException
 	 */
-	public boolean skipPast(String to) throws JSONException
+	public boolean skipPast(final String to) throws JSONException
 	{
 		boolean b;
 		char c;
 		int i;
 		int j;
 		int offset = 0;
-		int n = to.length();
-		char[] circle = new char[n];
+		final int n = to.length();
+		final char[] circle = new char[n];
 
 		/*
 		 * First fill the circle buffer with as many characters as are in the to string. If we reach

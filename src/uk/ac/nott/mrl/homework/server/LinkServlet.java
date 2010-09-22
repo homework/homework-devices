@@ -51,14 +51,22 @@ public class LinkServlet extends HttpServlet
 	private static final Map<String, Link> links = new HashMap<String, Link>();
 
 	static Date last = null;
-	
+
 	private static final boolean allowCisco = false;
 
-	public static Link getLink(String macAddress)
+	public static void addLink(final Link link)
+	{
+		synchronized (links)
+		{
+			links.put(link.getMacAddress(), link);
+		}
+	}
+
+	public static Link getLink(final String macAddress)
 	{
 		return links.get(macAddress);
 	}
-	
+
 	public static void listLinks(final PrintWriter writer, final double since)
 	{
 		writer.println("[");
@@ -109,14 +117,6 @@ public class LinkServlet extends HttpServlet
 		writer.println("]");
 	}
 
-	public static void addLink(final Link link)
-	{
-		synchronized (links)
-		{
-			links.put(link.getMacAddress(), link);
-		}
-	}
-	
 	public static void updatePermitted(final InputStream inputStream, final double since)
 	{
 		try

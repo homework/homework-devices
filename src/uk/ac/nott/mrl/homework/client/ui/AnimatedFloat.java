@@ -14,17 +14,7 @@ public abstract class AnimatedFloat implements Updatable
 	private final float min;
 	private final float max;
 
-	public AnimatedFloat(float value, float target, float delta, float min, float max)
-	{
-		this.current = value;
-		this.min = min;
-		this.max = max;
-		setDelta(delta);
-		setValue(target);
-		update(current);
-	}
-
-	public AnimatedFloat(float value, float delta, float min, float max)
+	public AnimatedFloat(final float value, final float delta, final float min, final float max)
 	{
 		this.target = value;
 		this.current = value;
@@ -34,10 +24,19 @@ public abstract class AnimatedFloat implements Updatable
 		update(current);
 	}
 
-	private void setDelta(final float delta)
+	public AnimatedFloat(final float value, final float target, final float delta, final float min, final float max)
 	{
-		this.delta = delta;
-		this.deltaLimit = delta / 50;
+		this.current = value;
+		this.min = min;
+		this.max = max;
+		setDelta(delta);
+		setValue(target);
+		update(current);
+	}
+
+	public float getValue()
+	{
+		return current;
 	}
 
 	public void setValue(final float value)
@@ -59,13 +58,6 @@ public abstract class AnimatedFloat implements Updatable
 		}
 	}
 
-	public void setValueImmeadiately(final float value)
-	{
-		this.target = value;
-		this.current = value;
-		update(value);
-	}
-
 	public void setValue(final float value, final float delta, final AnimationType type)
 	{
 		this.type = type;
@@ -73,13 +65,14 @@ public abstract class AnimatedFloat implements Updatable
 		setValue(value);
 	}
 
-	public abstract void update(final float value);
-
-	public float getValue()
+	public void setValueImmeadiately(final float value)
 	{
-		return current;
+		this.target = value;
+		this.current = value;
+		update(value);
 	}
 
+	@Override
 	public boolean update()
 	{
 		float change = delta;
@@ -112,5 +105,13 @@ public abstract class AnimatedFloat implements Updatable
 			update(current);
 		}
 		return current == target;
+	}
+
+	public abstract void update(final float value);
+
+	private void setDelta(final float delta)
+	{
+		this.delta = delta;
+		this.deltaLimit = delta / 50;
 	}
 }

@@ -47,9 +47,9 @@ public class Lease
 	private String ipAddress;
 	private String hostName;
 
-	public Date getTimestamp()
+	public void clearIPAddress()
 	{
-		return timeStamp;
+		ipAddress = null;
 	}
 
 	public Action getAction()
@@ -72,8 +72,8 @@ public class Lease
 		return macAddress;
 	}
 
-	public void clearIPAddress()
+	public Date getTimestamp()
 	{
-		ipAddress = null;
+		return timeStamp;
 	}
 }

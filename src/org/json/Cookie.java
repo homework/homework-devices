@@ -46,12 +46,12 @@ public class Cookie
 	 *            The source string.
 	 * @return The escaped result.
 	 */
-	public static String escape(String string)
+	public static String escape(final String string)
 	{
 		char c;
-		String s = string.trim();
-		StringBuffer sb = new StringBuffer();
-		int len = s.length();
+		final String s = string.trim();
+		final StringBuffer sb = new StringBuffer();
+		final int len = s.length();
 		for (int i = 0; i < len; i += 1)
 		{
 			c = s.charAt(i);
@@ -83,12 +83,12 @@ public class Cookie
 	 * @return A JSONObject containing "name", "value", and possibly other members.
 	 * @throws JSONException
 	 */
-	public static JSONObject toJSONObject(String string) throws JSONException
+	public static JSONObject toJSONObject(final String string) throws JSONException
 	{
 		String n;
-		JSONObject o = new JSONObject();
+		final JSONObject o = new JSONObject();
 		Object v;
-		JSONTokener x = new JSONTokener(string);
+		final JSONTokener x = new JSONTokener(string);
 		o.put("name", x.nextTo('='));
 		x.next('=');
 		o.put("value", x.nextTo(';'));
@@ -128,9 +128,9 @@ public class Cookie
 	 * @return A cookie specification string
 	 * @throws JSONException
 	 */
-	public static String toString(JSONObject o) throws JSONException
+	public static String toString(final JSONObject o) throws JSONException
 	{
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 
 		sb.append(escape(o.getString("name")));
 		sb.append("=");
@@ -165,10 +165,10 @@ public class Cookie
 	 *            <code>%</code><i>hh</i> sequences.
 	 * @return The unescaped string.
 	 */
-	public static String unescape(String s)
+	public static String unescape(final String s)
 	{
-		int len = s.length();
-		StringBuffer b = new StringBuffer();
+		final int len = s.length();
+		final StringBuffer b = new StringBuffer();
 		for (int i = 0; i < len; ++i)
 		{
 			char c = s.charAt(i);
@@ -178,8 +178,8 @@ public class Cookie
 			}
 			else if (c == '%' && i + 2 < len)
 			{
-				int d = JSONTokener.dehexchar(s.charAt(i + 1));
-				int e = JSONTokener.dehexchar(s.charAt(i + 2));
+				final int d = JSONTokener.dehexchar(s.charAt(i + 1));
+				final int e = JSONTokener.dehexchar(s.charAt(i + 2));
 				if (d >= 0 && e >= 0)
 				{
 					c = (char) (d * 16 + e);

@@ -11,13 +11,7 @@ public class SimpleZoneManager implements ZoneManager
 	}
 
 	@Override
-	public String[] getZones()
-	{
-		return new String[] { "Not Connected", "Internet" };
-	}
-
-	@Override
-	public int getZone(Link link)
+	public int getZone(final Link link)
 	{
 		if (link.isResource() && link.getDeviceName().equals("Router")) { return 2; }
 		if (link.getIPAddress() != null) { return 1; }
@@ -31,7 +25,13 @@ public class SimpleZoneManager implements ZoneManager
 	}
 
 	@Override
-	public void setZone(DevicesService service, Link link, int zone)
+	public String[] getZones()
+	{
+		return new String[] { "Not Connected", "Internet" };
+	}
+
+	@Override
+	public void setZone(final DevicesService service, final Link link, final int zone)
 	{
 		// Do nothing
 	}

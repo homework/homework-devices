@@ -22,12 +22,22 @@ public class Model
 	private final Map<String, Link> links = new HashMap<String, Link>();
 	public static final ZoneManager zoneManager = new SimpleZoneManager();
 
+	public void add(final LinkListener listener)
+	{
+		this.listener = listener;
+	}
+
 	public Link get(final String mac)
 	{
 		return links.get(mac);
 	}
 
-	public void updateLinks(JsArray<Link> newLinks)
+	public double getMostRecent()
+	{
+		return mostRecent;
+	}
+
+	public void updateLinks(final JsArray<Link> newLinks)
 	{
 		for (int index = 0; index < newLinks.length(); index++)
 		{
@@ -95,15 +105,5 @@ public class Model
 				listener.linkRemoved(remove);
 			}
 		}
-	}
-
-	public double getMostRecent()
-	{
-		return mostRecent;
-	}
-
-	public void add(LinkListener listener)
-	{
-		this.listener = listener;
 	}
 }

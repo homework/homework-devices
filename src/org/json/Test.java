@@ -1,9 +1,9 @@
 package org.json;
 
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.io.StringWriter;
 
 /**
  * Test class. This file is not formally a member of the org.json library. It is just a casual test
@@ -17,9 +17,9 @@ public class Test
 	 * 
 	 * @param args
 	 */
-	public static void main(String args[])
+	public static void main(final String args[])
 	{
-		Iterator it;
+		Iterator<String> it;
 		JSONArray a;
 		JSONObject j;
 		JSONStringer jj;
@@ -37,11 +37,16 @@ public class Test
 			public double aNumber;
 			public boolean aBoolean;
 
-			public Obj(String string, double n, boolean b)
+			public Obj(final String string, final double n, final boolean b)
 			{
 				this.aString = string;
 				this.aNumber = n;
 				this.aBoolean = b;
+			}
+
+			public String getBENT()
+			{
+				return "All uppercase key";
 			}
 
 			public double getNumber()
@@ -54,19 +59,14 @@ public class Test
 				return this.aString;
 			}
 
-			public boolean isBoolean()
-			{
-				return this.aBoolean;
-			}
-
-			public String getBENT()
-			{
-				return "All uppercase key";
-			}
-
 			public String getX()
 			{
 				return "x";
+			}
+
+			public boolean isBoolean()
+			{
+				return this.aBoolean;
 			}
 
 			public String toJSONString()
@@ -81,7 +81,7 @@ public class Test
 			}
 		}
 
-		Obj obj = new Obj("A beany object", 42, true);
+		final Obj obj = new Obj("A beany object", 42, true);
 
 		try
 		{
@@ -200,11 +200,11 @@ public class Test
 
 			System.out.println(new JSONArray(jj.toString()).toString(4));
 
-			int ar[] = { 1, 2, 3 };
+			final int ar[] = { 1, 2, 3 };
 			JSONArray ja = new JSONArray(ar);
 			System.out.println(ja.toString());
 
-			String sa[] = { "aString", "aNumber", "aBoolean" };
+			final String sa[] = { "aString", "aNumber", "aBoolean" };
 			j = new JSONObject(obj, sa);
 			j.put("Testing JSONString interface", obj);
 			System.out.println(j.toString(4));
@@ -364,11 +364,11 @@ public class Test
 			System.out.println(j.toString());
 			System.out.println("");
 
-			JSONTokener jt = new JSONTokener("{op:'test', to:'session', pre:1}{op:'test', to:'session', pre:2}");
+			final JSONTokener jt = new JSONTokener("{op:'test', to:'session', pre:1}{op:'test', to:'session', pre:2}");
 			j = new JSONObject(jt);
 			System.out.println(j.toString());
 			System.out.println("pre: " + j.optInt("pre"));
-			int i = jt.skipTo('{');
+			final int i = jt.skipTo('{');
 			System.out.println(i);
 			j = new JSONObject(jt);
 			System.out.println(j.toString());
@@ -442,7 +442,7 @@ public class Test
 			it = j.keys();
 			while (it.hasNext())
 			{
-				s = (String) it.next();
+				s = it.next();
 				System.out.println(s + ": " + j.getString(s));
 			}
 
@@ -472,8 +472,8 @@ public class Test
 			System.out.println(a.toString(4));
 			System.out.println(JSONML.toString(a));
 
-			Collection c = null;
-			Map m = null;
+			final Collection c = null;
+			final Map m = null;
 
 			j = new JSONObject(m);
 			a = new JSONArray(c);
@@ -523,7 +523,7 @@ public class Test
 				a = new JSONArray("[\n\r\n\r}");
 				System.out.println(a.toString());
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -534,7 +534,7 @@ public class Test
 				a = new JSONArray("<\n\r\n\r      ");
 				System.out.println(a.toString());
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -547,7 +547,7 @@ public class Test
 				a.put(Double.NaN);
 				System.out.println(a.toString());
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -556,7 +556,7 @@ public class Test
 			{
 				System.out.println(j.getDouble("stooge"));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -565,7 +565,7 @@ public class Test
 			{
 				System.out.println(j.getDouble("howard"));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -574,7 +574,7 @@ public class Test
 			{
 				System.out.println(j.put(null, "howard"));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -583,7 +583,7 @@ public class Test
 			{
 				System.out.println(a.getDouble(0));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -592,7 +592,7 @@ public class Test
 			{
 				System.out.println(a.get(-1));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -601,7 +601,7 @@ public class Test
 			{
 				System.out.println(a.put(Double.NaN));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -610,7 +610,7 @@ public class Test
 			{
 				j = XML.toJSONObject("<a><b>    ");
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -619,7 +619,7 @@ public class Test
 			{
 				j = XML.toJSONObject("<a></b>    ");
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -628,7 +628,7 @@ public class Test
 			{
 				j = XML.toJSONObject("<a></a    ");
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -638,7 +638,7 @@ public class Test
 				ja = new JSONArray(new Object());
 				System.out.println(ja.toString());
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -650,7 +650,7 @@ public class Test
 				a = new JSONArray(s);
 				System.out.println(a.toString());
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -662,7 +662,7 @@ public class Test
 				ja = JSONML.toJSONArray(s);
 				System.out.println(ja.toString(4));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -674,7 +674,7 @@ public class Test
 				ja = JSONML.toJSONArray(s);
 				System.out.println(ja.toString(4));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -686,7 +686,7 @@ public class Test
 				j = new JSONObject(s);
 				System.out.println(j.toString(4));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
@@ -699,12 +699,12 @@ public class Test
 						.toString();
 				System.out.println(j.toString(4));
 			}
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				System.out.println(e);
 			}
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			System.out.println(e.toString());
 		}

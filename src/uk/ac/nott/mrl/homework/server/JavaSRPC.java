@@ -58,8 +58,7 @@ public class JavaSRPC
 
 						case QUERY:
 							// Hasn't been implemented yet.
-							sendCommand(Command.QACK);
-							setState(RPCState.QACK_SENT);
+							sendCommand(Command.QACK, RPCState.QACK_SENT);
 							break;
 
 						case QACK:
@@ -69,8 +68,7 @@ public class JavaSRPC
 						case RESPONSE:
 							if (readData(is, fragment))
 							{
-								sendCommand(Command.RACK, null, fragment, fragmentCount);
-								setState(RPCState.IDLE);
+								sendCommand(Command.RACK, RPCState.IDLE, null, fragment, fragmentCount);
 							}
 							break;
 
@@ -79,8 +77,7 @@ public class JavaSRPC
 							break;
 
 						case DISCONNECT:
-							sendCommand(Command.DACK);
-							setState(RPCState.TIMEDOUT);
+							sendCommand(Command.DACK, RPCState.TIMEDOUT);
 							break;
 
 						case DACK:
@@ -90,8 +87,7 @@ public class JavaSRPC
 						case FRAGMENT:
 							if (readData(is, fragment))
 							{
-								sendCommand(Command.FACK, null, fragment, fragmentCount);
-								setState(RPCState.FACK_SENT);
+								sendCommand(Command.FACK, RPCState.FACK_SENT, null, fragment, fragmentCount);
 							}
 							break;
 
@@ -104,7 +100,7 @@ public class JavaSRPC
 							break;
 
 						case PING:
-							sendCommand(Command.PACK);
+							sendCommand(Command.PACK, state);
 							break;
 
 						case PACK:
@@ -240,8 +236,7 @@ public class JavaSRPC
 	{
 		if (socket != null)
 		{
-			sendCommand(Command.SEQNO);
-			setState(RPCState.SEQNO_SENT);
+			sendCommand(Command.SEQNO, RPCState.SEQNO_SENT);
 			waitForState(EnumSet.of(RPCState.IDLE, RPCState.TIMEDOUT));
 
 			seqno++;
@@ -259,8 +254,7 @@ public class JavaSRPC
 				os.write(queryBytes, start, FRAGMENT_SIZE);
 				os.flush();
 
-				sendCommand(Command.FRAGMENT, bos.toByteArray(), fragment, fragmentCount);
-				setState(RPCState.FRAGMENT_SENT);
+				sendCommand(Command.FRAGMENT, RPCState.FRAGMENT_SENT, bos.toByteArray(), fragment, fragmentCount);
 				waitForState(EnumSet.of(RPCState.FACK_RECEIVED, RPCState.TIMEDOUT));
 				if (state == RPCState.TIMEDOUT) { throw new IOException(); }
 			}
@@ -274,8 +268,7 @@ public class JavaSRPC
 			os.write(queryBytes, start, finalLength);
 			os.flush();
 
-			sendCommand(Command.QUERY, bos.toByteArray(), fragmentCount, fragmentCount);
-			setState(RPCState.QUERY_SENT);
+			sendCommand(Command.QUERY, RPCState.QUERY_SENT, bos.toByteArray(), fragmentCount, fragmentCount);
 			waitForState(EnumSet.of(RPCState.IDLE, RPCState.TIMEDOUT));
 
 			if (state == RPCState.IDLE) { return new String(responseData.toByteArray(), CHARSET); }
@@ -294,8 +287,7 @@ public class JavaSRPC
 		this.address = address;
 		this.port = port;
 
-		sendCommand(Command.CONNECT, "HWDB\0".getBytes(CHARSET), 1, 1);
-		setState(RPCState.CONNECT_SENT);
+		sendCommand(Command.CONNECT, RPCState.CONNECT_SENT, "HWDB\0".getBytes(CHARSET), 1, 1);
 
 		new ReceiverThread().start();
 		new TimerThread().start();
@@ -310,8 +302,7 @@ public class JavaSRPC
 
 	public void disconnect() throws IOException
 	{
-		sendCommand(Command.DISCONNECT);
-		setState(RPCState.DISCONNECT_SENT);
+		sendCommand(Command.DISCONNECT, RPCState.DISCONNECT_SENT);
 		waitForState(EnumSet.of(RPCState.IDLE, RPCState.TIMEDOUT));
 	}
 
@@ -392,17 +383,19 @@ public class JavaSRPC
 		socket.send(new DatagramPacket(bytes, bytes.length, address, port));
 	}
 
-	private void sendCommand(final Command command) throws IOException
+	private void sendCommand(final Command command, final RPCState newState) throws IOException
 	{
 		logger.info("Send " + command);
 		sendBytes(getBytes(command));
+		setState(newState);
 	}
 
-	private void sendCommand(final Command command, final byte[] data, final int fragment, final int fragmentCount)
-			throws IOException
+	private synchronized void sendCommand(final Command command, final RPCState newState, final byte[] data,
+			final int fragment, final int fragmentCount) throws IOException
 	{
 		logger.info("Send " + command);
 		sendBytes(getBytes(command, data, fragment, fragmentCount));
+		setState(newState);
 	}
 
 	private synchronized final void setState(final RPCState newState)

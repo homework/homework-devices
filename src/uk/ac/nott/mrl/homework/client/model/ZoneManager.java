@@ -6,11 +6,11 @@ public interface ZoneManager
 {
 	public boolean allowDrag();
 
-	public String[] getZones();
+	public int getZone(final Link link);
 
 	public int getZoneCount();
 
-	public int getZone(final Link link);
+	public String[] getZones();
 
 	public void setZone(final DevicesService service, final Link link, final int zone);
 }

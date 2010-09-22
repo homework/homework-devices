@@ -87,10 +87,10 @@ public class HTTP
 	 * @return A JSONObject containing the elements and attributes of the XML string.
 	 * @throws JSONException
 	 */
-	public static JSONObject toJSONObject(String string) throws JSONException
+	public static JSONObject toJSONObject(final String string) throws JSONException
 	{
-		JSONObject o = new JSONObject();
-		HTTPTokener x = new HTTPTokener(string);
+		final JSONObject o = new JSONObject();
+		final HTTPTokener x = new HTTPTokener(string);
 		String t;
 
 		t = x.nextToken();
@@ -119,7 +119,7 @@ public class HTTP
 
 		while (x.more())
 		{
-			String name = x.nextTo(':');
+			final String name = x.nextTo(':');
 			x.next(':');
 			o.put(name, x.nextTo('\0'));
 			x.next();
@@ -157,11 +157,11 @@ public class HTTP
 	 * @throws JSONException
 	 *             if the object does not contain enough information.
 	 */
-	public static String toString(JSONObject o) throws JSONException
+	public static String toString(final JSONObject o) throws JSONException
 	{
-		Iterator keys = o.keys();
+		final Iterator<String> keys = o.keys();
 		String s;
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		if (o.has("Status-Code") && o.has("Reason-Phrase"))
 		{
 			sb.append(o.getString("HTTP-Version"));

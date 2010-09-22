@@ -33,8 +33,8 @@ public class Device extends FlowPanel
 	private final AnimatedFloat opacity;
 	// private final AnimatedInt error;
 
-	private TextBox textBoxName = new TextBox();
-	private Label text = new Label();
+	private final TextBox textBoxName = new TextBox();
+	private final Label text = new Label();
 
 	private DevicesService service;
 
@@ -52,7 +52,7 @@ public class Device extends FlowPanel
 		textBoxName.addBlurHandler(new BlurHandler()
 		{
 			@Override
-			public void onBlur(BlurEvent event)
+			public void onBlur(final BlurEvent event)
 			{
 				cancelEdit();
 			}
@@ -60,7 +60,7 @@ public class Device extends FlowPanel
 		textBoxName.addKeyDownHandler(new KeyDownHandler()
 		{
 			@Override
-			public void onKeyDown(KeyDownEvent event)
+			public void onKeyDown(final KeyDownEvent event)
 			{
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
@@ -114,9 +114,11 @@ public class Device extends FlowPanel
 		registerDomTouchEvents();
 	}
 
-	public void addMouseDownHandler(final MouseDownHandler handler)
+	public void acceptEdit()
 	{
-		addDomHandler(handler, MouseDownEvent.getType());
+		text.setText(textBoxName.getText());
+		textBoxName.setFocus(false);
+		service.setName(link.getMacAddress(), textBoxName.getText());
 	}
 
 	public void addClickHandler(final ClickHandler handler)
@@ -129,9 +131,30 @@ public class Device extends FlowPanel
 		addDomHandler(handler, DoubleClickEvent.getType());
 	}
 
+	public void addMouseDownHandler(final MouseDownHandler handler)
+	{
+		addDomHandler(handler, MouseDownEvent.getType());
+	}
+
 	public void addTouchStartHandler(final TouchHandler handler)
 	{
 		touchStart = handler;
+	}
+
+	public void cancelEdit()
+	{
+		textBoxName.setFocus(false);
+		textBoxName.setVisible(false);
+		text.setVisible(true);
+	}
+
+	public void edit(final DevicesService service)
+	{
+		this.service = service;
+		textBoxName.setText(text.getText());
+		text.setVisible(false);
+		textBoxName.setVisible(true);
+		textBoxName.setFocus(true);
 	}
 
 	public Link getLink()
@@ -147,6 +170,11 @@ public class Device extends FlowPanel
 	public AnimatedInt getY()
 	{
 		return y;
+	}
+
+	public int getZone()
+	{
+		return Model.zoneManager.getZone(getLink());
 	}
 
 	public void setLeft(final int left)
@@ -185,7 +213,7 @@ public class Device extends FlowPanel
 		// Font size by bandwidth
 		if (link.getIPAddress() != null)
 		{
-			fontSize.setValue((int) (40 * link.getByteCount() / bandWidthMax) + 5);
+			fontSize.setValue((40 * link.getByteCount() / bandWidthMax) + 5);
 			// GWT.log("Bandwidth: " + (100 * link.getByteCount() / bandWidthMax) + "% - " +
 			// link.getByteCount() + "/" + bandWidthMax);
 		}
@@ -211,11 +239,6 @@ public class Device extends FlowPanel
 		{
 			setLeft(getZone() * DevicesPanel.getZoneWidth() + 25);
 		}
-	}
-
-	public int getZone()
-	{
-		return Model.zoneManager.getZone(getLink());
 	}
 
 	private String getDeviceName()
@@ -270,28 +293,5 @@ public class Device extends FlowPanel
 		{
 			removeStyleName("grey");
 		}
-	}
-
-	public void cancelEdit()
-	{
-		textBoxName.setFocus(false);
-		textBoxName.setVisible(false);
-		text.setVisible(true);
-	}
-
-	public void acceptEdit()
-	{
-		text.setText(textBoxName.getText());
-		textBoxName.setFocus(false);
-		service.setName(link.getMacAddress(), textBoxName.getText());
-	}
-
-	public void edit(DevicesService service)
-	{
-		this.service = service;
-		textBoxName.setText(text.getText());
-		text.setVisible(false);
-		textBoxName.setVisible(true);
-		textBoxName.setFocus(true);
 	}
 }

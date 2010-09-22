@@ -15,11 +15,13 @@ public class DevicesServiceImpl implements DevicesService
 {
 	private final RequestCallback callback = new RequestCallback()
 	{
+		@Override
 		public void onError(final Request request, final Throwable exception)
 		{
 			GWT.log(exception.getMessage(), exception);
 		}
 
+		@Override
 		public void onResponseReceived(final Request request, final Response response)
 		{
 			if (200 == response.getStatusCode())
@@ -43,9 +45,42 @@ public class DevicesServiceImpl implements DevicesService
 
 	private final Model model;
 
-	public DevicesServiceImpl(Model model)
+	public DevicesServiceImpl(final Model model)
 	{
 		this.model = model;
+	}
+
+	@Override
+	public void deny(final String macAddress)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "deny?macAddress=" + macAddress + "&since" + model.getMostRecent());
+	}
+
+	@Override
+	public void getUpdates()
+	{
+		final String url = GWT.getModuleBaseURL() + "links?since=" + model.getMostRecent();
+		serverRequest(url);
+	}
+
+	@Override
+	public void permit(final String macAddress)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "permit?macAddress=" + macAddress + "&since" + model.getMostRecent());
+	}
+
+	@Override
+	public void setName(final String macAddress, final String name)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "setName?macAddress=" + macAddress + "&name="
+				+ URL.encodeQueryString(name) + "&since=" + model.getMostRecent());
+	}
+
+	@Override
+	public void setResource(final String macAddress, final boolean resource)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "setResource?macAddress=" + macAddress + "&resource=" + resource
+				+ "&since=" + model.getMostRecent());
 	}
 
 	public void setZone(final String macAddress, final int zone)
@@ -54,17 +89,9 @@ public class DevicesServiceImpl implements DevicesService
 				+ model.getMostRecent());
 	}
 
-	public void setResource(final String macAddress, final boolean resource)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "setResource?macAddress=" + macAddress + "&resource=" + resource
-				+ "&since=" + model.getMostRecent());
-	}
-
-	public void setName(final String macAddress, final String name)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "setName?macAddress=" + macAddress + "&name="
-				+ URL.encodeQueryString(name) + "&since=" + model.getMostRecent());
-	}
+	private final native JsArray<Link> getLinks(final String json) /*-{
+																	return eval('(' + json + ')');
+																	}-*/;
 
 	private void serverRequest(final String url)
 	{
@@ -77,28 +104,5 @@ public class DevicesServiceImpl implements DevicesService
 		{
 			GWT.log(e.getMessage(), e);
 		}
-	}
-
-	@Override
-	public void getUpdates()
-	{
-		final String url = GWT.getModuleBaseURL() + "links?since=" + model.getMostRecent();
-		serverRequest(url);
-	}
-
-	private final native JsArray<Link> getLinks(final String json) /*-{
-																	return eval('(' + json + ')');
-																	}-*/;
-
-	@Override
-	public void permit(String macAddress)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "permit?macAddress=" + macAddress + "&since" + model.getMostRecent());
-	}
-
-	@Override
-	public void deny(String macAddress)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "deny?macAddress=" + macAddress + "&since" + model.getMostRecent());
 	}
 }

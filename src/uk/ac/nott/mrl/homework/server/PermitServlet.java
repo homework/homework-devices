@@ -18,22 +18,22 @@ public class PermitServlet extends HttpServlet
 		response.setContentType("application/json");
 		// logger.info(request.getRequestURL().toString());
 
-		String macAddress = request.getParameter("macAddress");
+		final String macAddress = request.getParameter("macAddress");
 
 		System.out.println("Permit:" + macAddress);
 
-		URL url = new URL("http://192.168.9.1/ws.v1/homework/permit/" + macAddress);
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		final URL url = new URL("http://192.168.9.1/ws.v1/homework/permit/" + macAddress);
+		final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
 
-		String sinceString = request.getParameter("since");
+		final String sinceString = request.getParameter("since");
 		double since = 0;
 		try
 		{
 			since = Double.parseDouble(sinceString);
 		}
-		catch (Exception e)
+		catch (final Exception e)
 		{
 		}
 
