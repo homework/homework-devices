@@ -21,6 +21,7 @@ public class PollingThread extends Thread
 
 	private final int TIME_DELTA = 3000;
 	private final JavaSRPC rpc = new JavaSRPC();
+	private final boolean nox = false;
 
 	@Override
 	public void run()
@@ -47,7 +48,10 @@ public class PollingThread extends Thread
 					{
 						updateLinks();
 						updateLeases();
-						// updatePermitted();
+						if(nox)
+						{
+							updatePermitted();
+						}
 						LinkServlet.last = new Date();
 					}
 					catch (final Exception e)

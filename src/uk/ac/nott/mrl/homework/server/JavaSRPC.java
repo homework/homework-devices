@@ -383,7 +383,7 @@ public class JavaSRPC
 		socket.send(new DatagramPacket(bytes, bytes.length, address, port));
 	}
 
-	private void sendCommand(final Command command, final RPCState newState) throws IOException
+	private synchronized void sendCommand(final Command command, final RPCState newState) throws IOException
 	{
 		logger.info("Send " + command);
 		sendBytes(getBytes(command));
