@@ -389,7 +389,7 @@ public class DevicesPanel extends FlowPanel
 
 		registerDomTouchEvents();
 		
-		SimplePanel trayPanel = new SimplePanel();
+		FlowPanel trayPanel = new FlowPanel();
 		trayPanel.add(trayIcon);
 		trayPanel.add(trayLabel);
 		setTrayState(0);

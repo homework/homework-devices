@@ -24,13 +24,10 @@ public class NameServlet extends HttpServlet
 
 		System.out.println("Set Name :" + macAddress + " - " + nameString);
 
-		synchronized (LinkServlet.links)
+		final Link link = LinkServlet.getLink(macAddress);
+		if (link != null)
 		{
-			final Link link = LinkServlet.links.get(macAddress);
-			if (link != null)
-			{
-				link.setUsername(nameString);
-			}
+			link.setUsername(nameString);
 		}
 
 		final String sinceString = request.getParameter("since");

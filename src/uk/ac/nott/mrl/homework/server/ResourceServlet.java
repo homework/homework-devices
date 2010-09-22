@@ -24,13 +24,10 @@ public class ResourceServlet extends HttpServlet
 
 		System.out.println("Set Resource :" + macAddress + " - " + zoneString);
 
-		synchronized (LinkServlet.links)
+		final Link link = LinkServlet.getLink(macAddress);
+		if (link != null)
 		{
-			final Link link = LinkServlet.links.get(macAddress);
-			if (link != null)
-			{
-				link.setResource(resource);
-			}
+			link.setResource(resource);
 		}
 
 		final String sinceString = request.getParameter("since");
