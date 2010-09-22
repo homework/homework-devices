@@ -1,0 +1,5 @@
+[
+{macAddress:"0021d8e06ca2",timeStamp:"2010-05-06 11:14:44 262",corporation:"Cisco Systems",rssi:-78.99,packetCount:97,retryCount:0,byteCount:17363},
+{macAddress:"002608aed2d8",timeStamp:"2010-05-06 11:14:44 262",corporation:"Apple, Inc",rssi:-34.87,packetCount:16,retryCount:4,byteCount:1106},
+{macAddress:"001ff3bcb257",timeStamp:"2010-05-06 11:14:44 262",corporation:"Apple, Inc",rssi:-35.08,packetCount:25,retryCount:0,byteCount:1482}
+]
