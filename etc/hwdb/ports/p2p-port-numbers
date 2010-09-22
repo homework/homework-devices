@@ -1,0 +1,23 @@
+# More port mappings (to be tested), according to "GT: picking up the truth from the ground for Internet traffic", ACM SIGCOMM Computer Communication Review, Vol. 39, No. 5, pp. 13-18, Oct. 2009
+gnutella	6436/tcp 	gnutella
+gnutella	6437/tcp	gnutella
+gnutella	6438/tcp	gnutella
+#
+# According to btfaq.org, by default BitTorrent uses TCP ports 6881-6889.
+# However, one could use the --minport and --maxport parameters to confu-
+# se the system and report false positives.
+#
+bittorrent	6881/tcp	bittorrent
+bittorrent	6882/tcp	bittorrent
+bittorrent	6883/tcp	bittorrent
+bittorrent	6884/tcp	bittorrent
+bittorrent	6885/tcp	bittorrent
+bittorrent	6886/tcp	bittorrent
+bittorrent	6887/tcp	bittorrent
+bittorrent	6888/tcp	bittorrent
+bittorrent	6889/tcp	bittorrent
+
+edonkey		4661/tcp	edonkey
+edonkey		4662/tcp	edonkey
+edonkey		3635/tcp	edonkey
+edonkey		9573/tcp	edonkey
