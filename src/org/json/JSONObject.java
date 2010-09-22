@@ -424,8 +424,8 @@ public class JSONObject
 		if (value instanceof Number) { return numberToString((Number) value); }
 		if (value instanceof Boolean || value instanceof JSONObject || value instanceof JSONArray) { return value
 				.toString(); }
-		if (value instanceof Map) { return new JSONObject((Map) value).toString(); }
-		if (value instanceof Collection) { return new JSONArray((Collection) value).toString(); }
+		if (value instanceof Map) { return new JSONObject((Map<?,?>) value).toString(); }
+		if (value instanceof Collection) { return new JSONArray((Collection<?>) value).toString(); }
 		if (value.getClass().isArray()) { return new JSONArray(value).toString(); }
 		return quote(value.toString());
 	}
@@ -465,8 +465,8 @@ public class JSONObject
 		if (value instanceof Boolean) { return value.toString(); }
 		if (value instanceof JSONObject) { return ((JSONObject) value).toString(indentFactor, indent); }
 		if (value instanceof JSONArray) { return ((JSONArray) value).toString(indentFactor, indent); }
-		if (value instanceof Map) { return new JSONObject((Map) value).toString(indentFactor, indent); }
-		if (value instanceof Collection) { return new JSONArray((Collection) value).toString(indentFactor, indent); }
+		if (value instanceof Map) { return new JSONObject((Map<?,?>) value).toString(indentFactor, indent); }
+		if (value instanceof Collection) { return new JSONArray((Collection<?>) value).toString(indentFactor, indent); }
 		if (value.getClass().isArray()) { return new JSONArray(value).toString(indentFactor, indent); }
 		return quote(value.toString());
 	}
@@ -493,9 +493,9 @@ public class JSONObject
 					|| object instanceof Boolean || object instanceof Float || object instanceof Double
 					|| object instanceof String) { return object; }
 
-			if (object instanceof Collection) { return new JSONArray((Collection) object); }
+			if (object instanceof Collection) { return new JSONArray((Collection<?>) object); }
 			if (object.getClass().isArray()) { return new JSONArray(object); }
-			if (object instanceof Map) { return new JSONObject((Map) object); }
+			if (object instanceof Map) { return new JSONObject((Map<?,?>) object); }
 			final Package objectPackage = object.getClass().getPackage();
 			final String objectPackageName = (objectPackage != null ? objectPackage.getName() : "");
 			if (objectPackageName.startsWith("java.") || objectPackageName.startsWith("javax.")
@@ -1271,7 +1271,7 @@ public class JSONObject
 	 * @return this.
 	 * @throws JSONException
 	 */
-	public JSONObject put(final String key, final Collection value) throws JSONException
+	public JSONObject put(final String key, final Collection<?> value) throws JSONException
 	{
 		put(key, new JSONArray(value));
 		return this;
@@ -1339,7 +1339,7 @@ public class JSONObject
 	 * @return this.
 	 * @throws JSONException
 	 */
-	public JSONObject put(final String key, final Map value) throws JSONException
+	public JSONObject put(final String key, final Map<?,?> value) throws JSONException
 	{
 		put(key, new JSONObject(value));
 		return this;

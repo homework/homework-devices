@@ -472,8 +472,8 @@ public class Test
 			System.out.println(a.toString(4));
 			System.out.println(JSONML.toString(a));
 
-			final Collection c = null;
-			final Map m = null;
+			final Collection<Object> c = null;
+			final Map<String, Object> m = null;
 
 			j = new JSONObject(m);
 			a = new JSONArray(c);

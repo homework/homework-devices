@@ -120,25 +120,23 @@ public class JSONML
 	 */
 	public static String toString(final JSONArray ja) throws JSONException
 	{
-		Object e;
 		int i;
 		JSONObject jo;
 		String k;
-		Iterator keys;
+		Iterator<String> keys;
 		int length;
 		final StringBuffer sb = new StringBuffer();
-		String tagName;
 		String v;
 
 		// Emit <tagName
 
-		tagName = ja.getString(0);
+		String tagName = ja.getString(0);
 		XML.noSpace(tagName);
 		tagName = XML.escape(tagName);
 		sb.append('<');
 		sb.append(tagName);
 
-		e = ja.opt(1);
+		Object e = ja.opt(1);
 		if (e instanceof JSONObject)
 		{
 			i = 2;
@@ -221,18 +219,9 @@ public class JSONML
 	public static String toString(final JSONObject jo) throws JSONException
 	{
 		final StringBuffer sb = new StringBuffer();
-		Object e;
-		int i;
-		JSONArray ja;
-		String k;
-		Iterator keys;
-		int len;
-		String tagName;
-		String v;
-
 		// Emit <tagName
 
-		tagName = jo.optString("tagName");
+		String tagName = jo.optString("tagName");
 		if (tagName == null) { return XML.escape(jo.toString()); }
 		XML.noSpace(tagName);
 		tagName = XML.escape(tagName);
@@ -241,14 +230,14 @@ public class JSONML
 
 		// Emit the attributes
 
-		keys = jo.keys();
+		final Iterator<String> keys = jo.keys();
 		while (keys.hasNext())
 		{
-			k = keys.next().toString();
+			final String k = keys.next().toString();
 			if (!k.equals("tagName") && !k.equals("childNodes"))
 			{
 				XML.noSpace(k);
-				v = jo.optString(k);
+				final String v = jo.optString(k);
 				if (v != null)
 				{
 					sb.append(' ');
@@ -263,7 +252,7 @@ public class JSONML
 
 		// Emit content in body
 
-		ja = jo.optJSONArray("childNodes");
+		final JSONArray ja = jo.optJSONArray("childNodes");
 		if (ja == null)
 		{
 			sb.append('/');
@@ -272,10 +261,10 @@ public class JSONML
 		else
 		{
 			sb.append('>');
-			len = ja.length();
-			for (i = 0; i < len; i += 1)
+			final int len = ja.length();
+			for (int i = 0; i < len; i += 1)
 			{
-				e = ja.get(i);
+				final Object e = ja.get(i);
 				if (e != null)
 				{
 					if (e instanceof String)
