@@ -104,6 +104,11 @@ public class Link
 	{
 
 	}
+	
+	public String getIPAddress()
+	{
+		return ipAddress;
+	}
 
 	public int getByteCount()
 	{

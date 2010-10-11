@@ -1,15 +1,15 @@
 package uk.ac.nott.mrl.homework.server;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.ac.nott.mrl.homework.server.model.Link;
-
-public class ResourceServlet extends HttpServlet
+public class DenyDevice extends HttpServlet
 {
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
@@ -19,16 +19,13 @@ public class ResourceServlet extends HttpServlet
 		// logger.info(request.getRequestURL().toString());
 
 		final String macAddress = request.getParameter("macAddress");
-		final String zoneString = request.getParameter("resource");
-		final boolean resource = Boolean.parseBoolean(zoneString);
 
-		System.out.println("Set Resource :" + macAddress + " - " + zoneString);
+		System.out.println("Deny:" + macAddress);
 
-		final Link link = LinkServlet.getLink(macAddress);
-		if (link != null)
-		{
-			link.setResource(resource);
-		}
+		final URL url = new URL("http://192.168.9.1/ws.v1/homework/deny/" + macAddress);
+		final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setDoOutput(true);
+		conn.setRequestMethod("POST");
 
 		final String sinceString = request.getParameter("since");
 		double since = 0;
@@ -40,6 +37,10 @@ public class ResourceServlet extends HttpServlet
 		{
 		}
 
-		LinkServlet.listLinks(response.getWriter(), since);
+		ListLinks.updatePermitted(conn.getInputStream(), since);
+
+		Log.log("Deny Device", macAddress);
+		
+		ListLinks.listLinks(response.getWriter(), since);
 	}
 }

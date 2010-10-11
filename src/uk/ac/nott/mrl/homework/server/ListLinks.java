@@ -28,9 +28,9 @@ import org.json.JSONTokener;
 
 import uk.ac.nott.mrl.homework.server.model.Link;
 
-public class LinkServlet extends HttpServlet
+public class ListLinks extends HttpServlet
 {
-	private static final Logger logger = Logger.getLogger(LinkServlet.class.getName());
+	private static final Logger logger = Logger.getLogger(ListLinks.class.getName());
 
 	private static final long OLD = 12000; // 12 seconds
 
@@ -130,7 +130,10 @@ public class LinkServlet extends HttpServlet
 				{
 					final String macAddress = array.getString(index);
 					final Link link = links.get(macAddress);
-					link.setPermitted(true, since);
+					if(link != null)
+					{
+						link.setPermitted(true, since);						
+					}
 				}
 				catch (final JSONException e)
 				{

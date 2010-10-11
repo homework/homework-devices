@@ -144,7 +144,7 @@ public class Zone extends FlowPanel
 
 	private void updateImage(final String zoneName)
 	{
-		if (zoneName.equals("Internet"))
+		if (zoneName.equals("Internet") || zoneName.equals("Connected"))
 		{
 			if (bandWidthPercent >= 0.9)
 			{

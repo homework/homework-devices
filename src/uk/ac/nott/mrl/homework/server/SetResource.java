@@ -1,15 +1,15 @@
 package uk.ac.nott.mrl.homework.server;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class PermitServlet extends HttpServlet
+import uk.ac.nott.mrl.homework.server.model.Link;
+
+public class SetResource extends HttpServlet
 {
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
@@ -19,13 +19,16 @@ public class PermitServlet extends HttpServlet
 		// logger.info(request.getRequestURL().toString());
 
 		final String macAddress = request.getParameter("macAddress");
+		final String zoneString = request.getParameter("resource");
+		final boolean resource = Boolean.parseBoolean(zoneString);
 
-		System.out.println("Permit:" + macAddress);
+		System.out.println("Set Resource :" + macAddress + " - " + zoneString);
 
-		final URL url = new URL("http://192.168.9.1/ws.v1/homework/permit/" + macAddress);
-		final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setDoOutput(true);
-		conn.setRequestMethod("POST");
+		final Link link = ListLinks.getLink(macAddress);
+		if (link != null)
+		{
+			link.setResource(resource);
+		}
 
 		final String sinceString = request.getParameter("since");
 		double since = 0;
@@ -37,8 +40,6 @@ public class PermitServlet extends HttpServlet
 		{
 		}
 
-		LinkServlet.updatePermitted(conn.getInputStream(), since);
-
-		LinkServlet.listLinks(response.getWriter(), since);
+		ListLinks.listLinks(response.getWriter(), since);
 	}
 }

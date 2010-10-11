@@ -4,65 +4,76 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-	<!-- Servlets -->
 	<servlet>
-		<servlet-name>linkServlet</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.LinkServlet</servlet-class>
-		<!--<load-on-startup>0</load-on-startup>-->
+		<servlet-name>listLinks</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.ListLinks</servlet-class>
+		<!--<load-on-startup>0</load-on-startup> -->
 	</servlet>
 
+	<servlet>
+		<servlet-name>permitDevice</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.PermitDevice</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>denyDevice</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.DenyDevice</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>setName</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.SetName</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>setTrayMode</servlet-name>		
+		<servlet-class>uk.ac.nott.mrl.homework.server.SetTrayMode</servlet-class>
+		<init-param>
+			<param-name>filepath</param-name>
+			<param-value>/home/homenet/homeworkduino/res/role.cfg</param-value>
+		</init-param>		
+	</servlet>
+
+	<servlet>
+		<servlet-name>setTrayDevice</servlet-name>		
+		<servlet-class>uk.ac.nott.mrl.homework.server.SetTrayDevice</servlet-class>
+		<init-param>
+			<param-name>filepath</param-name>
+			<param-value>/home/homenet/homeworkduino/res/probe.cfg</param-value>
+		</init-param>		
+	</servlet>
+
+
 	<servlet-mapping>
-		<servlet-name>linkServlet</servlet-name>
+		<servlet-name>listLinks</servlet-name>
 		<url-pattern>/device/links</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>zoneServlet</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.ZoneServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>permitServlet</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.PermitServlet</servlet-class>
-	</servlet>
-
-	<servlet>
-		<servlet-name>denyServlet</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.DenyServlet</servlet-class>
-	</servlet>
-	
 	<servlet-mapping>
-		<servlet-name>permitServlet</servlet-name>
+		<servlet-name>permitDevice</servlet-name>
 		<url-pattern>/device/permit</url-pattern>
-	</servlet-mapping>	
+	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>denyServlet</servlet-name>
+		<servlet-name>denyDevice</servlet-name>
 		<url-pattern>/device/deny</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>nameServlet</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.NameServlet</servlet-class>
-	</servlet>
-
 	<servlet-mapping>
-		<servlet-name>nameServlet</servlet-name>
+		<servlet-name>setName</servlet-name>
 		<url-pattern>/device/setName</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>resourceServlet</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.ResourceServlet</servlet-class>
-	</servlet>
-
 	<servlet-mapping>
-		<servlet-name>resourceServlet</servlet-name>
-		<url-pattern>/device/setResource</url-pattern>
+		<servlet-name>setTrayMode</servlet-name>
+		<url-pattern>/device/setTrayMode</url-pattern>
 	</servlet-mapping>
 
+	<servlet-mapping>
+		<servlet-name>setTrayDevice</servlet-name>
+		<url-pattern>/device/setTrayDevice</url-pattern>
+	</servlet-mapping>
 
-	<!-- Default page to serve -->
 	<welcome-file-list>
 		<welcome-file>Device.html</welcome-file>
 	</welcome-file-list>

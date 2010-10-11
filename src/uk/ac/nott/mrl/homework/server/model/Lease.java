@@ -8,7 +8,7 @@ public class Lease
 {
 	public enum Action
 	{
-		add, del, old
+		add, del, old, upd
 	}
 
 	public static Iterable<Lease> parseResultSet(final String results)
@@ -27,10 +27,14 @@ public class Lease
 				final String time = columns[0].substring(1, columns[0].length() - 1);
 				final long timeLong = Long.parseLong(time, 16);
 				lease.timeStamp = new Date(timeLong / 1000000);
-				lease.action = Action.valueOf(columns[1]);
+				lease.action = Action.valueOf(columns[1].toLowerCase());
 				lease.macAddress = columns[2];
 				lease.ipAddress = columns[3];
 				lease.hostName = columns[4];
+				if(lease.hostName.equals("NULL"))
+				{
+					lease.hostName = null;
+				}
 				leases.add(lease);
 			}
 			catch (final Exception e)

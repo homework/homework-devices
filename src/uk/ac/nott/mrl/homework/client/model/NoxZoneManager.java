@@ -31,7 +31,7 @@ public class NoxZoneManager implements ZoneManager
 	@Override
 	public String[] getZones()
 	{
-		return new String[] { "Denied Access", "Not Connected", "Internet" };
+		return new String[] { "Denied Access", "Permitted", "Connected" };
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class Model
 	private LinkListener listener;
 
 	private final Map<String, Link> links = new HashMap<String, Link>();
-	public static final ZoneManager zoneManager = new SimpleZoneManager();
+	public static final ZoneManager zoneManager = new NoxZoneManager();
 
 	public void add(final LinkListener listener)
 	{

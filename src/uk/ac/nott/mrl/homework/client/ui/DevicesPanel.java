@@ -49,9 +49,13 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class DevicesPanel extends FlowPanel
 {
-	public static final native int getWinOffsetX() /*-{ return $wnd.pageXOffset || 0; }-*/;
+	public static final native int getWinOffsetX() /*-{
+		return $wnd.pageXOffset || 0;
+	}-*/;
 
-	public static final native int getWinOffsetY() /*-{ return $wnd.pageYOffset || 0; }-*/;
+	public static final native int getWinOffsetY() /*-{
+		return $wnd.pageYOffset || 0;
+	}-*/;
 
 	static int getZoneWidth()
 	{
@@ -217,13 +221,15 @@ public class DevicesPanel extends FlowPanel
 	private final List<Zone> zones = new ArrayList<Zone>();
 
 	private final DevicesService service;
-	private final String[] trayStates = { "Wireless Signal Strength", "Bandwidth", "Network Events" };
+	private final String[] trayStates = { "Signal Strength Monitor", "Bandwidth Monitor", "Network Event Monitor" };
 
 	private final ImageResource[] trayImages = { DevicesClient.resources.traySignal(),
 												DevicesClient.resources.trayBandwidth(),
 												DevicesClient.resources.trayEvents() };
 
 	private int trayState = 0;
+	private boolean trayEnabled = true;
+	
 	private final Image trayIcon = new Image(DevicesClient.resources.traySignal());
 
 	private final Label trayLabel = new Label(trayStates[0]);
@@ -286,30 +292,6 @@ public class DevicesPanel extends FlowPanel
 			});
 		}
 
-		// buttonPanel.setStylePrimaryName("buttonPanel");
-		// final Image image = new Image(DevicesClient.resources.arrowLeft());
-		// image.addClickHandler(new ClickHandler()
-		// {
-		// @Override
-		// public void onClick(final ClickEvent event)
-		// {
-		// if (detailPanel.toggleOpen())
-		// {
-		// image.setResource(DevicesClient.resources.arrowRight());
-		// }
-		// else
-		// {
-		// image.setResource(DevicesClient.resources.arrowLeft());
-		// }
-		// }
-		// });
-		// buttonPanel.setVisible(false);
-		// buttonPanel.add(image);
-		// if(DevicesClient.isFullUI())
-		// {
-		// add(buttonPanel);
-		// }
-
 		dragLine.setStylePrimaryName("deviceLine");
 		dragLine.setVisible(false);
 		add(dragLine);
@@ -367,21 +349,29 @@ public class DevicesPanel extends FlowPanel
 		registerDomTouchEvents();
 
 		final FlowPanel trayPanel = new FlowPanel();
+		trayPanel.setStylePrimaryName("trayButton");
 		trayPanel.add(trayIcon);
 		trayPanel.add(trayLabel);
-		setTrayState(0);
+		trayState = trayStates.length - 1;
+		nextTrayState();
 
 		final ClickHandler clickHandler = new ClickHandler()
 		{
 			@Override
 			public void onClick(final ClickEvent event)
 			{
-				setTrayState(trayState + 1);
+				nextTrayState();
 			}
 		};
 
 		trayIcon.addClickHandler(clickHandler);
 		trayLabel.addClickHandler(clickHandler);
+		trayPanel.addDomHandler(clickHandler, ClickEvent.getType());		
+
+		if(trayEnabled)
+		{
+			add(trayPanel);
+		}
 	}
 
 	public LinkListener getListener()
@@ -515,15 +505,25 @@ public class DevicesPanel extends FlowPanel
 
 	private void setPopup(final Device device)
 	{
-		final FlowPanel panel = new FlowPanel();
-
+		final FlowPanel panel = new FlowPanel(); 
+		
 		final FlowPanel panel2 = new FlowPanel();
 		panel2.add(new InlineLabel("Manufacturer: "));
-		panel2.add(new Anchor(device.getLink().getCorporation(), "http://www.google.co.uk/search?q="
-				+ URL.encodeQueryString(device.getLink().getCorporation()), "_blank"));
+		Anchor companySearch = new Anchor(device.getLink().getCorporation(), "http://www.google.co.uk/search?q="
+		                  				+ URL.encodeQueryString(device.getLink().getCorporation()), "_blank");
+		companySearch.addClickHandler(new ClickHandler()
+		{
+			@Override
+			public void onClick(ClickEvent event)
+			{
+				service.log("Search Manufacturer", device.getLink().getMacAddress());
+			}
+		});
+		panel2.add(companySearch);
 		panel.add(panel2);
-
+		
 		final Anchor renameLink = new Anchor("Rename Device");
+		renameLink.setStylePrimaryName("popupLink");
 		renameLink.addClickHandler(new ClickHandler()
 		{
 			@Override
@@ -533,7 +533,23 @@ public class DevicesPanel extends FlowPanel
 				device.edit(service);
 			}
 		});
-		panel.add(renameLink);
+		panel.add(renameLink);		
+		if(trayEnabled)
+		{
+			final Anchor trayLink = new Anchor("Monitor this Signal Strength");
+			trayLink.setStylePrimaryName("popupLink");			
+			trayLink.addClickHandler(new ClickHandler()
+			{
+				@Override
+				public void onClick(final ClickEvent event)
+				{
+					popup.setVisible(false);
+					service.setTrayDevice(device.getLink().getMacAddress());
+				}
+			});		
+			panel.add(trayLink);
+		}		
+
 		popup.setWidget(panel);
 		popupDevice = device;
 	}
@@ -544,10 +560,11 @@ public class DevicesPanel extends FlowPanel
 		this.selected = object;
 	}
 
-	private void setTrayState(final int trayState)
+	private void nextTrayState()
 	{
-		if (this.trayState == trayState) { return; }
-		this.trayState = trayState;
+		trayState = (trayState + 1) % trayStates.length;
+		GWT.log("Tray State: " + trayStates[trayState] + "(" + trayState + ")");
+		service.setTrayMode(trayState);
 		trayIcon.setResource(trayImages[trayState]);
 		trayLabel.setText(trayStates[trayState]);
 	}

@@ -1,16 +1,15 @@
 package uk.ac.nott.mrl.homework.server;
 
 import java.io.IOException;
-import java.net.URLDecoder;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.ac.nott.mrl.homework.server.model.Link;
-
-public class NameServlet extends HttpServlet
+public class PermitDevice extends HttpServlet
 {
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
@@ -20,15 +19,13 @@ public class NameServlet extends HttpServlet
 		// logger.info(request.getRequestURL().toString());
 
 		final String macAddress = request.getParameter("macAddress");
-		final String nameString = URLDecoder.decode(request.getParameter("name"), "UTF-8");
 
-		System.out.println("Set Name :" + macAddress + " - " + nameString);
+		System.out.println("Permit:" + macAddress);
 
-		final Link link = LinkServlet.getLink(macAddress);
-		if (link != null)
-		{
-			link.setUsername(nameString);
-		}
+		final URL url = new URL("http://192.168.9.1/ws.v1/homework/permit/" + macAddress);
+		final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setDoOutput(true);
+		conn.setRequestMethod("POST");
 
 		final String sinceString = request.getParameter("since");
 		double since = 0;
@@ -40,6 +37,10 @@ public class NameServlet extends HttpServlet
 		{
 		}
 
-		LinkServlet.listLinks(response.getWriter(), since);
+		ListLinks.updatePermitted(conn.getInputStream(), since);
+
+		Log.log("Permit Device", macAddress);
+		
+		ListLinks.listLinks(response.getWriter(), since);
 	}
 }

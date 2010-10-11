@@ -61,6 +61,28 @@
 	-moz-user-select: none;
 }
 
+.popupLink {
+	list-style: disc;
+	display: list-item;
+	margin-left: 20px;
+}
+
+.trayButton {
+	position: absolute;
+	right: 0px;
+	z-index: 10;
+	border: 1px solid #999;
+	background-color: #CCC;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	font-size: 12px;
+	padding: 3px;
+	margin: 5px;
+	text-align: center;	
+	width: 80px;	
+}
+
 .zone {
 	font-size: 18px;
 	text-align: center;

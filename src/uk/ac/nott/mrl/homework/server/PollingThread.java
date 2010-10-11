@@ -19,9 +19,9 @@ public class PollingThread extends Thread
 
 	private static final Logger logger = Logger.getLogger(PollingThread.class.getName());
 
-	private final int TIME_DELTA = 3000;
+	private final int TIME_DELTA = 5000;
 	private final JavaSRPC rpc = new JavaSRPC();
-	private final boolean nox = false;
+	private final boolean nox = true;
 
 	@Override
 	public void run()
@@ -48,11 +48,11 @@ public class PollingThread extends Thread
 					{
 						updateLinks();
 						updateLeases();
-						if(nox)
+						if (nox)
 						{
 							updatePermitted();
 						}
-						LinkServlet.last = new Date();
+						ListLinks.last = new Date();
 					}
 					catch (final Exception e)
 					{
@@ -85,13 +85,23 @@ public class PollingThread extends Thread
 
 	private void updateLeases() throws Exception
 	{
-		final String leaseResults = rpc.call("SQL:select * from Leases");
+		String leaseQuery;
+		if (ListLinks.last != null)
+		{
+			final String s = String.format("@%016x@", ListLinks.last.getTime() * 1000000);
+			leaseQuery = String.format("SQL:select * from Leases [ since %s ]", s);
+		}
+		else
+		{
+			leaseQuery = String.format("SQL:select * from Leases");
+		}
+		final String leaseResults = rpc.call(leaseQuery);
 		if (leaseResults != null)
 		{
 			final Iterable<Lease> newLeases = Lease.parseResultSet(leaseResults);
 			for (final Lease lease : newLeases)
 			{
-				final Link existingLink = LinkServlet.getLink(lease.getMacAddress());
+				final Link existingLink = ListLinks.getLink(lease.getMacAddress());
 				if (existingLink != null)
 				{
 					existingLink.update(lease);
@@ -117,15 +127,14 @@ public class PollingThread extends Thread
 	private void updateLinks() throws Exception
 	{
 		String linkQuery;
-		if (LinkServlet.last != null)
+		if (ListLinks.last != null)
 		{
-			final String s = String.format("@%016x@", LinkServlet.last.getTime() * 1000000);
-			linkQuery = String.format(	"SQL:select * from Links [ range %d seconds ] where timestamp > %s",
-										TIME_DELTA + 1000, s);
+			final String s = String.format("@%016x@", ListLinks.last.getTime() * 1000000);
+			linkQuery = String.format("SQL:select * from Links [ since %s ]", s);
 		}
 		else
 		{
-			linkQuery = String.format("SQL:select * from Links [ range %d seconds ]", TIME_DELTA + 1000);
+			linkQuery = String.format("SQL:select * from Links");
 		}
 
 		final String linkResults = rpc.call(linkQuery);
@@ -136,14 +145,14 @@ public class PollingThread extends Thread
 			final Iterable<Link> newLinks = Link.parseResultSet(linkResults);
 			for (final Link link : newLinks)
 			{
-				final Link existingLink = LinkServlet.getLink(link.getMacAddress());
+				final Link existingLink = ListLinks.getLink(link.getMacAddress());
 				if (existingLink != null)
 				{
 					existingLink.update(link);
 				}
 				else
 				{
-					LinkServlet.addLink(link);
+					ListLinks.addLink(link);
 					final Lease lease = leases.get(link.getMacAddress());
 					if (lease != null)
 					{
@@ -163,7 +172,7 @@ public class PollingThread extends Thread
 			final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 
-			LinkServlet.updatePermitted(conn.getInputStream(), LinkServlet.last.getTime());
+			ListLinks.updatePermitted(conn.getInputStream(), ListLinks.last.getTime());
 		}
 		catch (final Exception e)
 		{

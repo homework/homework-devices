@@ -143,6 +143,7 @@ public class Device extends FlowPanel
 
 	public void cancelEdit()
 	{
+		service.log("Cancel Edit", link.getMacAddress());
 		textBoxName.setFocus(false);
 		textBoxName.setVisible(false);
 		text.setVisible(true);
@@ -151,6 +152,7 @@ public class Device extends FlowPanel
 	public void edit(final DevicesService service)
 	{
 		this.service = service;
+		service.log("Start Edit", link.getMacAddress());
 		textBoxName.setText(text.getText());
 		text.setVisible(false);
 		textBoxName.setVisible(true);

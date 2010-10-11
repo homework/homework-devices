@@ -89,6 +89,21 @@ public class DevicesServiceImpl implements DevicesService
 				+ model.getMostRecent());
 	}
 
+	public void setTrayMode(final int mode)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "setTrayMode?mode=" + mode);		
+	}
+
+	public void setTrayDevice(final String macAddress)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "setTrayDevice?macAddress" + macAddress);		
+	}
+	
+	public void log(String type, String details)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "log?type=" + type + "&details=" + details);		
+	}
+	
 	private final native JsArray<Link> getLinks(final String json) /*-{
 																	return eval('(' + json + ')');
 																	}-*/;
