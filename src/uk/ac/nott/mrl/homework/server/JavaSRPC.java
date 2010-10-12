@@ -296,7 +296,7 @@ public class JavaSRPC
 		if (state == RPCState.TIMEDOUT)
 		{
 			// TODO Cleanup
-			throw new IOException();
+			throw new IOException("RPC Conenction timed out.");
 		}
 	}
 

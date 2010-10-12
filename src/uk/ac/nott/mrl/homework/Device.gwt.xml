@@ -1,12 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='device'>
 	<inherits name='com.google.gwt.user.User' />
-
 	<inherits name='com.google.gwt.user.theme.standard.Standard' />
-	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
 	<entry-point class='uk.ac.nott.mrl.homework.client.DevicesClient' />
+
+	<define-property name="zoneManager" values="default,nox" />
+	<define-property name="ashtray" values="true,false" />
+
+	<property-provider name="zoneManager">
+		<![CDATA[
+        	var zoneManager = __gwt_getMetaProperty("zoneManager");
+        	if(zoneManager == null)
+        	{
+        		return "default";
+        	}
+        	return zoneManager;
+		]]>
+	</property-provider>
+	
+	<property-provider name="ashtray">
+		<![CDATA[
+        	var ashtray = __gwt_getMetaProperty("ashtray");
+        	if(ashtray == null)
+        	{
+        		return "false";
+        	}
+        	return ashtray;
+		]]>
+	</property-provider>
+
+	<replace-with class="uk.ac.nott.mrl.homework.client.model.SimpleZoneManager">
+		<when-type-is class="uk.ac.nott.mrl.homework.client.model.ZoneManager"/>
+	</replace-with>
+
+	<replace-with class="uk.ac.nott.mrl.homework.client.model.NoxZoneManager">
+		<when-type-is class="uk.ac.nott.mrl.homework.client.model.ZoneManager"/>
+		<when-property-is name="zoneManager" value="nox"/>
+	</replace-with>
+
+	<replace-with class="uk.ac.nott.mrl.homework.client.ui.WorkingTrayPanel">
+		<when-type-is class="uk.ac.nott.mrl.homework.client.ui.TrayPanel"/>
+		<when-property-is name="ashtray" value="true"/>
+	</replace-with>
 
 	<source path='client' />	
 </module>

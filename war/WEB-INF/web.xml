@@ -26,6 +26,11 @@
 	</servlet>
 
 	<servlet>
+		<servlet-name>log</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.Log</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>setTrayMode</servlet-name>		
 		<servlet-class>uk.ac.nott.mrl.homework.server.SetTrayMode</servlet-class>
 		<init-param>
@@ -60,6 +65,11 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
+		<servlet-name>log</servlet-name>
+		<url-pattern>/device/log</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
 		<servlet-name>setName</servlet-name>
 		<url-pattern>/device/setName</url-pattern>
 	</servlet-mapping>
@@ -75,6 +85,6 @@
 	</servlet-mapping>
 
 	<welcome-file-list>
-		<welcome-file>Device.html</welcome-file>
+		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 </web-app>

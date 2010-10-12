@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.LinkListener;
@@ -36,12 +35,10 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -221,18 +218,7 @@ public class DevicesPanel extends FlowPanel
 	private final List<Zone> zones = new ArrayList<Zone>();
 
 	private final DevicesService service;
-	private final String[] trayStates = { "Signal Strength Monitor", "Bandwidth Monitor", "Network Event Monitor" };
-
-	private final ImageResource[] trayImages = { DevicesClient.resources.traySignal(),
-												DevicesClient.resources.trayBandwidth(),
-												DevicesClient.resources.trayEvents() };
-
-	private int trayState = 0;
-	private boolean trayEnabled = true;
-	
-	private final Image trayIcon = new Image(DevicesClient.resources.traySignal());
-
-	private final Label trayLabel = new Label(trayStates[0]);
+	private final TrayPanel trayPanel = GWT.create(TrayPanel.class);
 
 	public DevicesPanel(final DevicesService service)
 	{
@@ -348,30 +334,8 @@ public class DevicesPanel extends FlowPanel
 
 		registerDomTouchEvents();
 
-		final FlowPanel trayPanel = new FlowPanel();
-		trayPanel.setStylePrimaryName("trayButton");
-		trayPanel.add(trayIcon);
-		trayPanel.add(trayLabel);
-		trayState = trayStates.length - 1;
-		nextTrayState();
-
-		final ClickHandler clickHandler = new ClickHandler()
-		{
-			@Override
-			public void onClick(final ClickEvent event)
-			{
-				nextTrayState();
-			}
-		};
-
-		trayIcon.addClickHandler(clickHandler);
-		trayLabel.addClickHandler(clickHandler);
-		trayPanel.addDomHandler(clickHandler, ClickEvent.getType());		
-
-		if(trayEnabled)
-		{
-			add(trayPanel);
-		}
+		trayPanel.setService(service);
+		trayPanel.addTrayPanel(this);		
 	}
 
 	public LinkListener getListener()
@@ -507,20 +471,28 @@ public class DevicesPanel extends FlowPanel
 	{
 		final FlowPanel panel = new FlowPanel(); 
 		
-		final FlowPanel panel2 = new FlowPanel();
-		panel2.add(new InlineLabel("Manufacturer: "));
-		Anchor companySearch = new Anchor(device.getLink().getCorporation(), "http://www.google.co.uk/search?q="
-		                  				+ URL.encodeQueryString(device.getLink().getCorporation()), "_blank");
-		companySearch.addClickHandler(new ClickHandler()
+		if(device.getLink().getCorporation().equals("Unknown"))
 		{
-			@Override
-			public void onClick(ClickEvent event)
+			panel.add(new Label("Manufacturer: Unknown"));
+		}
+		else
+		{
+			final FlowPanel panel2 = new FlowPanel();			
+			panel2.add(new InlineLabel("Manufacturer: "));
+			Anchor companySearch = new Anchor(device.getLink().getCorporation(), "http://www.google.co.uk/search?q="
+			                  				+ URL.encodeQueryString(device.getLink().getCorporation()), "_blank");
+			companySearch.addClickHandler(new ClickHandler()
 			{
-				service.log("Search Manufacturer", device.getLink().getMacAddress());
-			}
-		});
-		panel2.add(companySearch);
-		panel.add(panel2);
+				@Override
+				public void onClick(ClickEvent event)
+				{
+					service.log("Search Manufacturer", device.getLink().getMacAddress());
+				}
+			});
+			panel2.add(companySearch);
+			panel.add(panel2);			
+		}
+		panel.add(new Label("MAC Address: " + device.getLink().getMacAddress()));
 		
 		final Anchor renameLink = new Anchor("Rename Device");
 		renameLink.setStylePrimaryName("popupLink");
@@ -533,22 +505,8 @@ public class DevicesPanel extends FlowPanel
 				device.edit(service);
 			}
 		});
-		panel.add(renameLink);		
-		if(trayEnabled)
-		{
-			final Anchor trayLink = new Anchor("Monitor this Signal Strength");
-			trayLink.setStylePrimaryName("popupLink");			
-			trayLink.addClickHandler(new ClickHandler()
-			{
-				@Override
-				public void onClick(final ClickEvent event)
-				{
-					popup.setVisible(false);
-					service.setTrayDevice(device.getLink().getMacAddress());
-				}
-			});		
-			panel.add(trayLink);
-		}		
+		panel.add(renameLink);	
+		trayPanel.addTrayLinks(device, panel);
 
 		popup.setWidget(panel);
 		popupDevice = device;
@@ -558,15 +516,6 @@ public class DevicesPanel extends FlowPanel
 	{
 		GWT.log("Selected " + object, null);
 		this.selected = object;
-	}
-
-	private void nextTrayState()
-	{
-		trayState = (trayState + 1) % trayStates.length;
-		GWT.log("Tray State: " + trayStates[trayState] + "(" + trayState + ")");
-		service.setTrayMode(trayState);
-		trayIcon.setResource(trayImages[trayState]);
-		trayLabel.setText(trayStates[trayState]);
 	}
 
 	private void updateClientHeight(final int newHeight)

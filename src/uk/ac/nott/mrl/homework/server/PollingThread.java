@@ -52,7 +52,7 @@ public class PollingThread extends Thread
 						{
 							updatePermitted();
 						}
-						ListLinks.last = new Date();
+						ListLinks.last = new Date().getTime();
 					}
 					catch (final Exception e)
 					{
@@ -86,9 +86,9 @@ public class PollingThread extends Thread
 	private void updateLeases() throws Exception
 	{
 		String leaseQuery;
-		if (ListLinks.last != null)
+		if (ListLinks.last > 0)
 		{
-			final String s = String.format("@%016x@", ListLinks.last.getTime() * 1000000);
+			final String s = String.format("@%016x@", ListLinks.last * 1000000);
 			leaseQuery = String.format("SQL:select * from Leases [ since %s ]", s);
 		}
 		else
@@ -96,6 +96,7 @@ public class PollingThread extends Thread
 			leaseQuery = String.format("SQL:select * from Leases");
 		}
 		final String leaseResults = rpc.call(leaseQuery);
+		logger.info(leaseResults);
 		if (leaseResults != null)
 		{
 			final Iterable<Lease> newLeases = Lease.parseResultSet(leaseResults);
@@ -114,7 +115,6 @@ public class PollingThread extends Thread
 					{
 						oldLease.clearIPAddress();
 					}
-					// leases.remove(lease.getMacAddress());
 				}
 				else
 				{
@@ -127,18 +127,16 @@ public class PollingThread extends Thread
 	private void updateLinks() throws Exception
 	{
 		String linkQuery;
-		if (ListLinks.last != null)
+		if (ListLinks.last > 0)
 		{
-			final String s = String.format("@%016x@", ListLinks.last.getTime() * 1000000);
+			final String s = String.format("@%016x@", ListLinks.last * 1000000);
 			linkQuery = String.format("SQL:select * from Links [ since %s ]", s);
 		}
 		else
 		{
 			linkQuery = String.format("SQL:select * from Links");
 		}
-
-		final String linkResults = rpc.call(linkQuery);
-		// logger.info(linkResults);
+		final String linkResults = rpc.call(linkQuery);	
 
 		if (linkResults != null)
 		{
@@ -167,12 +165,11 @@ public class PollingThread extends Thread
 	{
 		try
 		{
-			System.out.println("Get Permitted");
 			final URL url = new URL("http://192.168.9.1/ws.v1/homework/status");
 			final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 
-			ListLinks.updatePermitted(conn.getInputStream(), ListLinks.last.getTime());
+			ListLinks.updatePermitted(conn.getInputStream(), ListLinks.last);
 		}
 		catch (final Exception e)
 		{

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
 
 public class Model
@@ -20,7 +21,7 @@ public class Model
 	private LinkListener listener;
 
 	private final Map<String, Link> links = new HashMap<String, Link>();
-	public static final ZoneManager zoneManager = new NoxZoneManager();
+	public static final ZoneManager zoneManager = GWT.create(ZoneManager.class);
 
 	public void add(final LinkListener listener)
 	{

@@ -101,7 +101,7 @@ public class DevicesServiceImpl implements DevicesService
 	
 	public void log(String type, String details)
 	{
-		serverRequest(GWT.getModuleBaseURL() + "log?type=" + type + "&details=" + details);		
+		serverRequest(GWT.getModuleBaseURL() + "log?type=" + URL.encodeQueryString(type) + "&details=" + URL.encodeQueryString(details));		
 	}
 	
 	private final native JsArray<Link> getLinks(final String json) /*-{

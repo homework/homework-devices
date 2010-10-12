@@ -1,14 +1,10 @@
 package uk.ac.nott.mrl.homework.server.model;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import uk.ac.nott.mrl.homework.server.model.Lease.Action;
 
@@ -17,10 +13,10 @@ public class Link
 	// private static final String ROUTERMAC = "00:25:d3:72:b5:26";
 	private static final String ROUTERMAC = "00:25:d3:72:b5:1e";
 
-	public static final Map<String, String> macCorporations = new HashMap<String, String>();
-
-	private static final String ieeeURL = "http://standards.ieee.org/cgi-bin/ouisearch?";
-
+	private static final Companies companies = new Companies();
+	
+	private static final Logger logger = Logger.getLogger(Link.class.getName());
+	
 	public static Link parseLink(final String logLine)
 	{
 		final Link link = new Link();
@@ -79,13 +75,11 @@ public class Link
 			}
 			catch (final Exception e)
 			{
-				e.printStackTrace();
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 		return links;
 	}
-
-	private long lastTried = 0;
 
 	private double timeStamp;
 	private String macAddress;
@@ -119,49 +113,7 @@ public class Link
 	{
 		if (corporation == null)
 		{
-			// Get corporation part of mac address
-			// First three hex pairs, separated by '-'
-			String mac = macAddress.replace(':', '-').substring(0, 8);
-			if (mac.indexOf('-') < 0)
-			{
-				mac = macAddress.substring(0, 2) + "-" + macAddress.substring(2, 4) + "-" + macAddress.substring(4, 6);
-			}
-
-			corporation = macCorporations.get(mac);
-
-			if (corporation == null)
-			{
-				corporation = "Unknown";
-				if (lastTried == 0 || (new Date().getTime() - lastTried) > 360000)
-				{
-					try
-					{
-						final URL url = new URL(ieeeURL + mac);
-						final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-						while (true)
-						{
-							final String line = reader.readLine();
-							if (line == null)
-							{
-								break;
-							}
-							if (line.contains("(hex)"))
-							{
-								final int index = line.indexOf("(hex)");
-								corporation = line.substring(index + 5).trim();
-								macCorporations.put(macAddress, corporation);
-								return corporation;
-							}
-						}
-						lastTried = 0;
-					}
-					catch (final Exception e)
-					{
-						lastTried = new Date().getTime();
-						e.printStackTrace();
-					}
-				}
-			}
+			corporation = companies.getCompany(getMacAddress());
 		}
 
 		return corporation;
@@ -211,7 +163,7 @@ public class Link
 		this.resource = resource;
 	}
 
-	public void setUsername(final String name)
+	public void setUsername(final String name, final double since)
 	{
 		userName = name;
 	}
