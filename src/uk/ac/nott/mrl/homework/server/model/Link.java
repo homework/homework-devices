@@ -284,7 +284,10 @@ public class Link
 		else
 		{
 			deviceName = lease.getHostName();
-			ipAddress = lease.getIpAddress();
+			if(lease.getAction() != Action.upd)
+			{
+				ipAddress = lease.getIpAddress();
+			}
 		}
 	}
 
