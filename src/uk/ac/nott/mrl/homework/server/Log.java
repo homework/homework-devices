@@ -2,6 +2,7 @@ package uk.ac.nott.mrl.homework.server;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -15,13 +16,20 @@ public class Log extends HttpServlet
 	
 	public static void log(final String eventType, final String details) throws IOException
 	{
-		final JavaSRPC rpc = new JavaSRPC();
-		rpc.connect(InetAddress.getByName("192.168.9.1"), 987);
-		String query = String.format("SQL:INSERT into UserEvents values (\"%s\", \"%s\", \"%s\")", "Control App", eventType, details);
-		logger.info(query);
-		String result = rpc.call(query);
-		logger.info(result);
-		
+		try
+		{
+			final JavaSRPC rpc = new JavaSRPC();
+			rpc.connect(InetAddress.getByName("192.168.9.1"), 987);
+			String query = String.format("SQL:INSERT into UserEvents values (\"%s\", \"%s\", \"%s\")", "Control App", eventType, details);
+			logger.info(query);
+			String result = rpc.call(query);
+			logger.info(result);
+			rpc.disconnect();
+		}
+		catch(Exception e)
+		{
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
 	}
 	
 	@Override

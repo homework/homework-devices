@@ -32,7 +32,7 @@ public class SetName extends HttpServlet
 		final Link link = ListLinks.getLink(macAddress);
 		if (link != null)
 		{
-			link.setUsername(nameString, ListLinks.last);
+			link.setDeviceName(nameString, ListLinks.last);
 		}
 
 		final JavaSRPC rpc = new JavaSRPC();
@@ -41,6 +41,7 @@ public class SetName extends HttpServlet
 		logger.info(query);
 		String result = rpc.call(query);
 		logger.info(result);
+		rpc.disconnect();
 		
 		final String sinceString = request.getParameter("since");
 		double since = 0;

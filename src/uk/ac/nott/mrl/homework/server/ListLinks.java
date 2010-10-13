@@ -108,6 +108,8 @@ public class ListLinks extends HttpServlet
 				{
 					comma = true;
 				}
+				//Gson gson = new Gson();
+				//System.out.println(gson.toJson(link));
 				writer.println(link.toJSON());
 			}
 		}

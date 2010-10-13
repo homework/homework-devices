@@ -1,5 +1,6 @@
 package uk.ac.nott.mrl.homework.server;
 
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
@@ -96,7 +97,7 @@ public class PollingThread extends Thread
 			leaseQuery = String.format("SQL:select * from Leases");
 		}
 		final String leaseResults = rpc.call(leaseQuery);
-		logger.info(leaseResults);
+		//logger.info(leaseResults);
 		if (leaseResults != null)
 		{
 			final Iterable<Lease> newLeases = Lease.parseResultSet(leaseResults);
@@ -170,6 +171,10 @@ public class PollingThread extends Thread
 			conn.setDoOutput(true);
 
 			ListLinks.updatePermitted(conn.getInputStream(), ListLinks.last);
+		}
+		catch(final ConnectException e)
+		{
+			logger.warning("Failed to connect to nox service. "  + e.getMessage());
 		}
 		catch (final Exception e)
 		{

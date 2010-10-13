@@ -31,8 +31,17 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>setTrayMode</servlet-name>		
-		<servlet-class>uk.ac.nott.mrl.homework.server.SetTrayMode</servlet-class>
+		<servlet-name>getTrayMode</servlet-name>		
+		<servlet-class>uk.ac.nott.mrl.homework.server.GetTrayMode</servlet-class>
+		<init-param>
+			<param-name>filepath</param-name>
+			<param-value>/home/homenet/homeworkduino/res/role.cfg</param-value>
+		</init-param>		
+	</servlet>
+
+	<servlet>
+		<servlet-name>nextTrayMode</servlet-name>		
+		<servlet-class>uk.ac.nott.mrl.homework.server.NextTrayMode</servlet-class>
 		<init-param>
 			<param-name>filepath</param-name>
 			<param-value>/home/homenet/homeworkduino/res/role.cfg</param-value>
@@ -75,9 +84,14 @@
 	</servlet-mapping>
 
 	<servlet-mapping>
-		<servlet-name>setTrayMode</servlet-name>
-		<url-pattern>/device/setTrayMode</url-pattern>
+		<servlet-name>getTrayMode</servlet-name>
+		<url-pattern>/device/getTrayMode</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>nextTrayMode</servlet-name>
+		<url-pattern>/device/nextTrayMode</url-pattern>
+	</servlet-mapping>	
 
 	<servlet-mapping>
 		<servlet-name>setTrayDevice</servlet-name>

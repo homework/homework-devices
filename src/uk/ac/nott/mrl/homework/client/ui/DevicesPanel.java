@@ -218,7 +218,7 @@ public class DevicesPanel extends FlowPanel
 	private final List<Zone> zones = new ArrayList<Zone>();
 
 	private final DevicesService service;
-	private final TrayPanel trayPanel = GWT.create(TrayPanel.class);
+	private final TrayPanel trayPanel;
 
 	public DevicesPanel(final DevicesService service)
 	{
@@ -334,8 +334,8 @@ public class DevicesPanel extends FlowPanel
 
 		registerDomTouchEvents();
 
-		trayPanel.setService(service);
-		trayPanel.addTrayPanel(this);		
+		trayPanel = new TrayPanel(service);
+		add(trayPanel);	
 	}
 
 	public LinkListener getListener()

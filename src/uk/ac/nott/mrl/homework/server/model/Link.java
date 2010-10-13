@@ -39,7 +39,7 @@ public class Link
 		if (link.macAddress.equals(ROUTERMAC))
 		{
 			link.resource = true;
-			link.userName = "Router";
+			link.deviceName = "Router";
 		}
 
 		return link;
@@ -68,7 +68,7 @@ public class Link
 				if (link.macAddress.equals(ROUTERMAC))
 				{
 					link.resource = true;
-					link.userName = "Router";
+					link.deviceName = "Router";
 				}
 
 				links.add(link);
@@ -88,9 +88,8 @@ public class Link
 	private int retryCount;
 	private int packetCount;
 	private int byteCount;
-	private String networkName;
 	private String ipAddress;
-	private String userName;
+	private String deviceName;
 	private boolean permitted = false;
 	private boolean resource = false;
 
@@ -163,9 +162,9 @@ public class Link
 		this.resource = resource;
 	}
 
-	public void setUsername(final String name, final double since)
+	public void setDeviceName(final String name, final double since)
 	{
-		userName = name;
+		deviceName = name;
 	}
 
 	public String toJSON()
@@ -226,13 +225,9 @@ public class Link
 		buffer.append(",");
 
 		buffer.append("deviceName:\"");
-		if (userName != null && !userName.trim().isEmpty())
+		if (deviceName != null && !deviceName.trim().isEmpty())
 		{
-			buffer.append(userName);
-		}
-		else if (networkName != null && !networkName.trim().isEmpty())
-		{
-			buffer.append(networkName);
+			buffer.append(deviceName);
 		}
 		else if (corporation != null)
 		{
@@ -288,7 +283,7 @@ public class Link
 		}
 		else
 		{
-			networkName = lease.getHostName();
+			deviceName = lease.getHostName();
 			ipAddress = lease.getIpAddress();
 		}
 	}

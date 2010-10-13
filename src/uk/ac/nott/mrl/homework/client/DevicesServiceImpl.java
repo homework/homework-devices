@@ -89,14 +89,19 @@ public class DevicesServiceImpl implements DevicesService
 				+ model.getMostRecent());
 	}
 
-	public void setTrayMode(final int mode)
+	public void getTrayMode(final RequestCallback callback)
 	{
-		serverRequest(GWT.getModuleBaseURL() + "setTrayMode?mode=" + mode);		
+		serverRequest(GWT.getModuleBaseURL() + "getTrayMode", callback);		
+	}
+	
+	public void nextTrayMode(final RequestCallback callback)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "nextTrayMode", callback);		
 	}
 
 	public void setTrayDevice(final String macAddress)
 	{
-		serverRequest(GWT.getModuleBaseURL() + "setTrayDevice?macAddress" + macAddress);		
+		serverRequest(GWT.getModuleBaseURL() + "setTrayDevice?macAddress=" + macAddress);		
 	}
 	
 	public void log(String type, String details)
@@ -108,7 +113,7 @@ public class DevicesServiceImpl implements DevicesService
 																	return eval('(' + json + ')');
 																	}-*/;
 
-	private void serverRequest(final String url)
+	private void serverRequest(final String url, final RequestCallback callback)
 	{
 		final RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
 		try
@@ -119,5 +124,10 @@ public class DevicesServiceImpl implements DevicesService
 		{
 			GWT.log(e.getMessage(), e);
 		}
+	}
+	
+	private void serverRequest(final String url)
+	{
+		serverRequest(url, callback);
 	}
 }
