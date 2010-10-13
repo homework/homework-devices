@@ -27,7 +27,7 @@ public class Link extends JavaScriptObject
 
 	public final native float getRssi() /*-{ return this.rssi; }-*/;
 
-	public final native int getTimestamp() /*-{ return this.timeStamp; }-*/;
+	public final native double getTimestamp() /*-{ return this.timeStamp; }-*/;
 
 	public final native boolean isPermitted() /*-{ return this.permitted; }-*/;
 

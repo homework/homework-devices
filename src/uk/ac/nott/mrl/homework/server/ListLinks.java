@@ -18,12 +18,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
 import uk.ac.nott.mrl.homework.server.model.Link;
+import uk.ac.nott.mrl.homework.server.model.Permitted;
+
+import com.google.gson.Gson;
 
 public class ListLinks extends HttpServlet
 {
@@ -108,39 +106,29 @@ public class ListLinks extends HttpServlet
 				{
 					comma = true;
 				}
-				//Gson gson = new Gson();
-				//System.out.println(gson.toJson(link));
-				writer.println(link.toJSON());
+				Gson gson = new Gson();
+				writer.println(gson.toJson(link));
 			}
 		}
 		writer.println("]");
 	}
 
-	public static void updatePermitted(final InputStream inputStream, final double since)
+	public static void updatePermitted(final InputStream inputStream, final long since)
 	{
 		try
 		{
-			final JSONObject jsonObject = new JSONObject(new JSONTokener(new InputStreamReader(inputStream)));
-			final JSONArray array = jsonObject.getJSONArray("permitted");
-			for (int index = 0; index < array.length(); index++)
+			Gson gson = new Gson();
+			Permitted permitted = gson.fromJson(new InputStreamReader(inputStream), Permitted.class);
+			for(String macAddress: permitted)
 			{
-				try
+				final Link link = links.get(macAddress);
+				if(link != null)
 				{
-					final String macAddress = array.getString(index);
-					final Link link = links.get(macAddress);
-					if(link != null)
-					{
-						link.setPermitted(true, since);						
-					}
+					link.setPermitted(true, since);						
 				}
-				catch (final JSONException e)
-				{
-					logger.log(Level.SEVERE, e.getMessage(), e);;
-				}
-
 			}
 		}
-		catch (final JSONException e)
+		catch (final Exception e)
 		{
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}

@@ -28,8 +28,8 @@ public class Zone extends FlowPanel
 	private int devices = 0;
 
 	private int bandWidthMax = 0;
-	private int bandWidthTime = 0;
-	private int mostRecent = 0;
+	private long bandWidthTime = 0;
+	private long mostRecent = 0;
 	private float bandWidthPercent = 0;
 
 	public Zone(final String zoneName)
@@ -127,12 +127,12 @@ public class Zone extends FlowPanel
 			if (link.getByteCount() > bandWidthMax)
 			{
 				bandWidthMax = link.getByteCount();
-				bandWidthTime = link.getTimestamp();
+				bandWidthTime = (long) link.getTimestamp();
 			}
 			bandWidthPercent = ((float) link.getByteCount()) / bandWidthMax;
 			// GWT.log("Zone update: " + label.getText() + " (" + Model.zoneManager.getZone(link) +
 			// ") " + (bandWidthPercent * 100) + "%");
-			mostRecent = link.getTimestamp();
+			mostRecent = (long) link.getTimestamp();
 
 			if (mostRecent - bandWidthTime > Model.TIMEOUT)
 			{

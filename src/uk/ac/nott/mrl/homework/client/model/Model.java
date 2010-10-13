@@ -13,10 +13,10 @@ public class Model
 	public static final int TIMEOUT = 360;
 	public static final float DECAY = 0.9f;
 
-	private int mostRecent = 0;
+	private long mostRecent = 0;
 
 	private int bandWidthMax = 0;
-	private int bandWidthTime = 0;
+	private long bandWidthTime = 0;
 
 	private LinkListener listener;
 
@@ -59,7 +59,7 @@ public class Model
 			// GWT.log("New Bandwidth Max for " + link.getDeviceName() + " with " +
 			// link.getByteCount());
 			bandWidthMax = link.getByteCount();
-			bandWidthTime = link.getTimestamp();
+			bandWidthTime = (long) link.getTimestamp();
 		}
 
 		if (existing != null)
@@ -71,7 +71,7 @@ public class Model
 			listener.linkAdded(link, bandWidthMax);
 		}
 
-		mostRecent = Math.max(mostRecent, link.getTimestamp());
+		mostRecent = (long) Math.max(mostRecent, link.getTimestamp());
 	}
 
 	private void removeOld()
@@ -86,7 +86,7 @@ public class Model
 			final Collection<Link> removals = new HashSet<Link>();
 			for (final Link link : links.values())
 			{
-				final int difference = mostRecent - link.getTimestamp();
+				final long difference = (long) (mostRecent - link.getTimestamp());
 				if (difference > 12)
 				{
 					removals.add(link);

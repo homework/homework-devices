@@ -81,7 +81,7 @@ public class Link
 		return links;
 	}
 
-	private double timeStamp;
+	private long timeStamp;
 	private String macAddress;
 	private String corporation;
 	private float rssi;
@@ -96,6 +96,11 @@ public class Link
 	public Link()
 	{
 
+	}
+	
+	public String getDeviceName()
+	{
+		return deviceName;
 	}
 	
 	public String getIPAddress()
@@ -148,7 +153,7 @@ public class Link
 		return resource;
 	}
 
-	public void setPermitted(final boolean b, final double since)
+	public void setPermitted(final boolean b, final long since)
 	{
 		if (permitted != b)
 		{
@@ -165,108 +170,6 @@ public class Link
 	public void setDeviceName(final String name, final double since)
 	{
 		deviceName = name;
-	}
-
-	public String toJSON()
-	{
-		final StringBuffer buffer = new StringBuffer();
-		buffer.append("{");
-
-		buffer.append("macAddress:\"");
-		buffer.append(macAddress);
-		buffer.append("\"");
-
-		buffer.append(",");
-
-		buffer.append("timeStamp:");
-		buffer.append((int) (timeStamp / 1000));
-
-		buffer.append(",");
-
-		buffer.append("corporation:\"");
-		buffer.append(getCorporation());
-		buffer.append("\"");
-
-		buffer.append(",");
-
-		buffer.append("rssi:");
-		buffer.append(rssi);
-
-		buffer.append(",");
-
-		buffer.append("packetCount:");
-		buffer.append(packetCount);
-
-		buffer.append(",");
-
-		buffer.append("retryCount:");
-		buffer.append(retryCount);
-
-		buffer.append(",");
-
-		buffer.append("byteCount:");
-		buffer.append(byteCount);
-
-		buffer.append(",");
-
-		buffer.append("permitted:");
-		buffer.append(permitted);
-
-		// buffer.append("zone:");
-		// //if(ipAddress != null)
-		// //{
-		// buffer.append(zone);
-		// //}
-		// //else
-		// //{
-		// // buffer.append(0);
-		// //}
-
-		buffer.append(",");
-
-		buffer.append("deviceName:\"");
-		if (deviceName != null && !deviceName.trim().isEmpty())
-		{
-			buffer.append(deviceName);
-		}
-		else if (corporation != null)
-		{
-			String text = corporation;
-			int cut = text.indexOf(' ');
-			if (cut != -1)
-			{
-				text = text.substring(0, cut);
-			}
-
-			cut = text.indexOf(',');
-			if (cut != -1)
-			{
-				text = text.substring(0, cut);
-			}
-			buffer.append(text + " Device");
-		}
-		else
-		{
-			buffer.append("Unknown Device");
-		}
-		buffer.append("\"");
-
-		if (ipAddress != null)
-		{
-			buffer.append(",");
-
-			buffer.append("ipAddress:\"");
-			buffer.append(ipAddress);
-			buffer.append("\"");
-		}
-
-		if (resource)
-		{
-			buffer.append(",resource:true");
-		}
-
-		buffer.append("}");
-		return buffer.toString();
 	}
 
 	@Override
