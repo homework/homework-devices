@@ -22,7 +22,7 @@ public class PermitDevice extends HttpServlet
 
 		System.out.println("Permit:" + macAddress);
 
-		final URL url = new URL("http://192.168.9.1/ws.v1/homework/permit/" + macAddress);
+		final URL url = new URL("http://" + PollingThread.hwdbHost + "/ws.v1/homework/permit/" + macAddress);
 		final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");

@@ -26,7 +26,7 @@ import com.google.gson.Gson;
 public class ListLinks extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(ListLinks.class.getName());
-
+	
 	private static final long OLD = 12000; // 12 seconds
 
 	private static final Comparator<Link> linkComparator = new Comparator<Link>()
@@ -142,9 +142,9 @@ public class ListLinks extends HttpServlet
 
 		// System.setProperty("http.proxyHost", "wwwcache.cs.nott.ac.uk");
 		// System.setProperty("http.proxyPort", "3128");
-		System.setProperty("http.proxyHost", "proxy.nottingham.ac.uk");
-		System.setProperty("http.proxyPort", "8080");
-		System.setProperty("http.nonProxyHosts", "192.168.9.*");
+		//System.setProperty("http.proxyHost", "proxy.nottingham.ac.uk");
+		//System.setProperty("http.proxyPort", "8080");
+		//System.setProperty("http.nonProxyHosts", "192.168.9.*");
 
 		new PollingThread().start();
 	}

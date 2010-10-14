@@ -16,6 +16,8 @@ import uk.ac.nott.mrl.homework.server.model.Link;
 
 public class PollingThread extends Thread
 {
+	public static final String hwdbHost = "localhost";
+	
 	private final Map<String, Lease> leases = new HashMap<String, Lease>();
 
 	private static final Logger logger = Logger.getLogger(PollingThread.class.getName());
@@ -35,7 +37,7 @@ public class PollingThread extends Thread
 				{
 					try
 					{
-						rpc.connect(InetAddress.getByName("192.168.9.1"), 987);
+						rpc.connect(InetAddress.getByName(hwdbHost), 987);
 					}
 					catch (final Exception e)
 					{
@@ -166,7 +168,7 @@ public class PollingThread extends Thread
 	{
 		try
 		{
-			final URL url = new URL("http://192.168.9.1/ws.v1/homework/status");
+			final URL url = new URL("http://" + hwdbHost + "/ws.v1/homework/status");
 			final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 

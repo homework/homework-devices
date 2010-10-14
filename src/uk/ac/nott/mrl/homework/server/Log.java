@@ -19,7 +19,7 @@ public class Log extends HttpServlet
 		try
 		{
 			final JavaSRPC rpc = new JavaSRPC();
-			rpc.connect(InetAddress.getByName("192.168.9.1"), 987);
+			rpc.connect(InetAddress.getByName(PollingThread.hwdbHost), 987);
 			String query = String.format("SQL:INSERT into UserEvents values (\"%s\", \"%s\", \"%s\")", "Control App", eventType, details);
 			logger.info(query);
 			String result = rpc.call(query);

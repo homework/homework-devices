@@ -36,7 +36,7 @@ public class SetName extends HttpServlet
 		}
 
 		final JavaSRPC rpc = new JavaSRPC();
-		rpc.connect(InetAddress.getByName("192.168.9.1"), 987);
+		rpc.connect(InetAddress.getByName(PollingThread.hwdbHost), 987);
 		String query = String.format("SQL:INSERT into Leases values (\"upd\", \"%s\", \"%s\", \"%s\")", link.getMacAddress(), link.getIPAddress(), nameString);
 		logger.info(query);
 		String result = rpc.call(query);
