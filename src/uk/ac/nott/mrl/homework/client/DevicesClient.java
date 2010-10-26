@@ -46,9 +46,11 @@ public class DevicesClient implements EntryPoint
 			public void run()
 			{
 				service.getUpdates();
+				service.getTrayMode(panel.getTrayModeCallback());
+				service.getTrayDevice(panel.getTrayDeviceCallback());
 			}
 		};
-		requestTimer.scheduleRepeating(3000);
+		requestTimer.scheduleRepeating(5000);
 		service.getUpdates();
 
 		final Timer animationTimer = new Timer()

@@ -21,4 +21,6 @@ public interface DevicesService
 	public void setTrayDevice(final String macAddress);	
 	
 	public void log(final String type, final String details);
+
+	public void getTrayDevice(RequestCallback trayModeCallback);
 }

@@ -33,7 +33,7 @@ public class Model
 		return links.get(mac);
 	}
 
-	public double getMostRecent()
+	public long getMostRecent()
 	{
 		return mostRecent;
 	}
@@ -71,27 +71,46 @@ public class Model
 			listener.linkAdded(link, bandWidthMax);
 		}
 
-		mostRecent = (long) Math.max(mostRecent, link.getTimestamp());
+		mostRecent = Math.max(mostRecent, (long)link.getTimestamp());
 	}
 
 	private void removeOld()
 	{
+		GWT.log("Most Recent: " + mostRecent);
 		if (mostRecent > 0)
 		{
 			if (mostRecent - bandWidthTime > TIMEOUT)
 			{
 				bandWidthMax *= DECAY;
 			}
+			
+			int removalTime = 50000;
+			if(links.size() > 80)
+			{
+				removalTime = 10000;
+			}
+			else if(links.size() > 50)
+			{
+				removalTime = 20000;
+			}
+			else if(links.size() > 40)
+			{
+				removalTime = 30000;
+			}
+			else if(links.size() > 30)
+			{
+				removalTime = 40000;
+			}			
 
 			final Collection<Link> removals = new HashSet<Link>();
 			for (final Link link : links.values())
 			{
-				final long difference = (long) (mostRecent - link.getTimestamp());
-				if (difference > 12)
+				final long difference = mostRecent - (long)link.getTimestamp();
+				if (difference > removalTime)
 				{
 					removals.add(link);
 				}
-				else if (difference > 3)
+				else if (difference > 10000)
 				{
 					if (link.setOld())
 					{

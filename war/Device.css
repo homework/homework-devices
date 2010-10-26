@@ -26,9 +26,14 @@
 	-webkit-box-shadow: 2px 2px 5px #AAA;		
 }
 
-.grey {
-	border: 3px solid #777;	
+.signal {
+	border-width: 5px;
+	border-color: #246;	
 	border-left: 0;	
+}
+
+.grey {
+	border-color: #777;	
 	background-color: #999;
 }
 

@@ -17,6 +17,11 @@ import uk.ac.nott.mrl.homework.server.model.Link;
 public class PollingThread extends Thread
 {
 	public static final String hwdbHost = "localhost";
+	//public static final String hwdbHost = "192.168.9.1";
+	
+	
+	
+	private static final String searchString = "<|>Artifact App<|>USB<|>";
 	
 	private final Map<String, Lease> leases = new HashMap<String, Lease>();
 
@@ -26,6 +31,8 @@ public class PollingThread extends Thread
 	private final JavaSRPC rpc = new JavaSRPC();
 	private final boolean nox = true;
 
+	public static boolean trayPlugged = false; 
+	
 	@Override
 	public void run()
 	{
@@ -51,6 +58,7 @@ public class PollingThread extends Thread
 					{
 						updateLinks();
 						updateLeases();
+						updateTrayState();
 						if (nox)
 						{
 							updatePermitted();
@@ -83,6 +91,35 @@ public class PollingThread extends Thread
 		catch (final Exception e)
 		{
 			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	private void updateTrayState() throws Exception
+	{
+		String userQuery;
+		if (ListLinks.last > 0)
+		{
+			final String s = String.format("@%016x@", ListLinks.last * 1000000);
+			userQuery = String.format("SQL:select * from UserEvents [ since %s ]", s);
+		}
+		else
+		{
+			userQuery = String.format("SQL:select * from UserEvents");
+		}
+		final String result = rpc.call(userQuery);
+		int index = result.lastIndexOf(searchString);
+		if(index == -1)
+		{
+			return;
+		}
+		index = result.lastIndexOf(searchString) + searchString.length();
+		if(result.substring(index).startsWith("Plugged"))
+		{
+			trayPlugged = true;
+		}
+		else if(result.substring(index).startsWith("Unplugged"))
+		{
+			trayPlugged = false;			
 		}
 	}
 

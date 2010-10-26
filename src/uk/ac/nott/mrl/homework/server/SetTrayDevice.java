@@ -33,6 +33,8 @@ public class SetTrayDevice extends HttpServlet
 		writer.write(macAddress);
 		writer.flush();
 		writer.close();
+		
+		response.getWriter().write(macAddress);		
 
 		Log.log("Set Tray Device", macAddress);
 	}

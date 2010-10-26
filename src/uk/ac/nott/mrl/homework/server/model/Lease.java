@@ -26,7 +26,7 @@ public class Lease
 				final Lease lease = new Lease();
 				final String time = columns[0].substring(1, columns[0].length() - 1);
 				final long timeLong = Long.parseLong(time, 16);
-				lease.timeStamp = new Date(timeLong / 1000000);
+				lease.timeStamp = new Date(timeLong / 1000000).getTime();
 				lease.action = Action.valueOf(columns[1].toLowerCase());
 				lease.macAddress = columns[2];
 				lease.ipAddress = columns[3];
@@ -45,7 +45,7 @@ public class Lease
 		return leases;
 	}
 
-	private Date timeStamp;
+	private long timeStamp;
 	private Action action;
 	private String macAddress;
 	private String ipAddress;
@@ -76,7 +76,7 @@ public class Lease
 		return macAddress;
 	}
 
-	public Date getTimestamp()
+	public long getTimestamp()
 	{
 		return timeStamp;
 	}

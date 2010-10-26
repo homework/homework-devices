@@ -35,7 +35,7 @@
 		<servlet-class>uk.ac.nott.mrl.homework.server.GetTrayMode</servlet-class>
 		<init-param>
 			<param-name>filepath</param-name>
-			<param-value>/home/homenet/homeworkduino/res/role.cfg</param-value>
+			<param-value>/homework/homeworkduino/res/role.cfg</param-value>
 		</init-param>		
 	</servlet>
 
@@ -44,7 +44,16 @@
 		<servlet-class>uk.ac.nott.mrl.homework.server.NextTrayMode</servlet-class>
 		<init-param>
 			<param-name>filepath</param-name>
-			<param-value>/home/homenet/homeworkduino/res/role.cfg</param-value>
+			<param-value>/homework/homeworkduino/res/role.cfg</param-value>
+		</init-param>		
+	</servlet>
+
+	<servlet>
+		<servlet-name>getTrayDevice</servlet-name>		
+		<servlet-class>uk.ac.nott.mrl.homework.server.GetTrayDevice</servlet-class>
+		<init-param>
+			<param-name>filepath</param-name>
+			<param-value>/homework/homeworkduino/res/probe.cfg</param-value>
 		</init-param>		
 	</servlet>
 
@@ -53,7 +62,7 @@
 		<servlet-class>uk.ac.nott.mrl.homework.server.SetTrayDevice</servlet-class>
 		<init-param>
 			<param-name>filepath</param-name>
-			<param-value>/home/homenet/homeworkduino/res/probe.cfg</param-value>
+			<param-value>/homework/homeworkduino/res/probe.cfg</param-value>
 		</init-param>		
 	</servlet>
 
@@ -92,6 +101,11 @@
 		<servlet-name>nextTrayMode</servlet-name>
 		<url-pattern>/device/nextTrayMode</url-pattern>
 	</servlet-mapping>	
+
+	<servlet-mapping>
+		<servlet-name>getTrayDevice</servlet-name>
+		<url-pattern>/device/getTrayDevice</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>setTrayDevice</servlet-name>

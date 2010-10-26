@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gwt.http.client.URL;
+
 public class Log extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(Log.class.getName());
@@ -21,9 +23,7 @@ public class Log extends HttpServlet
 			final JavaSRPC rpc = new JavaSRPC();
 			rpc.connect(InetAddress.getByName(PollingThread.hwdbHost), 987);
 			String query = String.format("SQL:INSERT into UserEvents values (\"%s\", \"%s\", \"%s\")", "Control App", eventType, details);
-			logger.info(query);
-			String result = rpc.call(query);
-			logger.info(result);
+			rpc.call(query);
 			rpc.disconnect();
 		}
 		catch(Exception e)
@@ -37,14 +37,11 @@ public class Log extends HttpServlet
 			IOException
 	{
 		response.setContentType("application/json");
-		// logger.info(request.getRequestURL().toString());
 
-		// final String macAddress = request.getParameter("macAddress");
-		final String type = request.getParameter("type");
-		final String details = request.getParameter("details");
+		final String type = URL.decode(request.getParameter("type"));
+		final String details = URL.decode(request.getParameter("details"));
 
 		log(type, details);
-		System.out.println("Log: " +  type + " - " + details);
-		
+		logger.info(type + ": " + details);
 	}
 }

@@ -6,13 +6,11 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import uk.ac.nott.mrl.homework.server.ListLinks;
 import uk.ac.nott.mrl.homework.server.model.Lease.Action;
 
 public class Link
 {
-	// private static final String ROUTERMAC = "00:25:d3:72:b5:26";
-	private static final String ROUTERMAC = "00:25:d3:72:b5:1e";
-
 	private static final Companies companies = new Companies();
 	
 	private static final Logger logger = Logger.getLogger(Link.class.getName());
@@ -36,7 +34,7 @@ public class Link
 		link.packetCount = Integer.parseInt(tokenizer.nextToken());
 		link.byteCount = Integer.parseInt(tokenizer.nextToken());
 
-		if (link.macAddress.equals(ROUTERMAC))
+		if (ListLinks.routerMacAddresses.contains(link.macAddress))
 		{
 			link.resource = true;
 			link.deviceName = "Router";
@@ -65,7 +63,7 @@ public class Link
 				link.packetCount = Integer.parseInt(columns[4]);
 				link.byteCount = Integer.parseInt(columns[5]);
 
-				if (link.macAddress.equals(ROUTERMAC))
+				if (ListLinks.routerMacAddresses.contains(link.macAddress))
 				{
 					link.resource = true;
 					link.deviceName = "Router";
@@ -92,7 +90,8 @@ public class Link
 	private String deviceName;
 	private boolean permitted = false;
 	private boolean resource = false;
-
+	private transient Action nameAction; 
+	
 	public Link()
 	{
 
@@ -143,7 +142,7 @@ public class Link
 		return rssi;
 	}
 
-	public double getTimeStamp()
+	public long getTimeStamp()
 	{
 		return timeStamp;
 	}
@@ -186,22 +185,27 @@ public class Link
 		}
 		else
 		{
-			deviceName = lease.getHostName();
+			if(nameAction != Action.upd || lease.getAction() == Action.upd)
+			{
+				deviceName = lease.getHostName();
+				nameAction = lease.getAction();
+			}
+				
 			if(lease.getAction() != Action.upd)
 			{
 				ipAddress = lease.getIpAddress();
 			}
 		}
+		timeStamp = Math.max(lease.getTimestamp(), timeStamp);
 	}
 
 	public void update(final Link link)
 	{
-		timeStamp = link.timeStamp;
+		timeStamp = Math.max(link.getTimeStamp(), timeStamp);		
 		macAddress = link.macAddress;
 		packetCount = link.packetCount;
 		retryCount = link.retryCount;
 		byteCount = link.byteCount;
 		rssi = link.rssi;
-
 	}
 }

@@ -40,11 +40,14 @@ public class Device extends FlowPanel
 
 	private TouchHandler touchStart;
 
+	private boolean isSignalDevice = false;
+	
 	public Device(final Link link, final int bandWidthMax)
 	{
 		this.link = link;
 
 		text.setText(getDeviceName());
+		textBoxName.setMaxLength(80);
 		add(text);
 		updateStyle();
 
@@ -284,6 +287,12 @@ public class Device extends FlowPanel
 		}), false);
 	}-*/;
 
+	public void setSignalDevice(final boolean signal)
+	{
+		isSignalDevice = signal;
+		updateStyle();
+	}
+	
 	private void updateStyle()
 	{
 		setStylePrimaryName("device");
@@ -294,6 +303,14 @@ public class Device extends FlowPanel
 		else
 		{
 			removeStyleName("grey");
+		}
+		if(isSignalDevice)
+		{
+			addStyleName("signal");
+		}
+		else
+		{
+			removeStyleName("signal");
 		}
 	}
 }

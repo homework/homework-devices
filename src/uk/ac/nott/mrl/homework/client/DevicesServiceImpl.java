@@ -94,6 +94,11 @@ public class DevicesServiceImpl implements DevicesService
 		serverRequest(GWT.getModuleBaseURL() + "getTrayMode", callback);		
 	}
 	
+	public void getTrayDevice(final RequestCallback callback)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "getTrayDevice", callback);		
+	}	
+	
 	public void nextTrayMode(final RequestCallback callback)
 	{
 		serverRequest(GWT.getModuleBaseURL() + "nextTrayMode", callback);		

@@ -286,11 +286,9 @@ public class JavaSRPC
 		socket.connect(address, port);
 
 		this.subport = new Random().nextInt();
-		logger.info("Subport: " + subport);
+		//logger.info("Subport: " + subport);
 		this.address = address;
 		this.port = port;
-
-		logger.info("Connected: " + socket.isConnected());
 		
 		sendCommand(Command.CONNECT, RPCState.CONNECT_SENT, "HWDB\0".getBytes(CHARSET), 1, 1);
 

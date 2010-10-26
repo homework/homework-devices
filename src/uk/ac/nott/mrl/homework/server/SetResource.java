@@ -31,10 +31,10 @@ public class SetResource extends HttpServlet
 		}
 
 		final String sinceString = request.getParameter("since");
-		double since = 0;
+		long since = 0;
 		try
 		{
-			since = Double.parseDouble(sinceString);
+			since = Long.parseLong(sinceString);
 		}
 		catch (final Exception e)
 		{

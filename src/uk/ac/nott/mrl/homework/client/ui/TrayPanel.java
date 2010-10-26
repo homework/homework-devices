@@ -26,11 +26,17 @@ public class TrayPanel extends FlowPanel
 		{
 			try
 			{
-				GWT.log(response.getText());
-				int trayState = Integer.parseInt(response.getText());
-				trayIcon.setResource(trayImages[trayState]);
-				trayLabel.setText(trayStates[trayState]);
-				setVisible(true);
+				if(!response.getText().equals(""))
+				{
+					int trayState = Integer.parseInt(response.getText());
+					trayIcon.setResource(trayImages[trayState]);
+					trayLabel.setText(trayStates[trayState]);
+					setVisible(true);
+				}
+				else
+				{
+					setVisible(false);
+				}
 			}
 			catch(Exception e)
 			{
@@ -99,5 +105,10 @@ public class TrayPanel extends FlowPanel
 			});
 			panel.add(trayLink);
 		}
+	}
+
+	public RequestCallback getTrayModeCallback()
+	{
+		return callback;
 	}
 }

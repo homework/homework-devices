@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class GetTrayMode extends HttpServlet
+public class GetTrayDevice extends HttpServlet
 {
-	private static final Logger logger = Logger.getLogger(GetTrayMode.class.getName());
+	private static final Logger logger = Logger.getLogger(GetTrayDevice.class.getName());
 
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
@@ -26,20 +26,20 @@ public class GetTrayMode extends HttpServlet
 			{
 				return;
 			}
-
+			
 			String filepath = getInitParameter("filepath");
 			if (filepath == null)
 			{
-				filepath = "/home/homenet/homeworkduino/res/role.cfg";
+				filepath = "/home/homenet/homeworkduino/res/probe.cfg";
 			}
 
 			final File file = new File(filepath);
 			if (file.exists())
 			{
 				final BufferedReader reader = new BufferedReader(new FileReader(file));
-				final String mode = reader.readLine();
-				logger.info("Current Ashtray Mode: " + mode);
-				response.getWriter().write(mode);
+				final String macAddress = reader.readLine();
+				logger.info("Current Ashtray Device: " + macAddress);
+				response.getWriter().write(macAddress);
 			}
 		}
 		catch (final Exception e)

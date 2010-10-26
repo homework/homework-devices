@@ -44,10 +44,7 @@ public class Zone extends FlowPanel
 
 		image = new Image();
 		updateImage(zoneName);
-		if (image != null)
-		{
-			panel.add(image);
-		}
+		panel.add(image);
 
 		label = new Label(zoneName);
 		panel.add(label);
@@ -174,6 +171,10 @@ public class Zone extends FlowPanel
 		else if (zoneName.equals("Denied Access"))
 		{
 			image.setResource(DevicesClient.resources.denied());
+		}
+		else
+		{
+			image.setVisible(false);
 		}
 	}
 }

@@ -34,6 +34,9 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -47,17 +50,63 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class DevicesPanel extends FlowPanel
 {
 	public static final native int getWinOffsetX() /*-{
-		return $wnd.pageXOffset || 0;
-	}-*/;
+													return $wnd.pageXOffset || 0;
+													}-*/;
 
 	public static final native int getWinOffsetY() /*-{
-		return $wnd.pageYOffset || 0;
-	}-*/;
+													return $wnd.pageYOffset || 0;
+													}-*/;
 
 	static int getZoneWidth()
 	{
 		return 1000 / Model.zoneManager.getZoneCount();
 	}
+
+	private final RequestCallback callback = new RequestCallback()
+	{
+
+		@Override
+		public void onError(final Request request, final Throwable exception)
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onResponseReceived(final Request request, final Response response)
+		{
+			try
+			{
+				String macAddress = response.getText();
+				if (macAddress.trim().equals(""))
+				{
+					macAddress = null;
+				}
+				if (signalDeviceMac.equals(macAddress)) { return; }
+				if (signalDeviceMac != null)
+				{
+					final Device device = deviceMap.get(signalDeviceMac);
+					if (device != null)
+					{
+						device.setSignalDevice(false);
+					}
+				}
+				signalDeviceMac = macAddress;
+				if (signalDeviceMac != null)
+				{
+					final Device device = deviceMap.get(signalDeviceMac);
+					if (device != null)
+					{
+						device.setSignalDevice(true);
+					}
+				}
+			}
+			catch (final Exception e)
+			{
+				GWT.log(e.getMessage(), e);
+			}
+		}
+	};
 
 	private final Map<String, Device> deviceMap = new HashMap<String, Device>();
 	private Object selected;
@@ -90,6 +139,10 @@ public class DevicesPanel extends FlowPanel
 			else
 			{
 				final Device device = new Device(link, bandWidthMax);
+				if (link.getMacAddress().equals(signalDeviceMac))
+				{
+					device.setSignalDevice(true);
+				}
 				deviceMap.put(link.getMacAddress(), device);
 				add(device);
 
@@ -219,6 +272,7 @@ public class DevicesPanel extends FlowPanel
 
 	private final DevicesService service;
 	private final TrayPanel trayPanel;
+	private String signalDeviceMac;
 
 	public DevicesPanel(final DevicesService service)
 	{
@@ -335,7 +389,7 @@ public class DevicesPanel extends FlowPanel
 		registerDomTouchEvents();
 
 		trayPanel = new TrayPanel(service);
-		add(trayPanel);	
+		add(trayPanel);
 	}
 
 	public LinkListener getListener()
@@ -346,6 +400,16 @@ public class DevicesPanel extends FlowPanel
 	public Object getSelected()
 	{
 		return selected;
+	}
+
+	public RequestCallback getTrayDeviceCallback()
+	{
+		return callback;
+	}
+
+	public RequestCallback getTrayModeCallback()
+	{
+		return trayPanel.getTrayModeCallback();
 	}
 
 	protected void onTouchEnd(final TouchEvent event)
@@ -469,31 +533,32 @@ public class DevicesPanel extends FlowPanel
 
 	private void setPopup(final Device device)
 	{
-		final FlowPanel panel = new FlowPanel(); 
-		
-		if(device.getLink().getCorporation().equals("Unknown"))
+		final FlowPanel panel = new FlowPanel();
+
+		if (device.getLink().getCorporation().equals("Unknown"))
 		{
 			panel.add(new Label("Manufacturer: Unknown"));
 		}
 		else
 		{
-			final FlowPanel panel2 = new FlowPanel();			
+			final FlowPanel panel2 = new FlowPanel();
 			panel2.add(new InlineLabel("Manufacturer: "));
-			Anchor companySearch = new Anchor(device.getLink().getCorporation(), "http://www.google.co.uk/search?q="
-			                  				+ URL.encodeQueryString(device.getLink().getCorporation()), "_blank");
+			final Anchor companySearch = new Anchor(device.getLink().getCorporation(),
+					"http://www.google.co.uk/search?q=" + URL.encodeQueryString(device.getLink().getCorporation()),
+					"_blank");
 			companySearch.addClickHandler(new ClickHandler()
 			{
 				@Override
-				public void onClick(ClickEvent event)
+				public void onClick(final ClickEvent event)
 				{
 					service.log("Search Manufacturer", device.getLink().getMacAddress());
 				}
 			});
 			panel2.add(companySearch);
-			panel.add(panel2);			
+			panel.add(panel2);
 		}
 		panel.add(new Label("MAC Address: " + device.getLink().getMacAddress()));
-		
+
 		final Anchor renameLink = new Anchor("Rename Device");
 		renameLink.setStylePrimaryName("popupLink");
 		renameLink.addClickHandler(new ClickHandler()
@@ -505,7 +570,7 @@ public class DevicesPanel extends FlowPanel
 				device.edit(service);
 			}
 		});
-		panel.add(renameLink);	
+		panel.add(renameLink);
 		trayPanel.addTrayLinks(device, panel);
 
 		popup.setWidget(panel);

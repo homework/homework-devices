@@ -4,10 +4,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -26,7 +32,9 @@ import com.google.gson.Gson;
 public class ListLinks extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(ListLinks.class.getName());
-	
+
+	public static final Collection<String> routerMacAddresses = new HashSet<String>();
+
 	private static final long OLD = 12000; // 12 seconds
 
 	private static final Comparator<Link> linkComparator = new Comparator<Link>()
@@ -45,9 +53,9 @@ public class ListLinks extends HttpServlet
 
 	private static final Map<String, Link> links = new HashMap<String, Link>();
 
-	static long last = 0;
+	private static boolean allowCisco = true;
 
-	private static final boolean allowCisco = false;
+	static long last = 0;
 
 	public static void addLink(final Link link)
 	{
@@ -62,7 +70,7 @@ public class ListLinks extends HttpServlet
 		return links.get(macAddress);
 	}
 
-	public static void listLinks(final PrintWriter writer, final double since)
+	public static void listLinks(final PrintWriter writer, final long since)
 	{
 		writer.println("[");
 		boolean comma = false;
@@ -111,6 +119,7 @@ public class ListLinks extends HttpServlet
 			}
 		}
 		writer.println("]");
+		writer.flush();
 	}
 
 	public static void updatePermitted(final InputStream inputStream, final long since)
@@ -119,12 +128,12 @@ public class ListLinks extends HttpServlet
 		{
 			Gson gson = new Gson();
 			Permitted permitted = gson.fromJson(new InputStreamReader(inputStream), Permitted.class);
-			for(String macAddress: permitted)
+			for (String macAddress : permitted)
 			{
 				final Link link = links.get(macAddress);
-				if(link != null)
+				if (link != null)
 				{
-					link.setPermitted(true, since);						
+					link.setPermitted(true, since);
 				}
 			}
 		}
@@ -140,11 +149,46 @@ public class ListLinks extends HttpServlet
 		super.init();
 		logger.info("Init");
 
-		// System.setProperty("http.proxyHost", "wwwcache.cs.nott.ac.uk");
-		// System.setProperty("http.proxyPort", "3128");
-		//System.setProperty("http.proxyHost", "proxy.nottingham.ac.uk");
-		//System.setProperty("http.proxyPort", "8080");
-		//System.setProperty("http.nonProxyHosts", "192.168.9.*");
+		try
+		{
+			Enumeration<NetworkInterface> newIterfaces = NetworkInterface.getNetworkInterfaces();
+			while (newIterfaces.hasMoreElements())
+			{
+				NetworkInterface netiface = newIterfaces.nextElement();
+				byte[] mac = netiface.getHardwareAddress();
+				if (mac != null && mac.length == 6)
+				{
+					/*
+					 * Convert to string of form: 08:00:27:DC:4A:9E.
+					 */
+					StringBuffer macString = new StringBuffer();
+					for (int i = 0; i < mac.length; i++)
+					{
+						macString.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : ""));
+					}
+					System.out.println(netiface.getDisplayName());
+					System.out.println(macString);
+					Enumeration<InetAddress> ipAddresses = netiface.getInetAddresses();
+					while (ipAddresses.hasMoreElements())
+					{
+						InetAddress ipAddress = ipAddresses.nextElement();
+						if (ipAddress.getHostAddress().startsWith("128.243."))
+						{
+							allowCisco = false;
+
+							System.setProperty("http.proxyHost", "proxy.nottingham.ac.uk");
+							System.setProperty("http.proxyPort", "8080");
+							System.setProperty("http.nonProxyHosts", "192.168.*");
+						}
+					}
+					routerMacAddresses.add(macString.toString());
+				}
+			}
+		}
+		catch (SocketException e)
+		{
+			logger.log(Level.WARNING, e.getMessage(), e);
+		}
 
 		new PollingThread().start();
 	}
@@ -157,10 +201,10 @@ public class ListLinks extends HttpServlet
 		// logger.info(request.getRequestURL().toString());
 
 		final String sinceString = request.getParameter("since");
-		double since = 0;
+		long since = 0;
 		try
 		{
-			since = Double.parseDouble(sinceString);
+			since = Long.parseLong(sinceString);
 		}
 		catch (final Exception e)
 		{
