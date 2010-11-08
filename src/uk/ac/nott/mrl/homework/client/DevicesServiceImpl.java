@@ -28,6 +28,7 @@ public class DevicesServiceImpl implements DevicesService
 			{
 				try
 				{
+					//model.updateLinks(getLinks("[{\"timeStamp\":1288969308013,\"macAddress\":\"00:0b:85:92:66:af\",\"rssi\":-86.70968,\"retryCount\":0,\"packetCount\":94,\"byteCount\":11750,\"permitted\":false,\"resource\":false}]"));					
 					model.updateLinks(getLinks(response.getText()));
 				}
 				catch (final Exception e)

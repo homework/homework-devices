@@ -252,18 +252,25 @@ public class Device extends FlowPanel
 		if (deviceName == null)
 		{
 			deviceName = link.getCorporation();
-			int cut = deviceName.indexOf(' ');
-			if (cut != -1)
+			if(deviceName != null)
 			{
-				deviceName = deviceName.substring(0, cut);
+				int cut = deviceName.indexOf(' ');
+				if (cut != -1)
+				{
+					deviceName = deviceName.substring(0, cut);
+				}
+	
+				cut = deviceName.indexOf(',');
+				if (cut != -1)
+				{
+					deviceName = deviceName.substring(0, cut);
+				}
+				deviceName += " Device";			
 			}
-
-			cut = deviceName.indexOf(',');
-			if (cut != -1)
+			else
 			{
-				deviceName = deviceName.substring(0, cut);
-			}
-			deviceName += " Device";
+				deviceName = "Unknown Device";
+			}			
 		}
 		return deviceName;
 	}

@@ -82,14 +82,18 @@ public class DevicesPanel extends FlowPanel
 				{
 					macAddress = null;
 				}
-				if (signalDeviceMac.equals(macAddress)) { return; }
 				if (signalDeviceMac != null)
 				{
+					if (signalDeviceMac.equals(macAddress)) { return; }					
 					final Device device = deviceMap.get(signalDeviceMac);
 					if (device != null)
 					{
 						device.setSignalDevice(false);
 					}
+				}
+				else if(macAddress == null)
+				{
+					return;
 				}
 				signalDeviceMac = macAddress;
 				if (signalDeviceMac != null)
@@ -535,7 +539,7 @@ public class DevicesPanel extends FlowPanel
 	{
 		final FlowPanel panel = new FlowPanel();
 
-		if (device.getLink().getCorporation().equals("Unknown"))
+		if (device.getLink().getCorporation() == null || device.getLink().getCorporation().equals("Unknown"))
 		{
 			panel.add(new Label("Manufacturer: Unknown"));
 		}

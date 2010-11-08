@@ -42,11 +42,25 @@ public class Model
 	{
 		for (int index = 0; index < newLinks.length(); index++)
 		{
-			add(newLinks.get(index));
+			try
+			{
+				add(newLinks.get(index));				
+			}
+			catch(Exception e)
+			{
+				GWT.log(e.getMessage(), e);
+			}
 		}
 
-		removeOld();
-		listener.linkUpdateFinished();
+		try
+		{
+			removeOld();
+			listener.linkUpdateFinished();			
+		}
+		catch(Exception e)
+		{
+			GWT.log(e.getMessage(), e);			
+		}
 	}
 
 	private void add(final Link link)
