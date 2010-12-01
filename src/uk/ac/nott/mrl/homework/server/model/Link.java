@@ -114,11 +114,6 @@ public class Link
 
 	public String getCorporation()
 	{
-		if (corporation == null)
-		{
-			corporation = companies.getCompany(getMacAddress());
-		}
-
 		return corporation;
 	}
 
@@ -127,6 +122,14 @@ public class Link
 		return macAddress;
 	}
 
+	public void initCorporation()
+	{
+		if (corporation == null)
+		{
+			corporation = companies.getCompany(getMacAddress());
+		}
+	}
+	
 	public int getPacketCount()
 	{
 		return packetCount;

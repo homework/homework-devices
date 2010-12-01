@@ -96,6 +96,7 @@ public class ListLinks extends HttpServlet
 					continue;
 				}
 
+				link.initCorporation();
 				if (!allowCisco && link.getCorporation() != null && link.getCorporation().startsWith("Cisco"))
 				{
 					continue;
@@ -114,6 +115,7 @@ public class ListLinks extends HttpServlet
 				{
 					comma = true;
 				}
+								
 				Gson gson = new Gson();
 				writer.println(gson.toJson(link));
 			}

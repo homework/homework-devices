@@ -3,6 +3,7 @@
     <wb-module deploy-name="homework-devices">
         <wb-resource deploy-path="/" source-path="/war"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/test"/>
         <property name="context-root" value="homework-devices"/>
         <property name="java-output-path" value="/homework-devices/war/WEB-INF/classes"/>
     </wb-module>

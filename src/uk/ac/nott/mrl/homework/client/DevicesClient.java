@@ -51,8 +51,9 @@ public class DevicesClient implements EntryPoint
 			}
 		};
 		requestTimer.scheduleRepeating(5000);
-		service.getUpdates();
 
+		service.log("STARTED", "");
+		
 		final Timer animationTimer = new Timer()
 		{
 			@Override
