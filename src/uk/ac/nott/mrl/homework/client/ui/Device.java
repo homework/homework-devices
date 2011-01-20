@@ -25,12 +25,12 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
-	private final AnimatedInt y;
+	//private final AnimatedInt y;
 
 	private Link link;
 
-	private final AnimatedInt fontSize;
-	private final AnimatedFloat opacity;
+	//private final AnimatedInt fontSize;
+	//private final AnimatedFloat opacity;
 	// private final AnimatedInt error;
 
 	private final TextBox textBoxName = new TextBox();
@@ -77,22 +77,22 @@ public class Device extends FlowPanel
 		});
 		textBoxName.setVisible(false);
 
-		fontSize = new AnimatedInt(10, 1, 10, 40)
-		{
-			@Override
-			public void update(final int value)
-			{
-				getElement().getStyle().setFontSize(value, Unit.PX);
-			}
-		};
-		opacity = new AnimatedFloat(0, 1, 0.05f, 0, 1)
-		{
-			@Override
-			public void update(final float value)
-			{
-				getElement().getStyle().setOpacity(value);
-			}
-		};
+//		fontSize = new AnimatedInt(10, 1, 10, 40)
+//		{
+//			@Override
+//			public void update(final int value)
+//			{
+//				getElement().getStyle().setFontSize(value, Unit.PX);
+//			}
+//		};
+//		opacity = new AnimatedFloat(0, 1, 0.05f, 0, 1)
+//		{
+//			@Override
+//			public void update(final float value)
+//			{
+//				getElement().getStyle().setOpacity(value);
+//			}
+//		};
 		// error = new AnimatedInt(0, 1, 0, 10)
 		// {
 		// @Override
@@ -103,14 +103,14 @@ public class Device extends FlowPanel
 		// getElement().getStyle().setProperty("borderLeftStyle", "solid");
 		// }
 		// };
-		y = new AnimatedInt(0, 40, 0, 1000000)
-		{
-			@Override
-			protected void update(final int value)
-			{
-				getElement().getStyle().setTop(value, Unit.PX);
-			}
-		};
+//		y = new AnimatedInt(0, 40, 0, 1000000)
+//		{
+//			@Override
+//			protected void update(final int value)
+//			{
+//				getElement().getStyle().setTop(value, Unit.PX);
+//			}
+//		};
 
 		setLeft(getZone() * DevicesPanel.getZoneWidth() + 25);
 		update(link, bandWidthMax);
@@ -167,16 +167,6 @@ public class Device extends FlowPanel
 		return link;
 	}
 
-	public AnimatedFloat getOpacity()
-	{
-		return opacity;
-	}
-
-	public AnimatedInt getY()
-	{
-		return y;
-	}
-
 	public int getZone()
 	{
 		return Model.zoneManager.getZone(getLink());
@@ -218,18 +208,21 @@ public class Device extends FlowPanel
 		// Font size by bandwidth
 		if (link.getIPAddress() != null)
 		{
-			fontSize.setValue((40 * link.getByteCount() / bandWidthMax) + 5);
+			getElement().getStyle().setFontSize((40 * link.getByteCount() / bandWidthMax) + 5, Unit.PX);
+			//fontSize.setValue((40 * link.getByteCount() / bandWidthMax) + 5);
 			// GWT.log("Bandwidth: " + (100 * link.getByteCount() / bandWidthMax) + "% - " +
 			// link.getByteCount() + "/" + bandWidthMax);
 		}
 		else
 		{
-			fontSize.setValue(15);
+			getElement().getStyle().setFontSize(15, Unit.PX);			
+			//fontSize.setValue(15);
 		}
 
 		if (link.getOld())
 		{
-			opacity.setValue(0.2f, 0.005f, AnimationType.constant);
+			getElement().getStyle().setOpacity(0.2);
+			//opacity.setValue(0.2f, 0.005f, AnimationType.constant);
 		}
 		else
 		{
@@ -237,7 +230,8 @@ public class Device extends FlowPanel
 			// opacity.setValue(1, 0.05f, AnimationType.decel);
 
 			// Opacity by Signal Strength
-			opacity.setValue(1.3f + (link.getRssi() / 100), 0.05f, AnimationType.decel);
+			getElement().getStyle().setOpacity(1.3 + (link.getRssi() / 100));			
+			//opacity.setValue(1.3f + (link.getRssi() / 100), 0.05f, AnimationType.decel);
 		}
 
 		if (getZone() != oldZone)
@@ -246,6 +240,11 @@ public class Device extends FlowPanel
 		}
 	}
 
+	public void setTop(int top)
+	{
+		getElement().getStyle().setTop(top, Unit.PX);
+	}
+	
 	private String getDeviceName()
 	{
 		String deviceName = link.getDeviceName();

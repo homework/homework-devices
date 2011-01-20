@@ -15,6 +15,12 @@
 	-moz-user-select: none;
 	white-space: nowrap;
 	-webkit-box-shadow: 2px 2px 5px #AAA;	
+	
+	
+	-webkit-transition: font-size 2s linear, opacity 2s linear, left 2s linear, top 2s linear;
+	-moz-transition: font-size 2s linear, opacity 2s linear, left 2s linear, top 2s linear;
+	-o-transition: font-size 2s linear, opacity 2s linear, left 2s linear, top 2s linear;
+	transition: font-size 2s linear, opacity 2s linear, left 2s linear, top 2s linear;	
 }
 
 .popup {

@@ -119,14 +119,14 @@ public class DevicesPanel extends FlowPanel
 	private final SimplePanel dragLine = new SimplePanel();
 	private final PopupPanel popup = new PopupPanel(true);
 
-	private final AnimatedFloat popupOpacity;
+	//private final AnimatedFloat popupOpacity;
 
 	private final Timer fadeTimer = new Timer()
 	{
 		@Override
 		public void run()
 		{
-			popupOpacity.setValue(0);
+			popup.getElement().getStyle().setOpacity(0);
 		}
 	};
 
@@ -166,7 +166,7 @@ public class DevicesPanel extends FlowPanel
 						setPopup(device);
 						popup.setPopupPosition(	device.getAbsoluteLeft() + 10,
 												device.getAbsoluteTop() + device.getOffsetHeight() - 3);
-						popupOpacity.setValueImmeadiately(1);
+						popup.getElement().getStyle().setOpacity(1);
 						popup.show();
 						fadeTimer.schedule(5000);
 						// event.preventDefault();
@@ -283,18 +283,18 @@ public class DevicesPanel extends FlowPanel
 		this.service = service;
 
 		popup.setStylePrimaryName("popup");
-		popupOpacity = new AnimatedFloat(1, 0.02f, 0, 1)
-		{
-			@Override
-			public void update(final float value)
-			{
-				popup.getElement().getStyle().setOpacity(value);
-				if (value == 0)
-				{
-					popup.hide();
-				}
-			}
-		};
+//		popupOpacity = new AnimatedFloat(1, 0.02f, 0, 1)
+//		{
+//			@Override
+//			public void update(final float value)
+//			{
+//				popup.getElement().getStyle().setOpacity(value);
+//				if (value == 0)
+//				{
+//					popup.hide();
+//				}
+//			}
+//		};
 
 		int left = 0;
 		for (final String zoneName : Model.zoneManager.getZones())
@@ -489,17 +489,12 @@ public class DevicesPanel extends FlowPanel
 			}
 		});
 
-		int top = 25;
+		int top = 15;
 		int maxDevice = getElement().getClientHeight();
 		for (final Device device : deviceList)
 		{
-			maxDevice = Math.max(maxDevice, device.getY().getValue() + 75);
-			device.getY().setValue(top);
-			if (device.getY().getValue() == 0)
-			{
-				device.getY().setValueImmeadiately();
-			}
-			top += 75;
+			device.setTop(top);
+			top = top + device.getOffsetHeight() + 15;
 		}
 
 		maxDevice = Math.max(maxDevice, top);

@@ -1,8 +1,5 @@
 package uk.ac.nott.mrl.homework.client;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import uk.ac.nott.mrl.homework.client.model.Model;
 import uk.ac.nott.mrl.homework.client.ui.DevicesPanel;
 
@@ -16,8 +13,6 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class DevicesClient implements EntryPoint
 {
-	public static final Collection<Updatable> updates = new HashSet<Updatable>();
-
 	private final Model model = new Model();
 	private final DevicesService service = new DevicesServiceImpl(model);
 
@@ -53,23 +48,5 @@ public class DevicesClient implements EntryPoint
 		requestTimer.scheduleRepeating(5000);
 
 		service.log("STARTED", "");
-		
-		final Timer animationTimer = new Timer()
-		{
-			@Override
-			public void run()
-			{
-				final Collection<Updatable> removals = new HashSet<Updatable>();
-				for (final Updatable update : updates)
-				{
-					if (update.update())
-					{
-						removals.add(update);
-					}
-				}
-				updates.removeAll(removals);
-			}
-		};
-		animationTimer.scheduleRepeating(100);
 	}
 }
