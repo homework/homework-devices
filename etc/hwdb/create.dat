@@ -1,1 +1,0 @@
-create table whatever (i integer, r real, s varchar(25), b boolean)

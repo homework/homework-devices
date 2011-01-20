@@ -1,4 +1,0 @@
-create table Flows (proto integer, saddr varchar(16), sport integer, daddr varchar(16), dport integer, npkts integer, nbytes integer)
-create table Leases (action varchar(3), macaddr varchar(16), ipaddr varchar(16), hostname varchar(16))
-create table Links (macaddr varchar(16), rssi real, nretries integer, npkts integer, nbytes integer)
-save (select * from Leases [last]) as LeasesLast
