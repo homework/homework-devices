@@ -25,13 +25,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
-	//private final AnimatedInt y;
-
 	private Link link;
-
-	//private final AnimatedInt fontSize;
-	//private final AnimatedFloat opacity;
-	// private final AnimatedInt error;
 
 	private final TextBox textBoxName = new TextBox();
 	private final Label text = new Label();

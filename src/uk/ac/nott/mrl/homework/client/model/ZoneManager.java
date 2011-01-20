@@ -1,6 +1,10 @@
 package uk.ac.nott.mrl.homework.client.model;
 
+import java.util.Comparator;
+import java.util.List;
+
 import uk.ac.nott.mrl.homework.client.DevicesService;
+import uk.ac.nott.mrl.homework.client.ui.Device;
 
 public interface ZoneManager
 {
@@ -13,4 +17,8 @@ public interface ZoneManager
 	public String[] getZones();
 
 	public void setZone(final DevicesService service, final Link link, final int zone);
+	
+	public Comparator<Device> getComparator();
+	
+	public int reflowDevices(final List<Device> devices);
 }

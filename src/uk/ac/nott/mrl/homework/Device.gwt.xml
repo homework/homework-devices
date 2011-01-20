@@ -18,7 +18,7 @@
 		]]>
 	</property-provider>
 	
-	<replace-with class="uk.ac.nott.mrl.homework.client.model.SimpleZoneManager">
+	<replace-with class="uk.ac.nott.mrl.homework.client.model.DefaultZoneManager">
 		<when-type-is class="uk.ac.nott.mrl.homework.client.model.ZoneManager"/>
 	</replace-with>
 

@@ -1,8 +1,6 @@
 package uk.ac.nott.mrl.homework.client.ui;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -475,29 +473,9 @@ public class DevicesPanel extends FlowPanel
 
 	private void reflowDevices()
 	{
-		final List<Device> deviceList = new ArrayList<Device>(deviceMap.values());
-		Collections.sort(deviceList, new Comparator<Device>()
-		{
-			@Override
-			public int compare(final Device o1, final Device o2)
-			{
-				final int zone1 = o1.getZone();
-				final int zone2 = o2.getZone();
-				if (zone1 != zone2 && (zone1 == 0 || zone2 == 0)) { return zone2 - zone1; }
+		int maxDevice = Model.zoneManager.reflowDevices(new ArrayList<Device>(deviceMap.values()));
 
-				return o1.getLink().getMacAddress().compareTo(o2.getLink().getMacAddress());
-			}
-		});
-
-		int top = 15;
-		int maxDevice = getElement().getClientHeight();
-		for (final Device device : deviceList)
-		{
-			device.setTop(top);
-			top = top + device.getOffsetHeight() + 15;
-		}
-
-		maxDevice = Math.max(maxDevice, top);
+		maxDevice = Math.max(maxDevice, getElement().getClientHeight());
 		updateClientHeight(maxDevice);
 	}
 

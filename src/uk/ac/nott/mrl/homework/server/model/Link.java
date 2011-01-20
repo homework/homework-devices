@@ -88,6 +88,8 @@ public class Link
 	private int byteCount;
 	private String ipAddress;
 	private String deviceName;
+	
+	private boolean permitRequest = false;
 	private boolean permitted = false;
 	private boolean resource = false;
 	private transient Action nameAction; 
@@ -128,6 +130,11 @@ public class Link
 		{
 			corporation = companies.getCompany(getMacAddress());
 		}
+	}
+	
+	public boolean isRequestingPermission()
+	{
+		return permitRequest;
 	}
 	
 	public int getPacketCount()
