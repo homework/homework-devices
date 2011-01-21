@@ -8,7 +8,7 @@ public class NoxZoneManager extends DefaultZoneManager
 	{
 		super(new String[] { "Not Allowed", "Requesting Permission", "Allowed" });
 	}
-	
+
 	@Override
 	public boolean allowDrag()
 	{
@@ -19,14 +19,8 @@ public class NoxZoneManager extends DefaultZoneManager
 	public int getZone(final Link link)
 	{
 		if (link.isResource() && link.getDeviceName().equals("Router")) { return 2; }
-		if(link.isRequestingPermission())
-		{
-			return 1;
-		}
-		if (link.isPermitted())
-		{
-			return 2;
-		}
+		if (link.isRequestingPermission()) { return 1; }
+		if (link.isPermitted()) { return 2; }
 		return 0;
 	}
 

@@ -44,9 +44,9 @@ public class Model
 		{
 			try
 			{
-				add(newLinks.get(index));				
+				add(newLinks.get(index));
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
 				GWT.log(e.getMessage(), e);
 			}
@@ -55,11 +55,11 @@ public class Model
 		try
 		{
 			removeOld();
-			listener.linkUpdateFinished();			
+			listener.linkUpdateFinished();
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
-			GWT.log(e.getMessage(), e);			
+			GWT.log(e.getMessage(), e);
 		}
 	}
 
@@ -85,7 +85,7 @@ public class Model
 			listener.linkAdded(link, bandWidthMax);
 		}
 
-		mostRecent = Math.max(mostRecent, (long)link.getTimestamp());
+		mostRecent = Math.max(mostRecent, (long) link.getTimestamp());
 	}
 
 	private void removeOld()
@@ -97,29 +97,29 @@ public class Model
 			{
 				bandWidthMax *= DECAY;
 			}
-			
+
 			int removalTime = 50000;
-			if(links.size() > 80)
+			if (links.size() > 80)
 			{
 				removalTime = 10000;
 			}
-			else if(links.size() > 50)
+			else if (links.size() > 50)
 			{
 				removalTime = 20000;
 			}
-			else if(links.size() > 40)
+			else if (links.size() > 40)
 			{
 				removalTime = 30000;
 			}
-			else if(links.size() > 30)
+			else if (links.size() > 30)
 			{
 				removalTime = 40000;
-			}			
+			}
 
 			final Collection<Link> removals = new HashSet<Link>();
 			for (final Link link : links.values())
 			{
-				final long difference = mostRecent - (long)link.getTimestamp();
+				final long difference = mostRecent - (long) link.getTimestamp();
 				if (difference > removalTime)
 				{
 					removals.add(link);

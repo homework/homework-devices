@@ -82,17 +82,14 @@ public class DevicesPanel extends FlowPanel
 				}
 				if (signalDeviceMac != null)
 				{
-					if (signalDeviceMac.equals(macAddress)) { return; }					
+					if (signalDeviceMac.equals(macAddress)) { return; }
 					final Device device = deviceMap.get(signalDeviceMac);
 					if (device != null)
 					{
 						device.setSignalDevice(false);
 					}
 				}
-				else if(macAddress == null)
-				{
-					return;
-				}
+				else if (macAddress == null) { return; }
 				signalDeviceMac = macAddress;
 				if (signalDeviceMac != null)
 				{
@@ -117,7 +114,7 @@ public class DevicesPanel extends FlowPanel
 	private final SimplePanel dragLine = new SimplePanel();
 	private final PopupPanel popup = new PopupPanel(true);
 
-	//private final AnimatedFloat popupOpacity;
+	// private final AnimatedFloat popupOpacity;
 
 	private final Timer fadeTimer = new Timer()
 	{
@@ -281,18 +278,18 @@ public class DevicesPanel extends FlowPanel
 		this.service = service;
 
 		popup.setStylePrimaryName("popup");
-//		popupOpacity = new AnimatedFloat(1, 0.02f, 0, 1)
-//		{
-//			@Override
-//			public void update(final float value)
-//			{
-//				popup.getElement().getStyle().setOpacity(value);
-//				if (value == 0)
-//				{
-//					popup.hide();
-//				}
-//			}
-//		};
+		// popupOpacity = new AnimatedFloat(1, 0.02f, 0, 1)
+		// {
+		// @Override
+		// public void update(final float value)
+		// {
+		// popup.getElement().getStyle().setOpacity(value);
+		// if (value == 0)
+		// {
+		// popup.hide();
+		// }
+		// }
+		// };
 
 		int left = 0;
 		for (final String zoneName : Model.zoneManager.getZones())

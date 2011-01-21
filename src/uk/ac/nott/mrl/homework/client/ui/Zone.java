@@ -83,7 +83,7 @@ public class Zone extends FlowPanel
 	public void decrementDevices(final Device device)
 	{
 		devices--;
-		//GWT.log("Device removed from " + getName() + ":" + device + " (" + devices + ")");
+		// GWT.log("Device removed from " + getName() + ":" + device + " (" + devices + ")");
 		if (devices == 0)
 		{
 			GWT.log("Set Visible false", null);
@@ -104,7 +104,7 @@ public class Zone extends FlowPanel
 	public void incrementDevices(final Device device)
 	{
 		devices++;
-		//GWT.log("Device added to " + getName() + ":" + device + " (" + devices + ")");
+		// GWT.log("Device added to " + getName() + ":" + device + " (" + devices + ")");
 		if (devices == 1)
 		{
 			GWT.log("Set Visible true", null);

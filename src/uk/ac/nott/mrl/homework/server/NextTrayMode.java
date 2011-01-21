@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class NextTrayMode extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(NextTrayMode.class.getName());
-	
+
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException
@@ -28,23 +28,23 @@ public class NextTrayMode extends HttpServlet
 
 		final File file = new File(filepath);
 		int nextMode = 0;
-		if(file.exists())
+		if (file.exists())
 		{
-			BufferedReader reader = new BufferedReader(new FileReader(file));
-			String mode = reader.readLine();
-			nextMode = (Integer.parseInt(mode) + 1) % 3;			
+			final BufferedReader reader = new BufferedReader(new FileReader(file));
+			final String mode = reader.readLine();
+			nextMode = (Integer.parseInt(mode) + 1) % 3;
 		}
 		file.createNewFile();
 		final FileWriter writer = new FileWriter(file);
-		String nextModeString = Integer.toString(nextMode);
+		final String nextModeString = Integer.toString(nextMode);
 		writer.write(nextModeString);
 		writer.flush();
-		writer.close();		
-		
+		writer.close();
+
 		logger.info("New Ashtray Mode: " + nextModeString);
-		
-		response.getWriter().write(nextModeString);		
-		
+
+		response.getWriter().write(nextModeString);
+
 		Log.log("Set Tray Mode", nextModeString);
 	}
 }

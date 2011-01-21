@@ -35,7 +35,7 @@ public class Device extends FlowPanel
 	private TouchHandler touchStart;
 
 	private boolean isSignalDevice = false;
-	
+
 	public Device(final Link link, final int bandWidthMax)
 	{
 		this.link = link;
@@ -71,22 +71,22 @@ public class Device extends FlowPanel
 		});
 		textBoxName.setVisible(false);
 
-//		fontSize = new AnimatedInt(10, 1, 10, 40)
-//		{
-//			@Override
-//			public void update(final int value)
-//			{
-//				getElement().getStyle().setFontSize(value, Unit.PX);
-//			}
-//		};
-//		opacity = new AnimatedFloat(0, 1, 0.05f, 0, 1)
-//		{
-//			@Override
-//			public void update(final float value)
-//			{
-//				getElement().getStyle().setOpacity(value);
-//			}
-//		};
+		// fontSize = new AnimatedInt(10, 1, 10, 40)
+		// {
+		// @Override
+		// public void update(final int value)
+		// {
+		// getElement().getStyle().setFontSize(value, Unit.PX);
+		// }
+		// };
+		// opacity = new AnimatedFloat(0, 1, 0.05f, 0, 1)
+		// {
+		// @Override
+		// public void update(final float value)
+		// {
+		// getElement().getStyle().setOpacity(value);
+		// }
+		// };
 		// error = new AnimatedInt(0, 1, 0, 10)
 		// {
 		// @Override
@@ -97,14 +97,14 @@ public class Device extends FlowPanel
 		// getElement().getStyle().setProperty("borderLeftStyle", "solid");
 		// }
 		// };
-//		y = new AnimatedInt(0, 40, 0, 1000000)
-//		{
-//			@Override
-//			protected void update(final int value)
-//			{
-//				getElement().getStyle().setTop(value, Unit.PX);
-//			}
-//		};
+		// y = new AnimatedInt(0, 40, 0, 1000000)
+		// {
+		// @Override
+		// protected void update(final int value)
+		// {
+		// getElement().getStyle().setTop(value, Unit.PX);
+		// }
+		// };
 
 		setLeft(getZone() * DevicesPanel.getZoneWidth() + 25);
 		update(link, bandWidthMax);
@@ -171,6 +171,17 @@ public class Device extends FlowPanel
 		getElement().getStyle().setLeft(left, Unit.PX);
 	}
 
+	public void setSignalDevice(final boolean signal)
+	{
+		isSignalDevice = signal;
+		updateStyle();
+	}
+
+	public void setTop(final int top)
+	{
+		getElement().getStyle().setTop(top, Unit.PX);
+	}
+
 	@Override
 	public String toString()
 	{
@@ -203,20 +214,20 @@ public class Device extends FlowPanel
 		if (link.getIPAddress() != null)
 		{
 			getElement().getStyle().setFontSize((40 * link.getByteCount() / bandWidthMax) + 5, Unit.PX);
-			//fontSize.setValue((40 * link.getByteCount() / bandWidthMax) + 5);
+			// fontSize.setValue((40 * link.getByteCount() / bandWidthMax) + 5);
 			// GWT.log("Bandwidth: " + (100 * link.getByteCount() / bandWidthMax) + "% - " +
 			// link.getByteCount() + "/" + bandWidthMax);
 		}
 		else
 		{
-			getElement().getStyle().setFontSize(15, Unit.PX);			
-			//fontSize.setValue(15);
+			getElement().getStyle().setFontSize(15, Unit.PX);
+			// fontSize.setValue(15);
 		}
 
 		if (link.getOld())
 		{
 			getElement().getStyle().setOpacity(0.2);
-			//opacity.setValue(0.2f, 0.005f, AnimationType.constant);
+			// opacity.setValue(0.2f, 0.005f, AnimationType.constant);
 		}
 		else
 		{
@@ -224,8 +235,8 @@ public class Device extends FlowPanel
 			// opacity.setValue(1, 0.05f, AnimationType.decel);
 
 			// Opacity by Signal Strength
-			getElement().getStyle().setOpacity(1.3 + (link.getRssi() / 100));			
-			//opacity.setValue(1.3f + (link.getRssi() / 100), 0.05f, AnimationType.decel);
+			getElement().getStyle().setOpacity(1.3 + (link.getRssi() / 100));
+			// opacity.setValue(1.3f + (link.getRssi() / 100), 0.05f, AnimationType.decel);
 		}
 
 		if (getZone() != oldZone)
@@ -234,36 +245,31 @@ public class Device extends FlowPanel
 		}
 	}
 
-	public void setTop(int top)
-	{
-		getElement().getStyle().setTop(top, Unit.PX);
-	}
-	
 	private String getDeviceName()
 	{
 		String deviceName = link.getDeviceName();
 		if (deviceName == null)
 		{
 			deviceName = link.getCorporation();
-			if(deviceName != null)
+			if (deviceName != null)
 			{
 				int cut = deviceName.indexOf(' ');
 				if (cut != -1)
 				{
 					deviceName = deviceName.substring(0, cut);
 				}
-	
+
 				cut = deviceName.indexOf(',');
 				if (cut != -1)
 				{
 					deviceName = deviceName.substring(0, cut);
 				}
-				deviceName += " Device";			
+				deviceName += " Device";
 			}
 			else
 			{
 				deviceName = "Unknown Device";
-			}			
+			}
 		}
 		return deviceName;
 	}
@@ -287,12 +293,6 @@ public class Device extends FlowPanel
 		}), false);
 	}-*/;
 
-	public void setSignalDevice(final boolean signal)
-	{
-		isSignalDevice = signal;
-		updateStyle();
-	}
-	
 	private void updateStyle()
 	{
 		setStylePrimaryName("device");
@@ -304,7 +304,7 @@ public class Device extends FlowPanel
 		{
 			removeStyleName("grey");
 		}
-		if(isSignalDevice)
+		if (isSignalDevice)
 		{
 			addStyleName("signal");
 		}

@@ -6,12 +6,13 @@ import java.util.List;
 public class Permitted implements Iterable<String>
 {
 	private List<String> permitted;
-	
+
 	public Permitted()
 	{
-		
+
 	}
-	
+
+	@Override
 	public Iterator<String> iterator()
 	{
 		return permitted.iterator();

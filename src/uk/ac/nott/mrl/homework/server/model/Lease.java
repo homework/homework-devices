@@ -31,7 +31,7 @@ public class Lease
 				lease.macAddress = columns[2];
 				lease.ipAddress = columns[3];
 				lease.hostName = columns[4];
-				if(lease.hostName.equals("NULL"))
+				if (lease.hostName.equals("NULL"))
 				{
 					lease.hostName = null;
 				}

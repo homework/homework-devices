@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class JavaSRPC
 {
-	
+
 	private enum Command
 	{
 		ERROR, CONNECT, CACK, QUERY, QACK, RESPONSE, RACK, DISCONNECT, DACK, FRAGMENT, FACK, PING, PACK, SEQNO, SACK,
@@ -43,7 +43,7 @@ public class JavaSRPC
 					final int rseqno = is.readInt();
 					assert (rseqno == seqno);
 					final Command command = getCommand(is.readUnsignedShort());
-					//logger.info("Received " + command);
+					// logger.info("Received " + command);
 					final int fragment = is.readUnsignedByte();
 					final int fragmentCount = is.readUnsignedByte();
 
@@ -169,7 +169,7 @@ public class JavaSRPC
 						attemptsLeft--;
 						if (attemptsLeft > 0)
 						{
-							//logger.info("Resending " + attemptsLeft);
+							// logger.info("Resending " + attemptsLeft);
 							try
 							{
 								resend();
@@ -281,15 +281,15 @@ public class JavaSRPC
 
 	public void connect(final InetAddress address, final int port) throws SocketException, IOException
 	{
-		//logger.info(address.toString() + ":" + port);
+		// logger.info(address.toString() + ":" + port);
 		socket = new DatagramSocket();
 		socket.connect(address, port);
 
 		this.subport = new Random().nextInt();
-		//logger.info("Subport: " + subport);
+		// logger.info("Subport: " + subport);
 		this.address = address;
 		this.port = port;
-		
+
 		sendCommand(Command.CONNECT, RPCState.CONNECT_SENT, "HWDB\0".getBytes(CHARSET), 1, 1);
 
 		new ReceiverThread().start();
@@ -374,7 +374,7 @@ public class JavaSRPC
 
 	private void resend() throws IOException
 	{
-		//logger.info("Resending");
+		// logger.info("Resending");
 		socket.send(new DatagramPacket(lastPayload, lastPayload.length));
 	}
 
@@ -389,7 +389,7 @@ public class JavaSRPC
 
 	private synchronized void sendCommand(final Command command, final RPCState newState) throws IOException
 	{
-		//logger.info("Send " + command);
+		// logger.info("Send " + command);
 		sendBytes(getBytes(command));
 		setState(newState);
 	}
@@ -397,21 +397,21 @@ public class JavaSRPC
 	private synchronized void sendCommand(final Command command, final RPCState newState, final byte[] data,
 			final int fragment, final int fragmentCount) throws IOException
 	{
-		//logger.info("Send " + command);
+		// logger.info("Send " + command);
 		sendBytes(getBytes(command, data, fragment, fragmentCount));
 		setState(newState);
 	}
 
 	private synchronized final void setState(final RPCState newState)
 	{
-		//logger.info("Set state " + newState);
+		// logger.info("Set state " + newState);
 		this.state = newState;
 		notify();
 	}
 
 	private synchronized void waitForState(final EnumSet<RPCState> set)
 	{
-		//logger.info("Waiting for " + set);
+		// logger.info("Waiting for " + set);
 		while (!set.contains(state))
 		{
 			try
@@ -423,6 +423,6 @@ public class JavaSRPC
 				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-		//logger.info("Waiting over, state = " + state);
+		// logger.info("Waiting over, state = " + state);
 	}
 }

@@ -115,8 +115,8 @@ public class ListLinks extends HttpServlet
 				{
 					comma = true;
 				}
-								
-				Gson gson = new Gson();
+
+				final Gson gson = new Gson();
 				writer.println(gson.toJson(link));
 			}
 		}
@@ -128,9 +128,9 @@ public class ListLinks extends HttpServlet
 	{
 		try
 		{
-			Gson gson = new Gson();
-			Permitted permitted = gson.fromJson(new InputStreamReader(inputStream), Permitted.class);
-			for (String macAddress : permitted)
+			final Gson gson = new Gson();
+			final Permitted permitted = gson.fromJson(new InputStreamReader(inputStream), Permitted.class);
+			for (final String macAddress : permitted)
 			{
 				final Link link = links.get(macAddress);
 				if (link != null)
@@ -153,27 +153,27 @@ public class ListLinks extends HttpServlet
 
 		try
 		{
-			Enumeration<NetworkInterface> newIterfaces = NetworkInterface.getNetworkInterfaces();
+			final Enumeration<NetworkInterface> newIterfaces = NetworkInterface.getNetworkInterfaces();
 			while (newIterfaces.hasMoreElements())
 			{
-				NetworkInterface netiface = newIterfaces.nextElement();
-				byte[] mac = netiface.getHardwareAddress();
+				final NetworkInterface netiface = newIterfaces.nextElement();
+				final byte[] mac = netiface.getHardwareAddress();
 				if (mac != null && mac.length == 6)
 				{
 					/*
 					 * Convert to string of form: 08:00:27:DC:4A:9E.
 					 */
-					StringBuffer macString = new StringBuffer();
+					final StringBuffer macString = new StringBuffer();
 					for (int i = 0; i < mac.length; i++)
 					{
 						macString.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : ""));
 					}
 					System.out.println(netiface.getDisplayName());
 					System.out.println(macString);
-					Enumeration<InetAddress> ipAddresses = netiface.getInetAddresses();
+					final Enumeration<InetAddress> ipAddresses = netiface.getInetAddresses();
 					while (ipAddresses.hasMoreElements())
 					{
-						InetAddress ipAddress = ipAddresses.nextElement();
+						final InetAddress ipAddress = ipAddresses.nextElement();
 						if (ipAddress.getHostAddress().startsWith("128.243."))
 						{
 							allowCisco = false;
@@ -187,7 +187,7 @@ public class ListLinks extends HttpServlet
 				}
 			}
 		}
-		catch (SocketException e)
+		catch (final SocketException e)
 		{
 			logger.log(Level.WARNING, e.getMessage(), e);
 		}

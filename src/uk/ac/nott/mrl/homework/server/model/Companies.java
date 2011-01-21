@@ -12,13 +12,13 @@ import java.util.logging.Logger;
 public class Companies
 {
 	private final Map<Integer, String> macCompanies = new HashMap<Integer, String>();
-	
+
 	private static final Logger logger = Logger.getLogger(Companies.class.getName());
-	
+
 	private static final String ieeeURL = "http://standards.ieee.org/cgi-bin/ouisearch?";
-	
-	private long lastTried = 0;	
-	
+
+	private long lastTried = 0;
+
 	public Companies()
 	{
 		try
@@ -44,20 +44,9 @@ public class Companies
 		catch (final Exception e)
 		{
 			logger.log(Level.SEVERE, e.getMessage(), e);
-		}		
-	}	
-	
-	private int getMacValue(final String macAddress)
-	{
-		final String mac = macAddress.replaceAll(":", "").replaceAll("-", "").trim().substring(0,6);
-		return Integer.parseInt(mac, 16);
+		}
 	}
-	
-	private String getIEEEMacFormat(final String macAddress)
-	{
-		return macAddress.replaceAll(":", "-").trim().substring(0,8);
-	}
-	
+
 	public synchronized String getCompany(final String macAddress)
 	{
 		final int macValue = getMacValue(macAddress);
@@ -98,5 +87,16 @@ public class Companies
 		}
 		return result;
 
+	}
+
+	private String getIEEEMacFormat(final String macAddress)
+	{
+		return macAddress.replaceAll(":", "-").trim().substring(0, 8);
+	}
+
+	private int getMacValue(final String macAddress)
+	{
+		final String mac = macAddress.replaceAll(":", "").replaceAll("-", "").trim().substring(0, 6);
+		return Integer.parseInt(mac, 16);
 	}
 }

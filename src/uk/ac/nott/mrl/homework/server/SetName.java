@@ -15,8 +15,8 @@ import uk.ac.nott.mrl.homework.server.model.Link;
 
 public class SetName extends HttpServlet
 {
-	private static final Logger logger  = Logger.getLogger(SetName.class.getName());
-	
+	private static final Logger logger = Logger.getLogger(SetName.class.getName());
+
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException
@@ -37,12 +37,13 @@ public class SetName extends HttpServlet
 
 		final JavaSRPC rpc = new JavaSRPC();
 		rpc.connect(InetAddress.getByName(PollingThread.hwdbHost), 987);
-		String query = String.format("SQL:INSERT into Leases values (\"upd\", \"%s\", \"%s\", \"%s\")", link.getMacAddress(), link.getIPAddress(), nameString);
+		final String query = String.format(	"SQL:INSERT into Leases values (\"upd\", \"%s\", \"%s\", \"%s\")",
+											link.getMacAddress(), link.getIPAddress(), nameString);
 		logger.info(query);
-		String result = rpc.call(query);
+		final String result = rpc.call(query);
 		logger.info(result);
 		rpc.disconnect();
-		
+
 		final String sinceString = request.getParameter("since");
 		long since = 0;
 		try
@@ -53,8 +54,8 @@ public class SetName extends HttpServlet
 		{
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
-		Log.log("Rename Device", macAddress);		
+
+		Log.log("Rename Device", macAddress);
 
 		ListLinks.listLinks(response.getWriter(), since);
 	}

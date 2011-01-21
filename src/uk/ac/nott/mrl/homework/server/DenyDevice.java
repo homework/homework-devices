@@ -40,7 +40,7 @@ public class DenyDevice extends HttpServlet
 		ListLinks.updatePermitted(conn.getInputStream(), since);
 
 		Log.log("Deny Device", macAddress);
-		
+
 		ListLinks.listLinks(response.getWriter(), since);
 	}
 }

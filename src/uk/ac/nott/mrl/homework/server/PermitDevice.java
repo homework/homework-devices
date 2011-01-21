@@ -40,7 +40,7 @@ public class PermitDevice extends HttpServlet
 		ListLinks.updatePermitted(conn.getInputStream(), since);
 
 		Log.log("Permit Device", macAddress);
-		
+
 		ListLinks.listLinks(response.getWriter(), since);
 	}
 }

@@ -6,7 +6,15 @@ public interface DevicesService
 {
 	public void deny(final String macAddress);
 
+	public void getTrayDevice(RequestCallback trayModeCallback);
+
+	public void getTrayMode(final RequestCallback callback);
+
 	public void getUpdates();
+
+	public void log(final String type, final String details);
+
+	public void nextTrayMode(final RequestCallback callback);
 
 	public void permit(final String macAddress);
 
@@ -14,13 +22,5 @@ public interface DevicesService
 
 	public void setResource(final String macAddress, final boolean resource);
 
-	public void getTrayMode(final RequestCallback callback);
-	
-	public void nextTrayMode(final RequestCallback callback);
-	
-	public void setTrayDevice(final String macAddress);	
-	
-	public void log(final String type, final String details);
-
-	public void getTrayDevice(RequestCallback trayModeCallback);
+	public void setTrayDevice(final String macAddress);
 }

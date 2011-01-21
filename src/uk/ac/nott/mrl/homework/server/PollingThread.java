@@ -17,12 +17,10 @@ import uk.ac.nott.mrl.homework.server.model.Link;
 public class PollingThread extends Thread
 {
 	public static final String hwdbHost = "localhost";
-	//public static final String hwdbHost = "192.168.9.1";
-	
-	
-	
+	// public static final String hwdbHost = "192.168.9.1";
+
 	private static final String searchString = "<|>Artifact App<|>USB<|>";
-	
+
 	private final Map<String, Lease> leases = new HashMap<String, Lease>();
 
 	private static final Logger logger = Logger.getLogger(PollingThread.class.getName());
@@ -31,8 +29,8 @@ public class PollingThread extends Thread
 	private final JavaSRPC rpc = new JavaSRPC();
 	private final boolean nox = true;
 
-	public static boolean trayPlugged = false; 
-	
+	public static boolean trayPlugged = false;
+
 	@Override
 	public void run()
 	{
@@ -94,35 +92,6 @@ public class PollingThread extends Thread
 		}
 	}
 
-	private void updateTrayState() throws Exception
-	{
-		String userQuery;
-		if (ListLinks.last > 0)
-		{
-			final String s = String.format("@%016x@", ListLinks.last * 1000000);
-			userQuery = String.format("SQL:select * from UserEvents [ since %s ]", s);
-		}
-		else
-		{
-			userQuery = String.format("SQL:select * from UserEvents");
-		}
-		final String result = rpc.call(userQuery);
-		int index = result.lastIndexOf(searchString);
-		if(index == -1)
-		{
-			return;
-		}
-		index = result.lastIndexOf(searchString) + searchString.length();
-		if(result.substring(index).startsWith("Plugged"))
-		{
-			trayPlugged = true;
-		}
-		else if(result.substring(index).startsWith("Unplugged"))
-		{
-			trayPlugged = false;			
-		}
-	}
-
 	private void updateLeases() throws Exception
 	{
 		String leaseQuery;
@@ -136,7 +105,7 @@ public class PollingThread extends Thread
 			leaseQuery = String.format("SQL:select * from Leases");
 		}
 		final String leaseResults = rpc.call(leaseQuery);
-		//logger.info(leaseResults);
+		// logger.info(leaseResults);
 		if (leaseResults != null)
 		{
 			final Iterable<Lease> newLeases = Lease.parseResultSet(leaseResults);
@@ -176,7 +145,7 @@ public class PollingThread extends Thread
 		{
 			linkQuery = String.format("SQL:select * from Links");
 		}
-		final String linkResults = rpc.call(linkQuery);	
+		final String linkResults = rpc.call(linkQuery);
 
 		if (linkResults != null)
 		{
@@ -211,13 +180,39 @@ public class PollingThread extends Thread
 
 			ListLinks.updatePermitted(conn.getInputStream(), ListLinks.last);
 		}
-		catch(final ConnectException e)
+		catch (final ConnectException e)
 		{
-			logger.warning("Failed to connect to nox service. "  + e.getMessage());
+			logger.warning("Failed to connect to nox service. " + e.getMessage());
 		}
 		catch (final Exception e)
 		{
 			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+	}
+
+	private void updateTrayState() throws Exception
+	{
+		String userQuery;
+		if (ListLinks.last > 0)
+		{
+			final String s = String.format("@%016x@", ListLinks.last * 1000000);
+			userQuery = String.format("SQL:select * from UserEvents [ since %s ]", s);
+		}
+		else
+		{
+			userQuery = String.format("SQL:select * from UserEvents");
+		}
+		final String result = rpc.call(userQuery);
+		int index = result.lastIndexOf(searchString);
+		if (index == -1) { return; }
+		index = result.lastIndexOf(searchString) + searchString.length();
+		if (result.substring(index).startsWith("Plugged"))
+		{
+			trayPlugged = true;
+		}
+		else if (result.substring(index).startsWith("Unplugged"))
+		{
+			trayPlugged = false;
 		}
 	}
 }

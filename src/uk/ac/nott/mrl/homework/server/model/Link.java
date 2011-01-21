@@ -12,9 +12,9 @@ import uk.ac.nott.mrl.homework.server.model.Lease.Action;
 public class Link
 {
 	private static final Companies companies = new Companies();
-	
+
 	private static final Logger logger = Logger.getLogger(Link.class.getName());
-	
+
 	public static Link parseLink(final String logLine)
 	{
 		final Link link = new Link();
@@ -88,25 +88,15 @@ public class Link
 	private int byteCount;
 	private String ipAddress;
 	private String deviceName;
-	
+
 	private boolean permitRequest = false;
 	private boolean permitted = false;
 	private boolean resource = false;
-	private transient Action nameAction; 
-	
+	private transient Action nameAction;
+
 	public Link()
 	{
 
-	}
-	
-	public String getDeviceName()
-	{
-		return deviceName;
-	}
-	
-	public String getIPAddress()
-	{
-		return ipAddress;
 	}
 
 	public int getByteCount()
@@ -119,24 +109,21 @@ public class Link
 		return corporation;
 	}
 
+	public String getDeviceName()
+	{
+		return deviceName;
+	}
+
+	public String getIPAddress()
+	{
+		return ipAddress;
+	}
+
 	public String getMacAddress()
 	{
 		return macAddress;
 	}
 
-	public void initCorporation()
-	{
-		if (corporation == null)
-		{
-			corporation = companies.getCompany(getMacAddress());
-		}
-	}
-	
-	public boolean isRequestingPermission()
-	{
-		return permitRequest;
-	}
-	
 	public int getPacketCount()
 	{
 		return packetCount;
@@ -157,9 +144,27 @@ public class Link
 		return timeStamp;
 	}
 
+	public void initCorporation()
+	{
+		if (corporation == null)
+		{
+			corporation = companies.getCompany(getMacAddress());
+		}
+	}
+
+	public boolean isRequestingPermission()
+	{
+		return permitRequest;
+	}
+
 	public boolean isResource()
 	{
 		return resource;
+	}
+
+	public void setDeviceName(final String name, final double since)
+	{
+		deviceName = name;
 	}
 
 	public void setPermitted(final boolean b, final long since)
@@ -176,11 +181,6 @@ public class Link
 		this.resource = resource;
 	}
 
-	public void setDeviceName(final String name, final double since)
-	{
-		deviceName = name;
-	}
-
 	@Override
 	public String toString()
 	{
@@ -195,13 +195,13 @@ public class Link
 		}
 		else
 		{
-			if(nameAction != Action.upd || lease.getAction() == Action.upd)
+			if (nameAction != Action.upd || lease.getAction() == Action.upd)
 			{
 				deviceName = lease.getHostName();
 				nameAction = lease.getAction();
 			}
-				
-			if(lease.getAction() != Action.upd)
+
+			if (lease.getAction() != Action.upd)
 			{
 				ipAddress = lease.getIpAddress();
 			}
@@ -211,7 +211,7 @@ public class Link
 
 	public void update(final Link link)
 	{
-		timeStamp = Math.max(link.getTimeStamp(), timeStamp);		
+		timeStamp = Math.max(link.getTimeStamp(), timeStamp);
 		macAddress = link.macAddress;
 		packetCount = link.packetCount;
 		retryCount = link.retryCount;

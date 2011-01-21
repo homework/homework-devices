@@ -28,7 +28,7 @@ public class DevicesServiceImpl implements DevicesService
 			{
 				try
 				{
-					//model.updateLinks(getLinks("[{\"timeStamp\":1288969308013,\"macAddress\":\"00:0b:85:92:66:af\",\"rssi\":-86.70968,\"retryCount\":0,\"packetCount\":94,\"byteCount\":11750,\"permitted\":false,\"resource\":false}]"));					
+					// model.updateLinks(getLinks("[{\"timeStamp\":1288969308013,\"macAddress\":\"00:0b:85:92:66:af\",\"rssi\":-86.70968,\"retryCount\":0,\"packetCount\":94,\"byteCount\":11750,\"permitted\":false,\"resource\":false}]"));
 					model.updateLinks(getLinks(response.getText()));
 				}
 				catch (final Exception e)
@@ -58,10 +58,35 @@ public class DevicesServiceImpl implements DevicesService
 	}
 
 	@Override
+	public void getTrayDevice(final RequestCallback callback)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "getTrayDevice", callback);
+	}
+
+	@Override
+	public void getTrayMode(final RequestCallback callback)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "getTrayMode", callback);
+	}
+
+	@Override
 	public void getUpdates()
 	{
 		final String url = GWT.getModuleBaseURL() + "links?since=" + model.getMostRecent();
 		serverRequest(url);
+	}
+
+	@Override
+	public void log(final String type, final String details)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "log?type=" + URL.encodeQueryString(type) + "&details="
+				+ URL.encodeQueryString(details));
+	}
+
+	@Override
+	public void nextTrayMode(final RequestCallback callback)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "nextTrayMode", callback);
 	}
 
 	@Override
@@ -84,40 +109,26 @@ public class DevicesServiceImpl implements DevicesService
 				+ "&since=" + model.getMostRecent());
 	}
 
+	@Override
+	public void setTrayDevice(final String macAddress)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "setTrayDevice?macAddress=" + macAddress);
+	}
+
 	public void setZone(final String macAddress, final int zone)
 	{
 		serverRequest(GWT.getModuleBaseURL() + "setZone?macAddress=" + macAddress + "&zone=" + zone + "&since"
 				+ model.getMostRecent());
 	}
 
-	public void getTrayMode(final RequestCallback callback)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "getTrayMode", callback);		
-	}
-	
-	public void getTrayDevice(final RequestCallback callback)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "getTrayDevice", callback);		
-	}	
-	
-	public void nextTrayMode(final RequestCallback callback)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "nextTrayMode", callback);		
-	}
-
-	public void setTrayDevice(final String macAddress)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "setTrayDevice?macAddress=" + macAddress);		
-	}
-	
-	public void log(String type, String details)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "log?type=" + URL.encodeQueryString(type) + "&details=" + URL.encodeQueryString(details));		
-	}
-	
 	private final native JsArray<Link> getLinks(final String json) /*-{
 																	return eval('(' + json + ')');
 																	}-*/;
+
+	private void serverRequest(final String url)
+	{
+		serverRequest(url, callback);
+	}
 
 	private void serverRequest(final String url, final RequestCallback callback)
 	{
@@ -130,10 +141,5 @@ public class DevicesServiceImpl implements DevicesService
 		{
 			GWT.log(e.getMessage(), e);
 		}
-	}
-	
-	private void serverRequest(final String url)
-	{
-		serverRequest(url, callback);
 	}
 }

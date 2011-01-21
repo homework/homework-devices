@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SetTrayDevice extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(GetTrayMode.class.getName());
-	
+
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException
@@ -33,8 +33,8 @@ public class SetTrayDevice extends HttpServlet
 		writer.write(macAddress);
 		writer.flush();
 		writer.close();
-		
-		response.getWriter().write(macAddress);		
+
+		response.getWriter().write(macAddress);
 
 		Log.log("Set Tray Device", macAddress);
 	}

@@ -15,23 +15,24 @@ import com.google.gwt.http.client.URL;
 public class Log extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(Log.class.getName());
-	
+
 	public static void log(final String eventType, final String details) throws IOException
 	{
 		try
 		{
 			final JavaSRPC rpc = new JavaSRPC();
 			rpc.connect(InetAddress.getByName(PollingThread.hwdbHost), 987);
-			String query = String.format("SQL:INSERT into UserEvents values (\"%s\", \"%s\", \"%s\")", "Control App", eventType, details);
+			final String query = String.format(	"SQL:INSERT into UserEvents values (\"%s\", \"%s\", \"%s\")",
+												"Control App", eventType, details);
 			rpc.call(query);
 			rpc.disconnect();
 		}
-		catch(Exception e)
+		catch (final Exception e)
 		{
 			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException

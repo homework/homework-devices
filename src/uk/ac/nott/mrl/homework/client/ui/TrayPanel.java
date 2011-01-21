@@ -20,15 +20,22 @@ public class TrayPanel extends FlowPanel
 {
 	private final RequestCallback callback = new RequestCallback()
 	{
-		
+
 		@Override
-		public void onResponseReceived(Request request, Response response)
+		public void onError(final Request request, final Throwable exception)
+		{
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onResponseReceived(final Request request, final Response response)
 		{
 			try
 			{
-				if(!response.getText().equals(""))
+				if (!response.getText().equals(""))
 				{
-					int trayState = Integer.parseInt(response.getText());
+					final int trayState = Integer.parseInt(response.getText());
 					trayIcon.setResource(trayImages[trayState]);
 					trayLabel.setText(trayStates[trayState]);
 					setVisible(true);
@@ -38,20 +45,13 @@ public class TrayPanel extends FlowPanel
 					setVisible(false);
 				}
 			}
-			catch(Exception e)
+			catch (final Exception e)
 			{
 				GWT.log(e.getMessage(), e);
 			}
 		}
-		
-		@Override
-		public void onError(Request request, Throwable exception)
-		{
-			// TODO Auto-generated method stub
-			
-		}
 	};
-	
+
 	private final String[] trayStates = { "Signal Strength Monitor", "Bandwidth Monitor", "Network Event Monitor" };
 
 	private final ImageResource[] trayImages = { DevicesClient.resources.traySignal(),
@@ -86,12 +86,12 @@ public class TrayPanel extends FlowPanel
 		trayLabel.addClickHandler(clickHandler);
 		addDomHandler(clickHandler, ClickEvent.getType());
 
-		setVisible(false);		
+		setVisible(false);
 	}
-	
+
 	public void addTrayLinks(final Device device, final Panel panel)
 	{
-		if(isVisible())
+		if (isVisible())
 		{
 			final Anchor trayLink = new Anchor("Monitor this Signal Strength");
 			trayLink.setStylePrimaryName("popupLink");

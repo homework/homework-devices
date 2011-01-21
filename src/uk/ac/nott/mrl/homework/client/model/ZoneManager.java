@@ -10,15 +10,15 @@ public interface ZoneManager
 {
 	public boolean allowDrag();
 
+	public Comparator<Device> getComparator();
+
 	public int getZone(final Link link);
 
 	public int getZoneCount();
 
 	public String[] getZones();
 
-	public void setZone(final DevicesService service, final Link link, final int zone);
-	
-	public Comparator<Device> getComparator();
-	
 	public int reflowDevices(final List<Device> devices);
+
+	public void setZone(final DevicesService service, final Link link, final int zone);
 }

@@ -29,9 +29,9 @@ public class Link extends JavaScriptObject
 
 	public final native double getTimestamp() /*-{ return this.timeStamp; }-*/;
 
-	public final native boolean isRequestingPermission() /*-{ return this.permitRequest; }-*/;
-	
 	public final native boolean isPermitted() /*-{ return this.permitted; }-*/;
+
+	public final native boolean isRequestingPermission() /*-{ return this.permitRequest; }-*/;
 
 	public final native boolean isResource() /*-{ return this.resource || false; }-*/;
 
