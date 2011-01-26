@@ -40,10 +40,11 @@ public class Device extends FlowPanel
 	{
 		this.link = link;
 
+		text.setStyleName("deviceName");
 		text.setText(getDeviceName());
 		textBoxName.setMaxLength(80);
 		add(text);
-		updateStyle();
+		updateStyle(link.getState());
 
 		add(textBoxName);
 		textBoxName.addBlurHandler(new BlurHandler()
@@ -174,7 +175,7 @@ public class Device extends FlowPanel
 	public void setSignalDevice(final boolean signal)
 	{
 		isSignalDevice = signal;
-		updateStyle();
+		updateStyle(link.getState());
 	}
 
 	public void setTop(final int top)
@@ -190,8 +191,8 @@ public class Device extends FlowPanel
 
 	public void update(final Link link, final int bandWidthMax)
 	{
-		final boolean oldHasIP = this.link.getIPAddress() != null;
-		final boolean newHasIP = link.getIPAddress() != null;
+		final String oldState = this.link.getState();
+		
 		final int oldZone = getZone();
 		this.link = link;
 
@@ -200,34 +201,31 @@ public class Device extends FlowPanel
 			text.setText(getDeviceName());
 		}
 
-		if (oldHasIP != newHasIP)
+		if (!oldState.equals(link.getState()))
 		{
-			updateStyle();
+			updateStyle(oldState);
 		}
 
-		// error.setValue(link.getRetryCount() * 25 / link.getPacketCount() - 5);
-
-		// Font size by Signal Strength:
-		// fontSize.setValue((int) (50 + (link.getRssi() / 2)));
 
 		// Font size by bandwidth
 		if (link.getIPAddress() != null)
 		{
-			getElement().getStyle().setFontSize((40 * link.getByteCount() / bandWidthMax) + 5, Unit.PX);
-			// fontSize.setValue((40 * link.getByteCount() / bandWidthMax) + 5);
+			getElement().getStyle().setFontSize((30 * link.getByteCount() / bandWidthMax) + 5, Unit.PX);
 			// GWT.log("Bandwidth: " + (100 * link.getByteCount() / bandWidthMax) + "% - " +
 			// link.getByteCount() + "/" + bandWidthMax);
+			
+			// Font size by Signal Strength:
+			// fontSize.setValue((int) (50 + (link.getRssi() / 2)));
+
 		}
 		else
 		{
 			getElement().getStyle().setFontSize(15, Unit.PX);
-			// fontSize.setValue(15);
 		}
 
 		if (link.getOld())
 		{
 			getElement().getStyle().setOpacity(0.2);
-			// opacity.setValue(0.2f, 0.005f, AnimationType.constant);
 		}
 		else
 		{
@@ -293,17 +291,11 @@ public class Device extends FlowPanel
 		}), false);
 	}-*/;
 
-	private void updateStyle()
+	private void updateStyle(final String oldState)
 	{
 		setStylePrimaryName("device");
-		if (link.getIPAddress() == null)
-		{
-			addStyleName("grey");
-		}
-		else
-		{
-			removeStyleName("grey");
-		}
+		removeStyleName(oldState);
+		addStyleName(link.getState());
 		if (isSignalDevice)
 		{
 			addStyleName("signal");

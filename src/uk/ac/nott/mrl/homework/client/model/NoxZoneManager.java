@@ -6,7 +6,8 @@ public class NoxZoneManager extends DefaultZoneManager
 {
 	public NoxZoneManager()
 	{
-		super(new String[] { "Not Allowed", "Requesting Permission", "Allowed" });
+		super(new String[] { "Not Allowed", "Requesting Permission", "Allowed Internet" });
+		internet = 2;
 	}
 
 	@Override
@@ -19,8 +20,8 @@ public class NoxZoneManager extends DefaultZoneManager
 	public int getZone(final Link link)
 	{
 		if (link.isResource() && link.getDeviceName().equals("Router")) { return 2; }
-		if (link.isRequestingPermission()) { return 1; }
-		if (link.isPermitted()) { return 2; }
+		if (link.getState().equals("requesting")) { return 1; }
+		if (link.getState().equals("permitted")) { return 2; }
 		return 0;
 	}
 

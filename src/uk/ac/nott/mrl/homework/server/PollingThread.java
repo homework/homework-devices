@@ -56,7 +56,7 @@ public class PollingThread extends Thread
 					{
 						updateLinks();
 						updateLeases();
-						updateTrayState();
+						updateUserEvent();
 						if (nox)
 						{
 							updatePermitted();
@@ -190,7 +190,7 @@ public class PollingThread extends Thread
 		}
 	}
 
-	private void updateTrayState() throws Exception
+	private void updateUserEvent() throws Exception
 	{
 		String userQuery;
 		if (ListLinks.last > 0)

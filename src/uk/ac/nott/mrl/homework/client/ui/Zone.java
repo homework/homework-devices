@@ -3,7 +3,6 @@ package uk.ac.nott.mrl.homework.client.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.Model;
 
@@ -27,14 +26,16 @@ public class Zone extends FlowPanel
 	private final Map<String, Link> resources = new HashMap<String, Link>();
 	private int devices = 0;
 
+	private final int zone;
 	private int bandWidthMax = 0;
 	private long bandWidthTime = 0;
 	private long mostRecent = 0;
 	private float bandWidthPercent = 0;
 
-	public Zone(final String zoneName)
+	public Zone(final int zone, final String zoneName)
 	{
 		super();
+		this.zone = zone;
 		setStylePrimaryName("zoneBar");
 		getElement().getStyle().setWidth(DevicesPanel.getZoneWidth(), Unit.PX);
 
@@ -43,7 +44,7 @@ public class Zone extends FlowPanel
 		panel.getElement().getStyle().setWidth(DevicesPanel.getZoneWidth(), Unit.PX);
 
 		image = new Image();
-		updateImage(zoneName);
+		Model.zoneManager.updateImage(zone, image, 0);
 		panel.add(image);
 
 		label = new Label(zoneName);
@@ -135,46 +136,9 @@ public class Zone extends FlowPanel
 			{
 				bandWidthMax *= Model.DECAY;
 			}
-			updateImage(label.getText());
-		}
-	}
-
-	private void updateImage(final String zoneName)
-	{
-		if (zoneName.equals("Internet") || zoneName.equals("Connected"))
-		{
-			if (bandWidthPercent >= 0.9)
-			{
-				image.setResource(DevicesClient.resources.webred());
-			}
-			else if (bandWidthPercent >= 0.25)
-			{
-				image.setResource(DevicesClient.resources.webgreen());
-			}
-			else
-			{
-				image.setResource(DevicesClient.resources.webblue());
-			}
-		}
-		else if (zoneName.equals("Printer") || zoneName.equals("Shared Resources"))
-		{
-			image.setResource(DevicesClient.resources.printer());
-		}
-		else if (zoneName.equals("Network Storage") || zoneName.equals("Personal Devices"))
-		{
-			image.setResource(DevicesClient.resources.drive());
-		}
-		else if (zoneName.equals("Everything"))
-		{
-			image.setResource(DevicesClient.resources.all());
-		}
-		else if (zoneName.equals("Denied Access"))
-		{
-			image.setResource(DevicesClient.resources.denied());
-		}
-		else
-		{
-			image.setVisible(false);
+			
+			Model.zoneManager.updateImage(zone, image, bandWidthPercent);
+			//updateImage(label.getText());
 		}
 	}
 }

@@ -292,9 +292,11 @@ public class DevicesPanel extends FlowPanel
 		// };
 
 		int left = 0;
+		int index = 0;
 		for (final String zoneName : Model.zoneManager.getZones())
 		{
-			final Zone zoneBar = new Zone(zoneName);
+			final Zone zoneBar = new Zone(index, zoneName);
+			index++;
 			zoneBar.addClickHandler(new ClickHandler()
 			{
 				@Override
@@ -509,6 +511,13 @@ public class DevicesPanel extends FlowPanel
 	{
 		final FlowPanel panel = new FlowPanel();
 
+		if(device.getLink().getState().equals("requesting"))
+		{
+			Label label = new Label("This machine is requesting permission to use your network. Drag it to the appropriate zone to allowed or deny it permission.");
+			label.addStyleName("warning");
+			panel.add(label);
+		}
+		
 		if (device.getLink().getCorporation() == null || device.getLink().getCorporation().equals("Unknown"))
 		{
 			panel.add(new Label("Manufacturer: Unknown"));

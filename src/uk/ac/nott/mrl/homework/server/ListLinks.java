@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import uk.ac.nott.mrl.homework.server.model.Link;
 import uk.ac.nott.mrl.homework.server.model.Permitted;
+import uk.ac.nott.mrl.homework.server.model.Link.State;
 
 import com.google.gson.Gson;
 
@@ -74,6 +76,7 @@ public class ListLinks extends HttpServlet
 	{
 		writer.println("[");
 		boolean comma = false;
+		createTestLinks();
 		synchronized (links)
 		{
 			final List<Link> sorted = new ArrayList<Link>(links.values());
@@ -124,6 +127,34 @@ public class ListLinks extends HttpServlet
 		writer.flush();
 	}
 
+	private static void createTestLinks()
+	{
+		synchronized (links)
+		{
+			links.clear();
+			Link link = new Link("Bob's Laptop", "00:23:76:0c:3d:94", "192.168.1.30", 0, 10);
+			link.initCorporation();
+			links.put(link.getMacAddress(), link);
+			
+			link = new Link(null, "00:23:76:0c:3d:93", null, 0, 5); // HTC
+			link.setState(State.requesting, new Date().getTime());
+			link.initCorporation();			
+			links.put(link.getMacAddress(), link);
+			
+			link = new Link(null, "28:E7:CF:0c:3d:93", "192.168.1.10", -60, 3); // Apple
+			link.initCorporation();			
+			links.put(link.getMacAddress(), link);
+
+			link = new Link(null, "58:94:6B:0c:3d:93", "192.168.1.11", -55, 5); // Intel
+			link.initCorporation();			
+			links.put(link.getMacAddress(), link);
+			
+			link = new Link(null, "00:0F:B5:0c:3d:93", null, -75, 5); // Netgear			
+			link.initCorporation();
+			links.put(link.getMacAddress(), link);
+		}
+	}
+	
 	public static void updatePermitted(final InputStream inputStream, final long since)
 	{
 		try
@@ -135,7 +166,7 @@ public class ListLinks extends HttpServlet
 				final Link link = links.get(macAddress);
 				if (link != null)
 				{
-					link.setPermitted(true, since);
+					link.setState(State.permitted, since);
 				}
 			}
 		}

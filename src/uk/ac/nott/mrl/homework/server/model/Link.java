@@ -2,6 +2,7 @@ package uk.ac.nott.mrl.homework.server.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,6 +12,11 @@ import uk.ac.nott.mrl.homework.server.model.Lease.Action;
 
 public class Link
 {
+	public enum State
+	{
+		permitted, requesting, denied, blacklisted
+	}
+	
 	private static final Companies companies = new Companies();
 
 	private static final Logger logger = Logger.getLogger(Link.class.getName());
@@ -89,8 +95,8 @@ public class Link
 	private String ipAddress;
 	private String deviceName;
 
-	private boolean permitRequest = false;
-	private boolean permitted = false;
+	private State state = State.denied;
+	
 	private boolean resource = false;
 	private transient Action nameAction;
 
@@ -99,6 +105,20 @@ public class Link
 
 	}
 
+	public Link(final String name, final String mac, final String ip, final float rssi, final int byteCount)
+	{
+		this.deviceName = name;
+		timeStamp = new Date().getTime();
+		this.rssi = rssi;
+		this.ipAddress = ip;
+		this.macAddress = mac;
+		this.byteCount = byteCount;
+		if(ip != null)
+		{
+			state = State.permitted;
+		}
+	}
+	
 	public int getByteCount()
 	{
 		return byteCount;
@@ -107,6 +127,11 @@ public class Link
 	public String getCorporation()
 	{
 		return corporation;
+	}
+	
+	public State getState()
+	{
+		return state;
 	}
 
 	public String getDeviceName()
@@ -152,11 +177,6 @@ public class Link
 		}
 	}
 
-	public boolean isRequestingPermission()
-	{
-		return permitRequest;
-	}
-
 	public boolean isResource()
 	{
 		return resource;
@@ -167,15 +187,15 @@ public class Link
 		deviceName = name;
 	}
 
-	public void setPermitted(final boolean b, final long since)
+	public void setState(final State state, final long since)
 	{
-		if (permitted != b)
+		if(this.state != state)
 		{
-			permitted = b;
+			this.state = state;
 			timeStamp = since;
 		}
 	}
-
+	
 	public void setResource(final boolean resource)
 	{
 		this.resource = resource;

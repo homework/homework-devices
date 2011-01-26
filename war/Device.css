@@ -8,7 +8,6 @@
 	-webkit-border-top-right-radius: 0.4em;
 	-moz-border-radius-bottomright: 0.4em;
 	-moz-border-radius-topright: 0.4em;	
-	background-color: #79B;
 	padding: 3px;
 	padding-right: 0.5em;
 	-webkit-user-select: none;
@@ -17,15 +16,16 @@
 	-webkit-box-shadow: 2px 2px 5px #AAA;	
 	
 	
-	-webkit-transition: font-size 2s linear, opacity 2s linear, left 2s linear, top 2s linear;
-	-moz-transition: font-size 2s linear, opacity 2s linear, left 2s linear, top 2s linear;
-	-o-transition: font-size 2s linear, opacity 2s linear, left 2s linear, top 2s linear;
-	transition: font-size 2s linear, opacity 2s linear, left 2s linear, top 2s linear;	
+	-webkit-transition: font-size 2s ease, opacity 2s ease, left 2s ease, top 2s ease;
+	-moz-transition: font-size 2s ease, opacity 2s ease, left 2s ease, top 2s ease;
+	-o-transition: font-size 2s ease, opacity 2s ease, left 2s ease, top 2s ease;
+	transition: font-size 2s ease, opacity 2s ease, left 2s ease, top 2s ease;	
 }
 
 .popup {
 	background-color: #F0E68C;
 	border: 3px solid #F0E68C;
+	max-width: 300px;
 	border-radius: 0.5em;
 	border-top-right-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
@@ -38,9 +38,42 @@
 	border-left: 0;	
 }
 
-.grey {
+.permitted {
+	background-color: #79B;
+	border-color: #579;	
+}
+
+.denied {
 	border-color: #777;	
 	background-color: #999;
+}
+
+.requesting {
+	border-color: #777;	
+	background-color: #999;
+}
+
+.requesting .deviceName {
+	margin:0;
+	padding:0;
+	padding-left:25px;
+	background-image:url("/images/warning.png");
+	background-repeat:no-repeat;
+	background-position:3px 0.2em;
+}
+
+.deviceName {
+	cursor: pointer;
+}
+
+.warning {
+	margin:0;
+	padding:0;
+	padding-left:25px;
+	background-image:url("/images/warning.png");
+	background-repeat:no-repeat;
+	background-position:3px 0.2em;
+
 }
 
 .deviceLine {
