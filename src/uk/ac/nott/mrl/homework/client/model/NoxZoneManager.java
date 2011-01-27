@@ -6,7 +6,7 @@ public class NoxZoneManager extends DefaultZoneManager
 {
 	public NoxZoneManager()
 	{
-		super(new String[] { "Not Allowed", "Requesting Permission", "Allowed Internet" });
+		super(new String[] { "Not Allowed", "Requesting Permission", "Internet" });
 		internet = 2;
 	}
 
@@ -28,11 +28,11 @@ public class NoxZoneManager extends DefaultZoneManager
 	@Override
 	public void setZone(final DevicesService service, final Link link, final int zone)
 	{
-		if (zone > 0)
+		if (zone == 2)
 		{
 			service.permit(link.getMacAddress());
 		}
-		else
+		else if(zone == 0)
 		{
 			service.deny(link.getMacAddress());
 		}

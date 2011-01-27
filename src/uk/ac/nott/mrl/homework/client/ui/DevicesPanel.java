@@ -513,7 +513,7 @@ public class DevicesPanel extends FlowPanel
 
 		if(device.getLink().getState().equals("requesting"))
 		{
-			Label label = new Label("This machine is requesting permission to use your network. Drag it to the appropriate zone to allowed or deny it permission.");
+			Label label = new Label("This machine is requesting permission to use your network. Drag it to the right to allow it or to the left to deny it access.");
 			label.addStyleName("warning");
 			panel.add(label);
 		}

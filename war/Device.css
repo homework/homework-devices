@@ -7,19 +7,18 @@
 	-webkit-border-bottom-right-radius: 0.4em;
 	-webkit-border-top-right-radius: 0.4em;
 	-moz-border-radius-bottomright: 0.4em;
-	-moz-border-radius-topright: 0.4em;	
+	-moz-border-radius-topright: 0.4em;
 	padding: 3px;
 	padding-right: 0.5em;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	white-space: nowrap;
-	-webkit-box-shadow: 2px 2px 5px #AAA;	
-	
-	
-	-webkit-transition: font-size 2s ease, opacity 2s ease, left 2s ease, top 2s ease;
-	-moz-transition: font-size 2s ease, opacity 2s ease, left 2s ease, top 2s ease;
-	-o-transition: font-size 2s ease, opacity 2s ease, left 2s ease, top 2s ease;
-	transition: font-size 2s ease, opacity 2s ease, left 2s ease, top 2s ease;	
+	-webkit-box-shadow: 2px 2px 5px #AAA;
+
+	-webkit-transition: font-size 2s ease, opacity 2s ease, top 2s ease;
+	-moz-transition: font-size 2s ease, opacity 2s ease, top 2s ease;
+	-o-transition: font-size 2s ease, opacity 2s ease, top 2s ease;
+	transition: font-size 2s ease, opacity 2s ease, top 2s ease;
 }
 
 .popup {
@@ -29,37 +28,37 @@
 	border-radius: 0.5em;
 	border-top-right-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
-	-webkit-box-shadow: 2px 2px 5px #AAA;		
+	-webkit-box-shadow: 2px 2px 5px #AAA;
 }
 
 .signal {
 	border-width: 5px;
-	border-color: #246;	
-	border-left: 0;	
+	border-color: #246;
+	border-left: 0;
 }
 
 .permitted {
 	background-color: #79B;
-	border-color: #579;	
+	border-color: #579;
 }
 
 .denied {
-	border-color: #777;	
+	border-color: #777;
 	background-color: #999;
 }
 
 .requesting {
-	border-color: #777;	
+	border-color: #777;
 	background-color: #999;
 }
 
 .requesting .deviceName {
-	margin:0;
-	padding:0;
-	padding-left:25px;
-	background-image:url("/images/warning.png");
-	background-repeat:no-repeat;
-	background-position:3px 0.2em;
+	margin: 0;
+	padding: 0;
+	padding-left: 25px;
+	background-image: url("/images/warning.png");
+	background-repeat: no-repeat;
+	background-position: 3px 0.2em;
 }
 
 .deviceName {
@@ -67,13 +66,12 @@
 }
 
 .warning {
-	margin:0;
-	padding:0;
-	padding-left:25px;
-	background-image:url("/images/warning.png");
-	background-repeat:no-repeat;
-	background-position:3px 0.2em;
-
+	margin: 0;
+	padding: 0;
+	padding-left: 25px;
+	background-image: url("/images/warning.png");
+	background-repeat: no-repeat;
+	background-position: 3px 0.2em;
 }
 
 .deviceLine {
@@ -83,11 +81,11 @@
 	left: 20px;
 	bottom: 0px;
 	background-color: #579;
-	-webkit-box-shadow: 2px 0px 2px #AAA;	
+	-webkit-box-shadow: 2px 0px 2px #AAA;
 }
 
 .detailPanel {
-	font-size: 10px;	
+	font-size: 10px;
 	height: 100%;
 	overflow: hidden;
 	position: absolute;
@@ -123,8 +121,8 @@
 	font-size: 12px;
 	padding: 3px;
 	margin: 5px;
-	text-align: center;	
-	width: 80px;	
+	text-align: center;
+	width: 80px;
 }
 
 .zone {
@@ -149,7 +147,7 @@
 	background-color: #79B;
 	border-bottom-left-radius: 10px;
 	-webkit-border-bottom-left-radius: 10px;
-	-moz-border-radius-bottomleft: 10px;	
+	-moz-border-radius-bottomleft: 10px;
 }
 
 .detailTitle {
@@ -157,12 +155,12 @@
 	font-weight: bold;
 	padding-left: 10px;
 	padding-top: 5px;
-	width: 180px;	
+	width: 180px;
 }
 
 .detailItem {
 	padding-left: 10px;
-	padding-top: 2px;	
+	padding-top: 2px;
 	width: 180px;
 }
 
@@ -177,8 +175,8 @@
 	width: 165px;
 	padding: 5px;
 	border: 2px solid #579;
-	background-color: #BCD;	
-	border-radius: 10px;	
+	background-color: #BCD;
+	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 }

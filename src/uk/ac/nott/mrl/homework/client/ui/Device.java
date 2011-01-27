@@ -40,6 +40,8 @@ public class Device extends FlowPanel
 	{
 		this.link = link;
 
+		setStylePrimaryName("device");
+		
 		text.setStyleName("deviceName");
 		text.setText(getDeviceName());
 		textBoxName.setMaxLength(80);
@@ -71,41 +73,6 @@ public class Device extends FlowPanel
 			}
 		});
 		textBoxName.setVisible(false);
-
-		// fontSize = new AnimatedInt(10, 1, 10, 40)
-		// {
-		// @Override
-		// public void update(final int value)
-		// {
-		// getElement().getStyle().setFontSize(value, Unit.PX);
-		// }
-		// };
-		// opacity = new AnimatedFloat(0, 1, 0.05f, 0, 1)
-		// {
-		// @Override
-		// public void update(final float value)
-		// {
-		// getElement().getStyle().setOpacity(value);
-		// }
-		// };
-		// error = new AnimatedInt(0, 1, 0, 10)
-		// {
-		// @Override
-		// public void update(final int value)
-		// {
-		// getElement().getStyle().setProperty("borderLeftWidth", value + "px");
-		// getElement().getStyle().setProperty("borderLeftColor", "#E22");
-		// getElement().getStyle().setProperty("borderLeftStyle", "solid");
-		// }
-		// };
-		// y = new AnimatedInt(0, 40, 0, 1000000)
-		// {
-		// @Override
-		// protected void update(final int value)
-		// {
-		// getElement().getStyle().setTop(value, Unit.PX);
-		// }
-		// };
 
 		setLeft(getZone() * DevicesPanel.getZoneWidth() + 25);
 		update(link, bandWidthMax);
@@ -293,7 +260,6 @@ public class Device extends FlowPanel
 
 	private void updateStyle(final String oldState)
 	{
-		setStylePrimaryName("device");
 		removeStyleName(oldState);
 		addStyleName(link.getState());
 		if (isSignalDevice)

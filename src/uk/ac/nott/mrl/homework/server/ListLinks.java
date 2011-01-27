@@ -132,7 +132,7 @@ public class ListLinks extends HttpServlet
 		synchronized (links)
 		{
 			links.clear();
-			Link link = new Link("Bob's Laptop", "00:23:76:0c:3d:94", "192.168.1.30", 0, 10);
+			Link link = new Link("Tom's Laptop", "00:23:76:0c:3d:94", "192.168.1.30", 0, 10);
 			link.initCorporation();
 			links.put(link.getMacAddress(), link);
 			
