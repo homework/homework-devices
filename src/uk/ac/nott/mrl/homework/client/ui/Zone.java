@@ -18,19 +18,19 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class Zone extends FlowPanel
 {
-	private final Image image;
-	private final Label label;
-
-	private final SimplePanel line = new SimplePanel();
-
-	private final Map<String, Link> resources = new HashMap<String, Link>();
-	private int devices = 0;
-
-	private final int zone;
 	private int bandWidthMax = 0;
-	private long bandWidthTime = 0;
-	private long mostRecent = 0;
 	private float bandWidthPercent = 0;
+
+	private long bandWidthTime = 0;
+
+	private int devices = 0;
+	private final Image image;
+
+	private final Label label;
+	private final SimplePanel line = new SimplePanel();
+	private long mostRecent = 0;
+	private final Map<String, Link> resources = new HashMap<String, Link>();
+	private final int zone;
 
 	public Zone(final int zone, final String zoneName)
 	{
@@ -136,9 +136,9 @@ public class Zone extends FlowPanel
 			{
 				bandWidthMax *= Model.DECAY;
 			}
-			
+
 			Model.zoneManager.updateImage(zone, image, bandWidthPercent);
-			//updateImage(label.getText());
+			// updateImage(label.getText());
 		}
 	}
 }

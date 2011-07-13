@@ -13,12 +13,12 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class DevicesClient implements EntryPoint
 {
-	private final Model model = new Model();
-	private final DevicesService service = new DevicesServiceImpl(model);
-
 	public static final Resources resources = GWT.create(Resources.class);
+	private final Model model = new Model();
 
 	private final DevicesPanel panel;
+
+	private final DevicesService service = new DevicesServiceImpl(model);
 
 	public DevicesClient()
 	{
@@ -34,6 +34,7 @@ public class DevicesClient implements EntryPoint
 	public void onModuleLoad()
 	{
 		RootPanel.get().add(panel);
+		resources.style().ensureInjected();
 
 		final Timer requestTimer = new Timer()
 		{

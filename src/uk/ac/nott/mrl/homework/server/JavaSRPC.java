@@ -135,7 +135,7 @@ public class JavaSRPC
 
 	private enum RPCState
 	{
-		IDLE, QACK_SENT, RESPONSE_SENT, CONNECT_SENT, QUERY_SENT, AWAITING_RESPONSE, TIMEDOUT, DISCONNECT_SENT, FRAGMENT_SENT, FACK_RECEIVED, FRAGMENT_RECEIVED, FACK_SENT, SEQNO_SENT,
+		AWAITING_RESPONSE, CONNECT_SENT, DISCONNECT_SENT, FACK_RECEIVED, FACK_SENT, FRAGMENT_RECEIVED, FRAGMENT_SENT, IDLE, QACK_SENT, QUERY_SENT, RESPONSE_SENT, SEQNO_SENT, TIMEDOUT,
 	}
 
 	private class TimerThread extends Thread
@@ -196,11 +196,20 @@ public class JavaSRPC
 		}
 	}
 
+	private static final int ATTEMPTS = 7;
+
 	// According to any documentation I can find, C based Strings are
 	// UTF-8 by default. Could do with some testing with unusual characters.
 	private static final String CHARSET = "UTF-8";
 
+	private static final int FRAGMENT_SIZE = 1024;
+
 	private static final Logger logger = Logger.getLogger(JavaSRPC.class.getName());
+
+	// private static final int PING_TICKS = 2;
+	private static final int TICK_LENGTH = 20;
+
+	private static final int TICKS = 10;
 
 	private static Command getCommand(final int commandID)
 	{
@@ -211,28 +220,21 @@ public class JavaSRPC
 		return null;
 	}
 
-	private DatagramSocket socket = null;
+	private InetAddress address;
+	private int attemptsLeft;
+	private int lastFragment;
 
-	private RPCState state;
+	private byte[] lastPayload;
+	private int lastTicks = 10;
+
+	private int port = 987;
+	private ByteArrayOutputStream responseData;
 
 	private int seqno = 0;
+	private DatagramSocket socket = null;
+	private RPCState state;
 	private int subport;
 	private int ticksLeft;
-	private int lastFragment;
-	private int attemptsLeft;
-
-	private ByteArrayOutputStream responseData;
-	private byte[] lastPayload;
-
-	private InetAddress address;
-	private int port = 987;
-
-	private static final int TICKS = 10;
-	private int lastTicks = 10;
-	// private static final int PING_TICKS = 2;
-	private static final int TICK_LENGTH = 20;
-	private static final int ATTEMPTS = 7;
-	private static final int FRAGMENT_SIZE = 1024;
 
 	public String call(final String query) throws IOException
 	{

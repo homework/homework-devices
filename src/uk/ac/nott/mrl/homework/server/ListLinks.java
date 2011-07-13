@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,18 +25,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import uk.ac.nott.mrl.homework.server.model.Link;
-import uk.ac.nott.mrl.homework.server.model.Permitted;
 import uk.ac.nott.mrl.homework.server.model.Link.State;
+import uk.ac.nott.mrl.homework.server.model.Permitted;
 
 import com.google.gson.Gson;
 
 public class ListLinks extends HttpServlet
 {
-	private static final Logger logger = Logger.getLogger(ListLinks.class.getName());
-
 	public static final Collection<String> routerMacAddresses = new HashSet<String>();
 
-	private static final long OLD = 12000; // 12 seconds
+	static long last = 0;
+
+	private static boolean allowCisco = true;
 
 	private static final Comparator<Link> linkComparator = new Comparator<Link>()
 	{
@@ -55,9 +54,9 @@ public class ListLinks extends HttpServlet
 
 	private static final Map<String, Link> links = new HashMap<String, Link>();
 
-	private static boolean allowCisco = true;
+	private static final Logger logger = Logger.getLogger(ListLinks.class.getName());
 
-	static long last = 0;
+	private static final long OLD = 12000; // 12 seconds
 
 	public static void addLink(final Link link)
 	{
@@ -76,7 +75,7 @@ public class ListLinks extends HttpServlet
 	{
 		writer.println("[");
 		boolean comma = false;
-		createTestLinks();
+		// createTestLinks();
 		synchronized (links)
 		{
 			final List<Link> sorted = new ArrayList<Link>(links.values());
@@ -127,34 +126,34 @@ public class ListLinks extends HttpServlet
 		writer.flush();
 	}
 
-	private static void createTestLinks()
-	{
-		synchronized (links)
-		{
-			links.clear();
-			Link link = new Link("Tom's Laptop", "00:23:76:0c:3d:94", "192.168.1.30", 0, 10);
-			link.initCorporation();
-			links.put(link.getMacAddress(), link);
-			
-			link = new Link(null, "00:23:76:0c:3d:93", null, 0, 5); // HTC
-			link.setState(State.requesting, new Date().getTime());
-			link.initCorporation();			
-			links.put(link.getMacAddress(), link);
-			
-			link = new Link(null, "28:E7:CF:0c:3d:93", "192.168.1.10", -60, 3); // Apple
-			link.initCorporation();			
-			links.put(link.getMacAddress(), link);
+	// private static void createTestLinks()
+	// {
+	// synchronized (links)
+	// {
+	// links.clear();
+	// Link link = new Link("Tom's Laptop", "00:23:76:0c:3d:94", "192.168.1.30", 0, 10);
+	// link.initCorporation();
+	// links.put(link.getMacAddress(), link);
+	//
+	// link = new Link(null, "00:23:76:0c:3d:93", null, 0, 5); // HTC
+	// link.setState(State.requesting, new Date().getTime());
+	// link.initCorporation();
+	// links.put(link.getMacAddress(), link);
+	//
+	// link = new Link(null, "28:E7:CF:0c:3d:93", "192.168.1.10", -60, 3); // Apple
+	// link.initCorporation();
+	// links.put(link.getMacAddress(), link);
+	//
+	// link = new Link(null, "58:94:6B:0c:3d:93", "192.168.1.11", -55, 5); // Intel
+	// link.initCorporation();
+	// links.put(link.getMacAddress(), link);
+	//
+	// link = new Link(null, "00:0F:B5:0c:3d:93", null, -75, 5); // Netgear
+	// link.initCorporation();
+	// links.put(link.getMacAddress(), link);
+	// }
+	// }
 
-			link = new Link(null, "58:94:6B:0c:3d:93", "192.168.1.11", -55, 5); // Intel
-			link.initCorporation();			
-			links.put(link.getMacAddress(), link);
-			
-			link = new Link(null, "00:0F:B5:0c:3d:93", null, -75, 5); // Netgear			
-			link.initCorporation();
-			links.put(link.getMacAddress(), link);
-		}
-	}
-	
 	public static void updatePermitted(final InputStream inputStream, final long since)
 	{
 		try

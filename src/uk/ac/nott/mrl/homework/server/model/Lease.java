@@ -45,11 +45,11 @@ public class Lease
 		return leases;
 	}
 
-	private long timeStamp;
 	private Action action;
-	private String macAddress;
-	private String ipAddress;
 	private String hostName;
+	private String ipAddress;
+	private String macAddress;
+	private long timeStamp;
 
 	public void clearIPAddress()
 	{

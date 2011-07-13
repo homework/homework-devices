@@ -3,10 +3,10 @@ package uk.ac.nott.mrl.homework.client.model;
 import java.util.Comparator;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.Image;
-
 import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.ui.Device;
+
+import com.google.gwt.user.client.ui.Image;
 
 public interface ZoneManager
 {
@@ -23,6 +23,6 @@ public interface ZoneManager
 	public int reflowDevices(final List<Device> devices);
 
 	public void setZone(final DevicesService service, final Link link, final int zone);
-	
+
 	public void updateImage(final int zone, final Image image, final float data);
 }

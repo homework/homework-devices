@@ -52,17 +52,17 @@ public class TrayPanel extends FlowPanel
 		}
 	};
 
-	private final String[] trayStates = { "Signal Strength Monitor", "Bandwidth Monitor", "Network Event Monitor" };
+	private final DevicesService service;
+
+	private final Image trayIcon = new Image(DevicesClient.resources.traySignal());
 
 	private final ImageResource[] trayImages = { DevicesClient.resources.traySignal(),
 												DevicesClient.resources.trayBandwidth(),
 												DevicesClient.resources.trayEvents() };
 
-	private final Image trayIcon = new Image(DevicesClient.resources.traySignal());
-
+	private final String[] trayStates = { "Signal Strength Monitor", "Bandwidth Monitor", "Network Event Monitor" };
+	
 	private final Label trayLabel = new Label(trayStates[0]);
-
-	private final DevicesService service;
 
 	public TrayPanel(final DevicesService service)
 	{

@@ -14,9 +14,9 @@ public class Link
 {
 	public enum State
 	{
-		permitted, requesting, denied, blacklisted
+		blacklisted, denied, permitted, requesting
 	}
-	
+
 	private static final Companies companies = new Companies();
 
 	private static final Logger logger = Logger.getLogger(Link.class.getName());
@@ -85,20 +85,20 @@ public class Link
 		return links;
 	}
 
-	private long timeStamp;
-	private String macAddress;
-	private String corporation;
-	private float rssi;
-	private int retryCount;
-	private int packetCount;
 	private int byteCount;
-	private String ipAddress;
+	private String corporation;
 	private String deviceName;
+	private String ipAddress;
+	private String macAddress;
+	private transient Action nameAction;
+	private int packetCount;
+	private boolean resource = false;
+	private int retryCount;
+
+	private float rssi;
 
 	private State state = State.denied;
-	
-	private boolean resource = false;
-	private transient Action nameAction;
+	private long timeStamp;
 
 	public Link()
 	{
@@ -113,12 +113,12 @@ public class Link
 		this.ipAddress = ip;
 		this.macAddress = mac;
 		this.byteCount = byteCount;
-		if(ip != null)
+		if (ip != null)
 		{
 			state = State.permitted;
 		}
 	}
-	
+
 	public int getByteCount()
 	{
 		return byteCount;
@@ -127,11 +127,6 @@ public class Link
 	public String getCorporation()
 	{
 		return corporation;
-	}
-	
-	public State getState()
-	{
-		return state;
 	}
 
 	public String getDeviceName()
@@ -164,6 +159,11 @@ public class Link
 		return rssi;
 	}
 
+	public State getState()
+	{
+		return state;
+	}
+
 	public long getTimeStamp()
 	{
 		return timeStamp;
@@ -187,18 +187,18 @@ public class Link
 		deviceName = name;
 	}
 
+	public void setResource(final boolean resource)
+	{
+		this.resource = resource;
+	}
+
 	public void setState(final State state, final long since)
 	{
-		if(this.state != state)
+		if (this.state != state)
 		{
 			this.state = state;
 			timeStamp = since;
 		}
-	}
-	
-	public void setResource(final boolean resource)
-	{
-		this.resource = resource;
 	}
 
 	@Override

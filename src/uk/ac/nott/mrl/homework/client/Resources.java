@@ -18,6 +18,9 @@ public interface Resources extends ClientBundleWithLookup
 	@Source("printer.png")
 	public ImageResource printer();
 
+	@Source("device.css")
+	public DeviceCSS style();
+
 	@Source("testlinks.txt")
 	public TextResource testLinks();
 

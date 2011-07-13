@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 
 public class Companies
 {
-	private final Map<Integer, String> macCompanies = new HashMap<Integer, String>();
+	private static final String ieeeURL = "http://standards.ieee.org/cgi-bin/ouisearch?";
 
 	private static final Logger logger = Logger.getLogger(Companies.class.getName());
 
-	private static final String ieeeURL = "http://standards.ieee.org/cgi-bin/ouisearch?";
-
 	private long lastTried = 0;
+
+	private final Map<Integer, String> macCompanies = new HashMap<Integer, String>();
 
 	public Companies()
 	{
@@ -54,7 +54,7 @@ public class Companies
 		if (result == null)
 		{
 			result = "Unknown";
-			logger.info(macAddress + " corporation not found (" + macCompanies.size() + ")");
+			// logger.info(macAddress + " corporation not found (" + macCompanies.size() + ")");
 			if (lastTried == 0 || (new Date().getTime() - lastTried) > 360000)
 			{
 				try

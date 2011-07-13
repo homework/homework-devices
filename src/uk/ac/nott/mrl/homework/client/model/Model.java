@@ -10,18 +10,18 @@ import com.google.gwt.core.client.JsArray;
 
 public class Model
 {
-	public static final int TIMEOUT = 360;
 	public static final float DECAY = 0.9f;
+	public static final int TIMEOUT = 360;
 
-	private long mostRecent = 0;
+	public static final ZoneManager zoneManager = GWT.create(ZoneManager.class);
 
 	private int bandWidthMax = 0;
 	private long bandWidthTime = 0;
 
-	private LinkListener listener;
-
 	private final Map<String, Link> links = new HashMap<String, Link>();
-	public static final ZoneManager zoneManager = GWT.create(ZoneManager.class);
+
+	private LinkListener listener;
+	private long mostRecent = 0;
 
 	public void add(final LinkListener listener)
 	{

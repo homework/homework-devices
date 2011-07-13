@@ -20,7 +20,7 @@ public class NoxZoneManager extends DefaultZoneManager
 	public int getZone(final Link link)
 	{
 		if (link.isResource() && link.getDeviceName().equals("Router")) { return 2; }
-		if (link.getState().equals("requesting")) { return 1; }
+		if (link.getState().equals("requesting") || (link.getState().equals("denied") && link.getIPAddress() != null)) { return 1; }
 		if (link.getState().equals("permitted")) { return 2; }
 		return 0;
 	}
@@ -32,7 +32,7 @@ public class NoxZoneManager extends DefaultZoneManager
 		{
 			service.permit(link.getMacAddress());
 		}
-		else if(zone == 0)
+		else if (zone == 0)
 		{
 			service.deny(link.getMacAddress());
 		}

@@ -19,17 +19,17 @@ public class PollingThread extends Thread
 	public static final String hwdbHost = "localhost";
 	// public static final String hwdbHost = "192.168.9.1";
 
-	private static final String searchString = "<|>Artifact App<|>USB<|>";
-
-	private final Map<String, Lease> leases = new HashMap<String, Lease>();
+	public static boolean trayPlugged = false;
 
 	private static final Logger logger = Logger.getLogger(PollingThread.class.getName());
 
-	private final int TIME_DELTA = 5000;
-	private final JavaSRPC rpc = new JavaSRPC();
-	private final boolean nox = true;
+	private static final String searchString = "<|>Artifact App<|>USB<|>";
 
-	public static boolean trayPlugged = false;
+	private final Map<String, Lease> leases = new HashMap<String, Lease>();
+	private final boolean nox = true;
+	private final JavaSRPC rpc = new JavaSRPC();
+
+	private final int TIME_DELTA = 5000;
 
 	@Override
 	public void run()
@@ -105,7 +105,7 @@ public class PollingThread extends Thread
 			leaseQuery = String.format("SQL:select * from Leases");
 		}
 		final String leaseResults = rpc.call(leaseQuery);
-		// logger.info(leaseResults);
+		logger.info(leaseResults);
 		if (leaseResults != null)
 		{
 			final Iterable<Lease> newLeases = Lease.parseResultSet(leaseResults);
@@ -203,6 +203,7 @@ public class PollingThread extends Thread
 			userQuery = String.format("SQL:select * from UserEvents");
 		}
 		final String result = rpc.call(userQuery);
+		logger.info(result);
 		int index = result.lastIndexOf(searchString);
 		if (index == -1) { return; }
 		index = result.lastIndexOf(searchString) + searchString.length();

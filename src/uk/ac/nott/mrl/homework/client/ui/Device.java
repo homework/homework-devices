@@ -1,12 +1,10 @@
 package uk.ac.nott.mrl.homework.client.ui;
 
+import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.Model;
-import uk.ac.nott.mrl.homework.client.touch.TouchEvent;
-import uk.ac.nott.mrl.homework.client.touch.TouchHandler;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -19,29 +17,31 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
-	private Link link;
+	private boolean init = false;
 
-	private final TextBox textBoxName = new TextBox();
-	private final Label text = new Label();
+	private boolean isSignalDevice = false;
+	private Link link;
 
 	private DevicesService service;
 
-	private TouchHandler touchStart;
+	private final Label text = new Label();
 
-	private boolean isSignalDevice = false;
+	private final TextBox textBoxName = new TextBox();
 
 	public Device(final Link link, final int bandWidthMax)
 	{
 		this.link = link;
 
-		setStylePrimaryName("device");
-		
+		setStylePrimaryName(DevicesClient.resources.style().device());
+
 		text.setStyleName("deviceName");
 		text.setText(getDeviceName());
 		textBoxName.setMaxLength(80);
@@ -76,7 +76,6 @@ public class Device extends FlowPanel
 
 		setLeft(getZone() * DevicesPanel.getZoneWidth() + 25);
 		update(link, bandWidthMax);
-		registerDomTouchEvents();
 	}
 
 	public void acceptEdit()
@@ -101,9 +100,9 @@ public class Device extends FlowPanel
 		addDomHandler(handler, MouseDownEvent.getType());
 	}
 
-	public void addTouchStartHandler(final TouchHandler handler)
+	public void addTouchStartHandler(final TouchStartHandler handler)
 	{
-		touchStart = handler;
+		addDomHandler(handler, TouchStartEvent.getType());
 	}
 
 	public void cancelEdit()
@@ -148,6 +147,11 @@ public class Device extends FlowPanel
 	public void setTop(final int top)
 	{
 		getElement().getStyle().setTop(top, Unit.PX);
+		if (!init)
+		{
+			addStyleName(DevicesClient.resources.style().deviceAnim());
+			init = true;
+		}
 	}
 
 	@Override
@@ -159,7 +163,7 @@ public class Device extends FlowPanel
 	public void update(final Link link, final int bandWidthMax)
 	{
 		final String oldState = this.link.getState();
-		
+
 		final int oldZone = getZone();
 		this.link = link;
 
@@ -173,14 +177,13 @@ public class Device extends FlowPanel
 			updateStyle(oldState);
 		}
 
-
 		// Font size by bandwidth
 		if (link.getIPAddress() != null)
 		{
 			getElement().getStyle().setFontSize((30 * link.getByteCount() / bandWidthMax) + 5, Unit.PX);
 			// GWT.log("Bandwidth: " + (100 * link.getByteCount() / bandWidthMax) + "% - " +
 			// link.getByteCount() + "/" + bandWidthMax);
-			
+
 			// Font size by Signal Strength:
 			// fontSize.setValue((int) (50 + (link.getRssi() / 2)));
 
@@ -238,25 +241,6 @@ public class Device extends FlowPanel
 		}
 		return deviceName;
 	}
-
-	private void onTouchStart(final JavaScriptObject event)
-	{
-		final TouchEvent touchEvent = event.cast();
-		if (touchStart != null)
-		{
-			touchStart.onTouchEvent(this, touchEvent);
-		}
-	}
-
-	private final native void registerDomTouchEvents()
-	/*-{
-		var instance = this;
-		var element = this.@uk.ac.nott.mrl.homework.client.ui.Device::getElement()();
-
-		element.addEventListener("touchstart", $entry(function(e){
-		        instance.@uk.ac.nott.mrl.homework.client.ui.Device::onTouchStart(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
-		}), false);
-	}-*/;
 
 	private void updateStyle(final String oldState)
 	{

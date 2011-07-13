@@ -61,18 +61,18 @@ public class Flow
 		return links;
 	}
 
-	// protocol number, source IP address, source port, destination IP address, destination port,
-	// number of packets, number of bytes
-	private Date timeStamp;
+	private int byteCount;
+	private String classification;
+	private String destIP;
+	private int destPort;
+	private int packetCount;
 	private int protocolNumber;
 	private String sourceIP;
 	private int sourcePort;
-	private String destIP;
-	private String classification;
-	private int destPort;
-	private int packetCount;
 
-	private int byteCount;
+	// protocol number, source IP address, source port, destination IP address, destination port,
+	// number of packets, number of bytes
+	private Date timeStamp;
 
 	public Flow()
 	{

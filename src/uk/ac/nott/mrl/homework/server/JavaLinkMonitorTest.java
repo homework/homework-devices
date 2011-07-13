@@ -8,20 +8,20 @@ import uk.ac.nott.mrl.homework.server.model.Link;
 
 public class JavaLinkMonitorTest
 {
-	private static final Logger logger = Logger.getLogger(JavaLinkMonitorTest.class.getName());
-
-	private static final String USAGE = "./linkmonitor [-h host] [-p port]";
+	// private static int sig_received;
+	private static int exit_status = 0;
 
 	private static final String HWDB_SERVER_ADDR = "192.168.0.1";
+
 	private static final short HWDB_SERVER_PORT = 987;
+	private static final Logger logger = Logger.getLogger(JavaLinkMonitorTest.class.getName());
 
 	// private static final int SOCK_RECV_BUF_LEN = 65535;
 
-	private static final int TIME_DELTA = 10;
-
 	private static int must_exit = 0;
-	// private static int sig_received;
-	private static int exit_status = 0;
+
+	private static final int TIME_DELTA = 10;
+	private static final String USAGE = "./linkmonitor [-h host] [-p port]";
 
 	/**
 	 * @param args

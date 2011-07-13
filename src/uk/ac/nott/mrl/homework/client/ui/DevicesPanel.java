@@ -9,13 +9,12 @@ import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.LinkListener;
 import uk.ac.nott.mrl.homework.client.model.Model;
-import uk.ac.nott.mrl.homework.client.touch.Touch;
-import uk.ac.nott.mrl.homework.client.touch.TouchEvent;
-import uk.ac.nott.mrl.homework.client.touch.TouchHandler;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -30,6 +29,12 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.http.client.Request;
@@ -108,14 +113,8 @@ public class DevicesPanel extends FlowPanel
 	};
 
 	private final Map<String, Device> deviceMap = new HashMap<String, Device>();
-	private Object selected;
 	private Device drag;
-	private Device popupDevice;
 	private final SimplePanel dragLine = new SimplePanel();
-	private final PopupPanel popup = new PopupPanel(true);
-
-	// private final AnimatedFloat popupOpacity;
-
 	private final Timer fadeTimer = new Timer()
 	{
 		@Override
@@ -124,7 +123,7 @@ public class DevicesPanel extends FlowPanel
 			popup.getElement().getStyle().setOpacity(0);
 		}
 	};
-
+	private int fullHeight;
 	private final LinkListener linkListener = new LinkListener()
 	{
 		@Override
@@ -177,19 +176,19 @@ public class DevicesPanel extends FlowPanel
 						event.preventDefault();
 					}
 				});
-				device.addTouchStartHandler(new TouchHandler()
+				device.addTouchStartHandler(new TouchStartHandler()
 				{
 					@Override
-					public void onTouchEvent(final Device thingy, final TouchEvent event)
+					public void onTouchStart(final TouchStartEvent event)
 					{
-						final Touch touch = event.changedTouches().get(0);
-						Node node = touch.target();
-						if (touch.target().getNodeType() == Node.TEXT_NODE)
+						final Touch touch = event.getChangedTouches().get(0);
+
+						Element target = Element.as(touch.getTarget());
+						if (target.getNodeType() == Node.TEXT_NODE)
 						{
-							node = node.getParentNode();
+							target = target.getParentElement();
 						}
-						setDragWidget(	device,
-										com.google.gwt.dom.client.Element.as(node).getAbsoluteLeft() - touch.pageX());
+						setDragWidget(device, target.getAbsoluteLeft() - touch.getPageX());
 					}
 				});
 
@@ -263,15 +262,21 @@ public class DevicesPanel extends FlowPanel
 		}
 	};
 
+	// private final AnimatedFloat popupOpacity;
+
 	private int offsetx;
 
-	private int fullHeight;
+	private final PopupPanel popup = new PopupPanel(true);
 
-	private final List<Zone> zones = new ArrayList<Zone>();
+	private Device popupDevice;
+
+	private Object selected;
 
 	private final DevicesService service;
-	private final TrayPanel trayPanel;
+
 	private String signalDeviceMac;
+	private final TrayPanel trayPanel;
+	private final List<Zone> zones = new ArrayList<Zone>();
 
 	public DevicesPanel(final DevicesService service)
 	{
@@ -387,7 +392,28 @@ public class DevicesPanel extends FlowPanel
 			}
 		}, ClickEvent.getType());
 
-		registerDomTouchEvents();
+		addDomHandler(new TouchEndHandler()
+		{
+
+			@Override
+			public void onTouchEnd(final TouchEndEvent event)
+			{
+				dragEnd(event.getChangedTouches().get(0).getPageX());
+			}
+		}, TouchEndEvent.getType());
+		addDomHandler(new TouchMoveHandler()
+		{
+
+			@Override
+			public void onTouchMove(final TouchMoveEvent event)
+			{
+				if (drag != null)
+				{
+					event.preventDefault();
+					dragDeviceTo(drag, event.getChangedTouches().get(0).getPageX() + offsetx);
+				}
+			}
+		}, TouchMoveEvent.getType());
 
 		trayPanel = new TrayPanel(service);
 		add(trayPanel);
@@ -411,20 +437,6 @@ public class DevicesPanel extends FlowPanel
 	public RequestCallback getTrayModeCallback()
 	{
 		return trayPanel.getTrayModeCallback();
-	}
-
-	protected void onTouchEnd(final TouchEvent event)
-	{
-		dragEnd(event.changedTouches().get(0).pageX());
-	}
-
-	protected void onTouchMove(final TouchEvent event)
-	{
-		if (drag != null)
-		{
-			event.preventDefault();
-			dragDeviceTo(drag, event.changedTouches().get(0).pageX() + offsetx);
-		}
 	}
 
 	private void dragDeviceTo(final Device drag, final int left)
@@ -478,20 +490,6 @@ public class DevicesPanel extends FlowPanel
 		updateClientHeight(maxDevice);
 	}
 
-	private final native void registerDomTouchEvents()
-	/*-{
-		var instance = this;
-		var element = this.@uk.ac.nott.mrl.homework.client.ui.DevicesPanel::getElement()();
-
-		element.addEventListener("touchend", $entry(function(e){
-		        instance.@uk.ac.nott.mrl.homework.client.ui.DevicesPanel::onTouchEnd(Luk/ac/nott/mrl/homework/client/touch/TouchEvent;)(e);
-		}), false);
-
-		element.addEventListener("touchmove", $entry(function(e){
-		        instance.@uk.ac.nott.mrl.homework.client.ui.DevicesPanel::onTouchMove(Luk/ac/nott/mrl/homework/client/touch/TouchEvent;)(e);
-		}), false);
-	}-*/;
-
 	private void setDragWidget(final Device device, final int offsetx)
 	{
 		if (selected != device)
@@ -511,13 +509,14 @@ public class DevicesPanel extends FlowPanel
 	{
 		final FlowPanel panel = new FlowPanel();
 
-		if(device.getLink().getState().equals("requesting"))
+		if (device.getLink().getState().equals("requesting"))
 		{
-			Label label = new Label("This machine is requesting permission to use your network. Drag it to the right to allow it or to the left to deny it access.");
+			final Label label = new Label(
+					"This machine is requesting permission to use your network. Drag it to the right to allow it or to the left to deny it access.");
 			label.addStyleName("warning");
 			panel.add(label);
 		}
-		
+
 		if (device.getLink().getCorporation() == null || device.getLink().getCorporation().equals("Unknown"))
 		{
 			panel.add(new Label("Manufacturer: Unknown"));

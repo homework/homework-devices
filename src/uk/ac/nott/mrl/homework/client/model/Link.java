@@ -27,9 +27,9 @@ public class Link extends JavaScriptObject
 
 	public final native float getRssi() /*-{ return this.rssi; }-*/;
 
-	public final native double getTimestamp() /*-{ return this.timeStamp; }-*/;
-
 	public final native String getState() /*-{ return this.state; }-*/;
+
+	public final native double getTimestamp() /*-{ return this.timeStamp; }-*/;
 
 	public final native boolean isResource() /*-{ return this.resource || false; }-*/;
 
