@@ -7,34 +7,33 @@ import com.google.gwt.resources.client.TextResource;
 public interface Resources extends ClientBundleWithLookup
 {
 	@Source("network-workgroup.png")
-	public ImageResource all();
+	ImageResource all();
 
 	@Source("process-stop.png")
-	public ImageResource denied();
+	ImageResource denied();
 
 	@Source("drive-harddisk.png")
-	public ImageResource drive();
+	ImageResource drive();
 
-	@Source("printer.png")
-	public ImageResource printer();
+	ImageResource printer();
 
 	@Source("device.css")
-	public DeviceCSS style();
+	DeviceCSS style();
 
-	@Source("testlinks.txt")
-	public TextResource testLinks();
+	public TextResource testlinks();
 
-	@Source("testlinkssimple.txt")
-	public TextResource testLinksSimple();
+	public TextResource testlinkssimple();
 
 	@Source("tray-bandwidth.png")
 	public ImageResource trayBandwidth();
 
 	@Source("tray-events.png")
-	public ImageResource trayEvents();
+	ImageResource trayEvents();
 
+	ImageResource warning();
+	
 	@Source("tray-signal.png")
-	public ImageResource traySignal();
+	ImageResource traySignal();
 
 	@Source("web-blue.png")
 	public ImageResource webblue();

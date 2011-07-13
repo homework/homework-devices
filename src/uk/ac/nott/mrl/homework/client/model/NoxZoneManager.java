@@ -1,5 +1,6 @@
 package uk.ac.nott.mrl.homework.client.model;
 
+import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
 
 public class NoxZoneManager extends DefaultZoneManager
@@ -8,6 +9,25 @@ public class NoxZoneManager extends DefaultZoneManager
 	{
 		super(new String[] { "Not Allowed", "Requesting Permission", "Internet" });
 		internet = 2;
+	}
+
+	@Override
+	public String getStyleName(Link link)
+	{
+		int zone = getZone(link);
+		if(zone == 0)
+		{
+			return DevicesClient.resources.style().denied();
+		}
+		else if(zone == 1)
+		{
+			return DevicesClient.resources.style().requesting();
+		}
+		else if(zone == 2)
+		{
+			return DevicesClient.resources.style().permitted();
+		}
+		return super.getStyleName(link);
 	}
 
 	@Override

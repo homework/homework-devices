@@ -42,11 +42,11 @@ public class Device extends FlowPanel
 
 		setStylePrimaryName(DevicesClient.resources.style().device());
 
-		text.setStyleName("deviceName");
+		text.setStyleName(DevicesClient.resources.style().deviceName());
 		text.setText(getDeviceName());
 		textBoxName.setMaxLength(80);
 		add(text);
-		updateStyle(link.getState());
+		updateStyle(null);
 
 		add(textBoxName);
 		textBoxName.addBlurHandler(new BlurHandler()
@@ -141,7 +141,7 @@ public class Device extends FlowPanel
 	public void setSignalDevice(final boolean signal)
 	{
 		isSignalDevice = signal;
-		updateStyle(link.getState());
+		updateStyle(link);
 	}
 
 	public void setTop(final int top)
@@ -162,7 +162,7 @@ public class Device extends FlowPanel
 
 	public void update(final Link link, final int bandWidthMax)
 	{
-		final String oldState = this.link.getState();
+		final Link oldLink = this.link;
 
 		final int oldZone = getZone();
 		this.link = link;
@@ -172,10 +172,7 @@ public class Device extends FlowPanel
 			text.setText(getDeviceName());
 		}
 
-		if (!oldState.equals(link.getState()))
-		{
-			updateStyle(oldState);
-		}
+		updateStyle(oldLink);
 
 		// Font size by bandwidth
 		if (link.getIPAddress() != null)
@@ -242,10 +239,19 @@ public class Device extends FlowPanel
 		return deviceName;
 	}
 
-	private void updateStyle(final String oldState)
+	private void updateStyle(final Link oldLink)
 	{
-		removeStyleName(oldState);
-		addStyleName(link.getState());
+		String oldStyle = null;
+		if(oldLink != null)
+		{
+			oldStyle = Model.zoneManager.getStyleName(oldLink);
+		}
+		String newStyle = Model.zoneManager.getStyleName(link);
+		if(!newStyle.equals(oldStyle))
+		{
+			removeStyleName(oldStyle);
+			addStyleName(newStyle);
+		}
 		if (isSignalDevice)
 		{
 			addStyleName("signal");

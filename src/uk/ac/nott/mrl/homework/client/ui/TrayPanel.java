@@ -69,7 +69,7 @@ public class TrayPanel extends FlowPanel
 		this.service = service;
 		service.getTrayMode(callback);
 
-		setStylePrimaryName("trayButton");
+		setStylePrimaryName(DevicesClient.resources.style().trayButton());
 		add(trayIcon);
 		add(trayLabel);
 
@@ -94,7 +94,7 @@ public class TrayPanel extends FlowPanel
 		if (isVisible())
 		{
 			final Anchor trayLink = new Anchor("Monitor this Signal Strength");
-			trayLink.setStylePrimaryName("popupLink");
+			trayLink.setStylePrimaryName(DevicesClient.resources.style().popupLink());
 			trayLink.addClickHandler(new ClickHandler()
 			{
 				@Override

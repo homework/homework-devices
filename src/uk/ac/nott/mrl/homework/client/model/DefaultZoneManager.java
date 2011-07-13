@@ -111,4 +111,11 @@ public class DefaultZoneManager implements ZoneManager
 			}
 		}
 	}
+
+	@Override
+	public String getStyleName(Link link)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.LinkListener;
@@ -282,7 +283,7 @@ public class DevicesPanel extends FlowPanel
 	{
 		this.service = service;
 
-		popup.setStylePrimaryName("popup");
+		popup.setStylePrimaryName(DevicesClient.resources.style().popup());
 		// popupOpacity = new AnimatedFloat(1, 0.02f, 0, 1)
 		// {
 		// @Override
@@ -338,11 +339,11 @@ public class DevicesPanel extends FlowPanel
 			});
 		}
 
-		dragLine.setStylePrimaryName("deviceLine");
+		dragLine.setStylePrimaryName(DevicesClient.resources.style().deviceLine());
 		dragLine.setVisible(false);
 		add(dragLine);
 
-		setStylePrimaryName("devicePanel");
+		setStylePrimaryName(DevicesClient.resources.style().devicePanel());
 		// detailPanel.setStylePrimaryName("detailPanel");
 
 		// window scroll handler
@@ -513,7 +514,7 @@ public class DevicesPanel extends FlowPanel
 		{
 			final Label label = new Label(
 					"This machine is requesting permission to use your network. Drag it to the right to allow it or to the left to deny it access.");
-			label.addStyleName("warning");
+			label.addStyleName(DevicesClient.resources.style().warning());
 			panel.add(label);
 		}
 
@@ -542,7 +543,7 @@ public class DevicesPanel extends FlowPanel
 		panel.add(new Label("MAC Address: " + device.getLink().getMacAddress()));
 
 		final Anchor renameLink = new Anchor("Rename Device");
-		renameLink.setStylePrimaryName("popupLink");
+		renameLink.setStylePrimaryName(DevicesClient.resources.style().popupLink());
 		renameLink.addClickHandler(new ClickHandler()
 		{
 			@Override

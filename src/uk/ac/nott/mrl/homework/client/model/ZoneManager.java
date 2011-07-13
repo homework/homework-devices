@@ -24,5 +24,7 @@ public interface ZoneManager
 
 	public void setZone(final DevicesService service, final Link link, final int zone);
 
+	public String getStyleName(final Link link);
+	
 	public void updateImage(final int zone, final Image image, final float data);
 }

@@ -3,6 +3,7 @@ package uk.ac.nott.mrl.homework.client.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.Model;
 
@@ -36,11 +37,11 @@ public class Zone extends FlowPanel
 	{
 		super();
 		this.zone = zone;
-		setStylePrimaryName("zoneBar");
+		setStylePrimaryName(DevicesClient.resources.style().zoneBar());
 		getElement().getStyle().setWidth(DevicesPanel.getZoneWidth(), Unit.PX);
 
 		final FlowPanel panel = new FlowPanel();
-		panel.setStylePrimaryName("zone");
+		panel.setStylePrimaryName(DevicesClient.resources.style().zone());
 		panel.getElement().getStyle().setWidth(DevicesPanel.getZoneWidth(), Unit.PX);
 
 		image = new Image();
@@ -51,7 +52,7 @@ public class Zone extends FlowPanel
 		panel.add(label);
 		add(panel);
 
-		line.setStylePrimaryName("deviceLine");
+		line.setStylePrimaryName(DevicesClient.resources.style().deviceLine());
 		add(line);
 		line.setVisible(false);
 	}
