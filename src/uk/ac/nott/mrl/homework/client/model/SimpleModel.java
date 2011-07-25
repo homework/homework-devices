@@ -16,16 +16,8 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class SimpleModel implements Model
 {
-	private static final int DEATH_TIMEOUT = 24000;
-	private static final float DECAY = 0.9f;
-
-	private static final int INACTIVITY_TIMEOUT = 12000;
-	private static final int TIMEOUT = 360;
-
-	protected int internet = 1;
-
-	private int bandWidthMax = 0;
-	private long bandWidthTime = 0;
+	private static final int DEATH_TIMEOUT = 50000;
+	private static final int INACTIVITY_TIMEOUT = 30000;
 
 	private final Map<String, Item> itemMap = new HashMap<String, Item>();
 
@@ -51,13 +43,6 @@ public class SimpleModel implements Model
 	public void addListener(final ItemListener listener)
 	{
 		this.listener = listener;
-	}
-
-	@Override
-	public boolean allowDrag()
-	{
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -188,6 +173,8 @@ public class SimpleModel implements Model
 			}
 		}
 
+		GWT.log("Last Updated: " + lastUpdated);
+		
 		try
 		{
 			removeOld();
@@ -201,14 +188,6 @@ public class SimpleModel implements Model
 
 	private void add(final Link link)
 	{
-		if (link.getByteCount() > bandWidthMax && !link.isResource() && link.getIPAddress() != null)
-		{
-			// GWT.log("New Bandwidth Max for " + link.getDeviceName() + " with " +
-			// link.getByteCount());
-			bandWidthMax = link.getByteCount();
-			bandWidthTime = (long) link.getTimestamp();
-		}
-
 		if (link.getTimestamp() > lastUpdated)
 		{
 			lastUpdated = (long) link.getTimestamp();
@@ -278,11 +257,6 @@ public class SimpleModel implements Model
 		// GWT.log("Last Updated: " + lastUpdated);
 		if (lastUpdated > 0)
 		{
-			if (lastUpdated - bandWidthTime > TIMEOUT)
-			{
-				bandWidthMax *= DECAY;
-			}
-
 			final Collection<Item> removals = new HashSet<Item>();
 			for (final Item item : items.values())
 			{

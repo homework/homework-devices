@@ -16,7 +16,6 @@ import uk.ac.nott.mrl.homework.client.model.Model;
 import uk.ac.nott.mrl.homework.client.model.Zone;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -147,7 +146,7 @@ public class DevicesPanel extends FlowPanel
 			@Override
 			public void itemAdded(final Item item)
 			{
-				GWT.log("Item Added: " + item.getName());
+				//GWT.log("Item Added: " + item.getName());
 				final ZonePanel zone = getZone(item.getZone().getIndex());
 				if (item.isResource())
 				{
@@ -213,7 +212,7 @@ public class DevicesPanel extends FlowPanel
 			@Override
 			public void itemRemoved(final Item item)
 			{
-				GWT.log("Item Removed: " + item.getName());
+				//GWT.log("Item Removed: " + item.getName());
 				final ZonePanel zone = getZone(item.getZone().getIndex());
 				if (item.isResource())
 				{
@@ -233,7 +232,7 @@ public class DevicesPanel extends FlowPanel
 			@Override
 			public void itemUpdated(final Item item)
 			{
-				GWT.log("Item Updated: " + item.getName());
+				//GWT.log("Item Updated: " + item.getName());
 				final ZonePanel newZone = getZone(item.getZone().getIndex());
 				final Device device = deviceMap.get(item);
 				if (item.isResource())
