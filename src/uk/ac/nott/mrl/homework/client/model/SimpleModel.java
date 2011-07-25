@@ -165,7 +165,11 @@ public class SimpleModel implements Model
 		{
 			try
 			{
-				add(newLinks.get(index));
+				Link link = newLinks.get(index);
+				Item item = getItem(link);
+// If state.added?
+				itemMap.put(link.getMacAddress(), item);
+				items.put(item.getID(), item);
 			}
 			catch (final Exception e)
 			{
@@ -177,7 +181,7 @@ public class SimpleModel implements Model
 		
 		try
 		{
-			removeOld();
+			fireEvents();
 			listener.itemUpdateFinished();
 		}
 		catch (final Exception e)
@@ -186,24 +190,20 @@ public class SimpleModel implements Model
 		}
 	}
 
-	private void add(final Link link)
+	private Item getItem(final Link link)
 	{
-		if (link.getTimestamp() > lastUpdated)
-		{
-			lastUpdated = (long) link.getTimestamp();
-		}
+		lastUpdated = Math.max(lastUpdated, (long) link.getTimestamp());
 
 		final Item existing = itemMap.get(link.getMacAddress());
-		boolean updated = false;
 		if (existing != null)
 		{
 			if (canBeGrouped(link))
 			{
 				existing.update(link);
-				listener.itemUpdated(existing);
 				if (existing instanceof LinkListItem)
 				{
-					updated = true;
+                                        existing.setState(State.updated);
+					return existing;
 				}
 			}
 			else
@@ -213,54 +213,58 @@ public class SimpleModel implements Model
 					existing.update(link);
 					final Zone zone = getZones()[getZone(link)];
 					existing.setZone(zone);
-					listener.itemUpdated(existing);
-					updated = true;
+                                        existing.setState(State.updated);
+					return existing;
 				}
 			}
 		}
 
-		if (!updated)
+		final Zone zone = getZones()[getZone(link)];
+		if (canBeGrouped(link))
 		{
-			final Zone zone = getZones()[getZone(link)];
-			if (canBeGrouped(link))
+			final String company = getCompany(link);
+			final Item listItem = items.get(zone.getName() + ":" + company);
+			if (listItem != null && listItem instanceof LinkListItem)
 			{
-				final String company = getCompany(link);
-				final Item listItem = items.get(zone.getName() + ":" + company);
-				if (listItem != null && listItem instanceof LinkListItem)
-				{
-					((LinkListItem) listItem).add(link);
-					listener.itemUpdated(listItem);
-				}
-				else
-				{
-					final LinkListItem item = new LinkListItem(zone, company);
-					item.add(link);
-					itemMap.put(link.getMacAddress(), item);
-					items.put(item.getID(), item);
-					listener.itemAdded(item);
-				}
+				((LinkListItem) listItem).add(link);
+				listItem.setState(State.updated);
+				return listItem;
 			}
 			else
 			{
-				final LinkItem item = new LinkItem(link, zone);
-				itemMap.put(link.getMacAddress(), item);
-				items.put(item.getID(), item);
-				listener.itemAdded(item);
+				final LinkListItem item = new LinkListItem(zone, company);
+				item.add(link);
+				item.setState(State.added);
+				return item;
 			}
 		}
-
-		lastUpdated = Math.max(lastUpdated, (long) link.getTimestamp());
+		else
+		{
+			final LinkItem item = new LinkItem(link, zone);
+			item.setState(State.added);
+			return item;
+		}
 	}
 
-	private void removeOld()
+	private void fireEvents()
 	{
 		// GWT.log("Last Updated: " + lastUpdated);
 		if (lastUpdated > 0)
 		{
-			final Collection<Item> removals = new HashSet<Item>();
+			final Collection<Item> removals = new ArrayList<Item>();
 			for (final Item item : items.values())
 			{
-				if (item.update(this))
+				if(item.getState() == State.added)
+				{
+					listener.itemAdded(item);
+					item.setState(State.active);
+				}
+				else if(item.getState() == State.updated)
+				{
+					listener.itemUpdated(item);
+					item.setState(State.active);
+				}
+				else if (item.updateState(this))
 				{
 					if (item.getState() == State.dead)
 					{
@@ -276,6 +280,7 @@ public class SimpleModel implements Model
 			for (final Item remove : removals)
 			{
 				listener.itemRemoved(remove);
+// TODO Remove items from maps! Idiot
 			}
 		}
 	}
