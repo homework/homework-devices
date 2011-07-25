@@ -1,5 +1,5 @@
 .device {
-	position: absolute;
+	position: relative;
 	border: 3px solid #579;
 	background-color: #79B;	
 	border-left: 0;
@@ -18,7 +18,7 @@
 }
 
 .deniedDevice {
-	position: absolute;
+	position: relative;
 	border: 3px solid #777;
 	background-color: #999;
 	border-left: 0;
@@ -49,7 +49,7 @@
 }
 
 .dragDevice {
-	position: absolute;
+	position: relative;
 	background-color: #79B;	
 	border: 3px solid #579;
 	border-radius: 0.4em;
@@ -110,7 +110,7 @@
 }
 
 .deviceLine {
-	position: absolute;
+	position: relative;
 	top: 0px;
 	width: 5px;
 	left: 20px;
@@ -123,7 +123,7 @@
 	font-size: 10px;
 	height: 100%;
 	overflow: hidden;
-	position: absolute;
+	position: relative;
 	background-color: #79B;
 	right: 0px;
 	z-index: 10;
@@ -145,7 +145,7 @@
 }
 
 .trayButton {
-	position: absolute;
+	position: relative;
 	right: 0px;
 	z-index: 10;
 	border: 1px solid #999;
@@ -163,18 +163,18 @@
 .zone {
 	font-size: 18px;
 	text-align: center;
-	position: absolute;
+	position: relative;
 	bottom: 3px;
 }
 
 .zoneBar {
-	position: absolute;
+	position: relative;
 	height: 100%;
 	border-right: 1px solid #CCC;
 }
 
 .buttonPanel {
-	position: absolute;
+	position: relative;
 	right: 0px;
 	z-index: 10;
 	border-bottom: 3px solid #579;
