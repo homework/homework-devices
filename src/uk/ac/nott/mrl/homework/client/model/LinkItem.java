@@ -4,9 +4,10 @@ public class LinkItem extends Item
 {
 	private Link link;
 
-	public LinkItem(final Link link)
+	public LinkItem(final Link link, final Zone zone)
 	{
 		this.link = link;
+		setZone(zone);
 	}
 
 	@Override

@@ -232,6 +232,8 @@ public class SimpleModel implements Model
 				if (existing instanceof LinkItem)
 				{
 					existing.update(link);
+					final Zone zone = getZones()[getZone(link)];
+					existing.setZone(zone);
 					listener.itemUpdated(existing);
 					updated = true;
 				}
@@ -240,9 +242,9 @@ public class SimpleModel implements Model
 
 		if (!updated)
 		{
+			final Zone zone = getZones()[getZone(link)];
 			if (canBeGrouped(link))
 			{
-				final Zone zone = getZones()[getZone(link)];
 				final String company = getCompany(link);
 				final Item listItem = items.get(zone.getName() + ":" + company);
 				if (listItem != null && listItem instanceof LinkListItem)
@@ -261,7 +263,7 @@ public class SimpleModel implements Model
 			}
 			else
 			{
-				final LinkItem item = new LinkItem(link);
+				final LinkItem item = new LinkItem(link, zone);
 				itemMap.put(link.getMacAddress(), item);
 				items.put(item.getID(), item);
 				listener.itemAdded(item);

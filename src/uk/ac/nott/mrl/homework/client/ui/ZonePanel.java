@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ZonePanel extends FlowPanel
 {
-	private final Image image;
+	private final Image image = new Image();
 
 	private final Label label;
 	private final SimplePanel line = new SimplePanel();
@@ -40,7 +40,6 @@ public class ZonePanel extends FlowPanel
 		panel.setStylePrimaryName(DevicesClient.resources.style().zone());
 		panel.setWidth("100%");
 
-		image = new Image();
 		if (zone.getImage() != null)
 		{
 			image.setResource(zone.getImage());

@@ -459,6 +459,7 @@ public class DevicesPanel extends FlowPanel
 						dragDevice.setupDrag(link, label, label.getText(), event.getClientX(), event.getClientY());	
 					}
 				});
+				panel.add(label);
 			}
 		}
 		trayPanel.addTrayLinks(device, panel);
