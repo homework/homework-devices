@@ -1,5 +1,7 @@
 package uk.ac.nott.mrl.homework.client;
 
+import java.util.Date;
+
 import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.Model;
 
@@ -24,12 +26,16 @@ public class DevicesServiceImpl implements DevicesService
 		@Override
 		public void onResponseReceived(final Request request, final Response response)
 		{
+			GWT.log("Response " + response.getStatusCode() + ": " + response.getText());
+
 			if (200 == response.getStatusCode())
 			{
 				try
 				{
-					// model.updateLinks(getLinks("[{\"timeStamp\":1288969308013,\"macAddress\":\"00:0b:85:92:66:af\",\"rssi\":-86.70968,\"retryCount\":0,\"packetCount\":94,\"byteCount\":11750,\"permitted\":false,\"resource\":false}]"));
-					model.updateLinks(getLinks(response.getText()));
+					model.updateLinks(getLinks("[{\"timeStamp\":"
+							+ new Date().getTime()
+							+ ",\"macAddress\":\"00:0b:85:92:66:af\",\"rssi\":-86.70968,\"retryCount\":0,\"packetCount\":94,\"byteCount\":11750,\"permitted\":false,\"resource\":false}]"));
+					// model.updateLinks(getLinks(response.getText()));
 				}
 				catch (final Exception e)
 				{
@@ -38,8 +44,10 @@ public class DevicesServiceImpl implements DevicesService
 			}
 			else
 			{
-				GWT.log("Response code: " + response.getStatusCode(), null);
 				// Handle the error. Can get the status text from response.getStatusText()
+				model.updateLinks(getLinks("[{\"timeStamp\":"
+											+ new Date().getTime()
+											+ ",\"macAddress\":\"00:0b:85:92:66:af\",\"rssi\":-86.70968,\"retryCount\":0,\"packetCount\":94,\"byteCount\":11750,\"permitted\":false,\"resource\":false}]"));
 			}
 		}
 	};
@@ -54,7 +62,13 @@ public class DevicesServiceImpl implements DevicesService
 	@Override
 	public void deny(final String macAddress)
 	{
-		serverRequest(GWT.getModuleBaseURL() + "deny?macAddress=" + macAddress + "&since" + model.getMostRecent());
+		serverRequest(GWT.getModuleBaseURL() + "deny?macAddress=" + macAddress + "&since" + model.getLastUpdated());
+	}
+
+	@Override
+	public Model getModel()
+	{
+		return model;
 	}
 
 	@Override
@@ -72,8 +86,7 @@ public class DevicesServiceImpl implements DevicesService
 	@Override
 	public void getUpdates()
 	{
-		final String url = GWT.getModuleBaseURL() + "links?since=" + model.getMostRecent();
-		serverRequest(url);
+		serverRequest(GWT.getModuleBaseURL() + "links?since=" + model.getLastUpdated());
 	}
 
 	@Override
@@ -92,21 +105,21 @@ public class DevicesServiceImpl implements DevicesService
 	@Override
 	public void permit(final String macAddress)
 	{
-		serverRequest(GWT.getModuleBaseURL() + "permit?macAddress=" + macAddress + "&since" + model.getMostRecent());
+		serverRequest(GWT.getModuleBaseURL() + "permit?macAddress=" + macAddress + "&since" + model.getLastUpdated());
 	}
 
 	@Override
 	public void setName(final String macAddress, final String name)
 	{
 		serverRequest(GWT.getModuleBaseURL() + "setName?macAddress=" + macAddress + "&name="
-				+ URL.encodeQueryString(name) + "&since=" + model.getMostRecent());
+				+ URL.encodeQueryString(name) + "&since=" + model.getLastUpdated());
 	}
 
 	@Override
 	public void setResource(final String macAddress, final boolean resource)
 	{
 		serverRequest(GWT.getModuleBaseURL() + "setResource?macAddress=" + macAddress + "&resource=" + resource
-				+ "&since=" + model.getMostRecent());
+				+ "&since=" + model.getLastUpdated());
 	}
 
 	@Override
@@ -118,7 +131,7 @@ public class DevicesServiceImpl implements DevicesService
 	public void setZone(final String macAddress, final int zone)
 	{
 		serverRequest(GWT.getModuleBaseURL() + "setZone?macAddress=" + macAddress + "&zone=" + zone + "&since"
-				+ model.getMostRecent());
+				+ model.getLastUpdated());
 	}
 
 	private final native JsArray<Link> getLinks(final String json) /*-{

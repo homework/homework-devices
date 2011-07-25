@@ -2,6 +2,7 @@ package uk.ac.nott.mrl.homework.client.ui;
 
 import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
+import uk.ac.nott.mrl.homework.client.model.LinkItem;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -100,7 +101,10 @@ public class TrayPanel extends FlowPanel
 				@Override
 				public void onClick(final ClickEvent event)
 				{
-					service.setTrayDevice(device.getLink().getMacAddress());
+					if (device.getItem() instanceof LinkItem)
+					{
+						service.setTrayDevice(((LinkItem) device.getItem()).getMacAddress());
+					}
 				}
 			});
 			panel.add(trayLink);

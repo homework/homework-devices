@@ -2,7 +2,10 @@ package uk.ac.nott.mrl.homework.client.ui;
 
 import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
+import uk.ac.nott.mrl.homework.client.model.Item;
 import uk.ac.nott.mrl.homework.client.model.Link;
+import uk.ac.nott.mrl.homework.client.model.LinkItem;
+import uk.ac.nott.mrl.homework.client.model.LinkListItem;
 import uk.ac.nott.mrl.homework.client.model.Model;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -27,8 +30,8 @@ public class Device extends FlowPanel
 {
 	private boolean init = false;
 
-	private boolean isSignalDevice = false;
-	private Link link;
+	// private boolean isSignalDevice = false;
+	private Item item;
 
 	private DevicesService service;
 
@@ -36,17 +39,20 @@ public class Device extends FlowPanel
 
 	private final TextBox textBoxName = new TextBox();
 
-	public Device(final Link link, final int bandWidthMax)
+	// private final Model model;
+
+	public Device(final Model model, final Item item)
 	{
-		this.link = link;
+		// this.model = model;
+		this.item = item;
 
 		setStylePrimaryName(DevicesClient.resources.style().device());
 
 		text.setStyleName(DevicesClient.resources.style().deviceName());
-		text.setText(getDeviceName());
+		text.setText(item.getName());
 		textBoxName.setMaxLength(80);
 		add(text);
-		updateStyle(null);
+		// updateStyle(null);
 
 		add(textBoxName);
 		textBoxName.addBlurHandler(new BlurHandler()
@@ -74,15 +80,32 @@ public class Device extends FlowPanel
 		});
 		textBoxName.setVisible(false);
 
-		setLeft(getZone() * DevicesPanel.getZoneWidth() + 25);
-		update(link, bandWidthMax);
+		setLeft(25);
+		update();
 	}
 
 	public void acceptEdit()
 	{
 		text.setText(textBoxName.getText());
 		textBoxName.setFocus(false);
-		service.setName(link.getMacAddress(), textBoxName.getText());
+		// service.setName(item.getMacAddress(), textBoxName.getText());
+	}
+	
+	public Link getLink()
+	{
+		if(item instanceof LinkItem)
+		{
+			return ((LinkItem)item).getLink();
+		}
+		else if(item instanceof LinkListItem)
+		{
+			LinkListItem listItem = (LinkListItem)item;
+			if(listItem.getSize() == 1)
+			{
+				return listItem.getLinks().iterator().next();
+			}
+		}
+		return null;
 	}
 
 	public void addClickHandler(final ClickHandler handler)
@@ -107,7 +130,7 @@ public class Device extends FlowPanel
 
 	public void cancelEdit()
 	{
-		service.log("Cancel Edit", link.getMacAddress());
+		service.log("Cancel Edit", item.getName());
 		textBoxName.setFocus(false);
 		textBoxName.setVisible(false);
 		text.setVisible(true);
@@ -116,21 +139,17 @@ public class Device extends FlowPanel
 	public void edit(final DevicesService service)
 	{
 		this.service = service;
-		service.log("Start Edit", link.getMacAddress());
+		if (!(item instanceof LinkItem)) { return; }
+		service.log("Start Edit", item.getName());
 		textBoxName.setText(text.getText());
 		text.setVisible(false);
 		textBoxName.setVisible(true);
 		textBoxName.setFocus(true);
 	}
 
-	public Link getLink()
+	public Item getItem()
 	{
-		return link;
-	}
-
-	public int getZone()
-	{
-		return Model.zoneManager.getZone(getLink());
+		return item;
 	}
 
 	public void setLeft(final int left)
@@ -140,18 +159,21 @@ public class Device extends FlowPanel
 
 	public void setSignalDevice(final boolean signal)
 	{
-		isSignalDevice = signal;
-		updateStyle(link);
+		// isSignalDevice = signal;
+		// updateStyle(item);
 	}
 
 	public void setTop(final int top)
 	{
-		getElement().getStyle().setTop(top, Unit.PX);
 		if (!init)
 		{
-			addStyleName(DevicesClient.resources.style().deviceAnim());
 			init = true;
 		}
+		else
+		{
+			addStyleName(DevicesClient.resources.style().deviceAnim());
+		}
+		getElement().getStyle().setTop(top, Unit.PX);
 	}
 
 	@Override
@@ -160,105 +182,37 @@ public class Device extends FlowPanel
 		return text.getText();
 	}
 
-	public void update(final Link link, final int bandWidthMax)
+	public void update()
 	{
-		final Link oldLink = this.link;
-
-		final int oldZone = getZone();
-		this.link = link;
-
-		if (!getDeviceName().equals(text.getText()))
+		if (!item.getName().equals(text.getText()))
 		{
-			text.setText(getDeviceName());
+			text.setText(item.getName());
 		}
 
-		updateStyle(oldLink);
+		getElement().getStyle().setOpacity(item.getOpacity());
+
+		// updateStyle(oldItem);
 
 		// Font size by bandwidth
-		if (link.getIPAddress() != null)
-		{
-			getElement().getStyle().setFontSize((30 * link.getByteCount() / bandWidthMax) + 5, Unit.PX);
-			// GWT.log("Bandwidth: " + (100 * link.getByteCount() / bandWidthMax) + "% - " +
-			// link.getByteCount() + "/" + bandWidthMax);
+		// if (DefaultModel.zoneManager.changeSize(link))
+		// {
+		// getElement().getStyle().setFontSize((30 * link.getByteCount() / bandWidthMax) + 5,
+		// Unit.PX);
+		// // GWT.log("Bandwidth: " + (100 * link.getByteCount() / bandWidthMax) + "% - " +
+		// // link.getByteCount() + "/" + bandWidthMax);
+		//
+		// // Font size by Signal Strength:
+		// // fontSize.setValue((int) (50 + (link.getRssi() / 2)));
+		//
+		// }
+		// else
+		// {
+		// getElement().getStyle().setFontSize(15, Unit.PX);
+		// }
 
-			// Font size by Signal Strength:
-			// fontSize.setValue((int) (50 + (link.getRssi() / 2)));
-
-		}
-		else
-		{
-			getElement().getStyle().setFontSize(15, Unit.PX);
-		}
-
-		if (link.getOld())
-		{
-			getElement().getStyle().setOpacity(0.2);
-		}
-		else
-		{
-			// Constance opacity
-			// opacity.setValue(1, 0.05f, AnimationType.decel);
-
-			// Opacity by Signal Strength
-			getElement().getStyle().setOpacity(1.3 + (link.getRssi() / 100));
-			// opacity.setValue(1.3f + (link.getRssi() / 100), 0.05f, AnimationType.decel);
-		}
-
-		if (getZone() != oldZone)
-		{
-			setLeft(getZone() * DevicesPanel.getZoneWidth() + 25);
-		}
-	}
-
-	private String getDeviceName()
-	{
-		String deviceName = link.getDeviceName();
-		if (deviceName == null)
-		{
-			deviceName = link.getCorporation();
-			if (deviceName != null)
-			{
-				int cut = deviceName.indexOf(' ');
-				if (cut != -1)
-				{
-					deviceName = deviceName.substring(0, cut);
-				}
-
-				cut = deviceName.indexOf(',');
-				if (cut != -1)
-				{
-					deviceName = deviceName.substring(0, cut);
-				}
-				deviceName += " Device";
-			}
-			else
-			{
-				deviceName = "Unknown Device";
-			}
-		}
-		return deviceName;
-	}
-
-	private void updateStyle(final Link oldLink)
-	{
-		String oldStyle = null;
-		if(oldLink != null)
-		{
-			oldStyle = Model.zoneManager.getStyleName(oldLink);
-		}
-		String newStyle = Model.zoneManager.getStyleName(link);
-		if(!newStyle.equals(oldStyle))
-		{
-			removeStyleName(oldStyle);
-			addStyleName(newStyle);
-		}
-		if (isSignalDevice)
-		{
-			addStyleName("signal");
-		}
-		else
-		{
-			removeStyleName("signal");
-		}
+		// if (getZone() != oldZone)
+		// {
+		// setLeft(getZone() * model.getZoneWidth() + 25);
+		// }
 	}
 }

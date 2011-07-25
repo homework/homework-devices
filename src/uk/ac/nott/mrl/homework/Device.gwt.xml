@@ -5,26 +5,26 @@
 
 	<entry-point class='uk.ac.nott.mrl.homework.client.DevicesClient' />
 
-	<define-property name="zoneManager" values="default,nox" />
+	<define-property name="model" values="simple,control" />
 
-	<property-provider name="zoneManager">
+	<property-provider name="model">
 		<![CDATA[
-        	var zoneManager = __gwt_getMetaProperty("zoneManager");
-        	if(zoneManager == null)
+        	var model = __gwt_getMetaProperty("model");
+        	if(model == null)
         	{
-        		return "default";
+        		return "simple";
         	}
-        	return zoneManager;
+        	return model;
 		]]>
 	</property-provider>
 	
-	<replace-with class="uk.ac.nott.mrl.homework.client.model.DefaultZoneManager">
-		<when-type-is class="uk.ac.nott.mrl.homework.client.model.ZoneManager"/>
+	<replace-with class="uk.ac.nott.mrl.homework.client.model.SimpleModel">
+		<when-type-is class="uk.ac.nott.mrl.homework.client.model.Model"/>
 	</replace-with>
 
-	<replace-with class="uk.ac.nott.mrl.homework.client.model.NoxZoneManager">
-		<when-type-is class="uk.ac.nott.mrl.homework.client.model.ZoneManager"/>
-		<when-property-is name="zoneManager" value="nox"/>
+	<replace-with class="uk.ac.nott.mrl.homework.client.model.ControlModel">
+		<when-type-is class="uk.ac.nott.mrl.homework.client.model.Model"/>
+		<when-property-is name="model" value="control"/>
 	</replace-with>
 
 	<source path='client' />	

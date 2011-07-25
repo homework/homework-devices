@@ -198,8 +198,6 @@ public class ListLinks extends HttpServlet
 					{
 						macString.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? ":" : ""));
 					}
-					System.out.println(netiface.getDisplayName());
-					System.out.println(macString);
 					final Enumeration<InetAddress> ipAddresses = netiface.getInetAddresses();
 					while (ipAddresses.hasMoreElements())
 					{

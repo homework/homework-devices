@@ -105,7 +105,7 @@ public class PollingThread extends Thread
 			leaseQuery = String.format("SQL:select * from Leases");
 		}
 		final String leaseResults = rpc.call(leaseQuery);
-		if(!leaseResults.startsWith("0<|>Success"))
+		if (!leaseResults.startsWith("0<|>Success<|>0"))
 		{
 			logger.info(leaseResults);
 		}
@@ -149,10 +149,10 @@ public class PollingThread extends Thread
 			linkQuery = String.format("SQL:select * from Links");
 		}
 		final String linkResults = rpc.call(linkQuery);
-		if(!linkResults.startsWith("0<|>Success"))
+		if (!linkResults.startsWith("0<|>Success<|>0"))
 		{
-			logger.info(linkResults);
-		}		
+			// logger.info(linkResults);
+		}
 
 		if (linkResults != null)
 		{
@@ -210,10 +210,11 @@ public class PollingThread extends Thread
 			userQuery = String.format("SQL:select * from UserEvents");
 		}
 		final String result = rpc.call(userQuery);
-		if(!result.startsWith("0<|>Success"))
+		if (!result.startsWith("0<|>Success<|>0"))
 		{
 			logger.info(result);
-		}	
+		}
+
 		int index = result.lastIndexOf(searchString);
 		if (index == -1) { return; }
 		index = result.lastIndexOf(searchString) + searchString.length();

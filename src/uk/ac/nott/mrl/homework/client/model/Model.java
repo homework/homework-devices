@@ -1,143 +1,34 @@
 package uk.ac.nott.mrl.homework.client.model;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.Comparator;
 
-import com.google.gwt.core.client.GWT;
+import uk.ac.nott.mrl.homework.client.model.Item.State;
+import uk.ac.nott.mrl.homework.client.ui.Device;
+
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.resources.client.ImageResource;
 
-public class Model
+public interface Model
 {
-	public static final float DECAY = 0.9f;
-	public static final int TIMEOUT = 360;
+	public ImageResource getImage(int zone);
 
-	public static final ZoneManager zoneManager = GWT.create(ZoneManager.class);
+	void addListener(final ItemListener listener);
 
-	private int bandWidthMax = 0;
-	private long bandWidthTime = 0;
+	boolean allowDrag();
 
-	private final Map<String, Link> links = new HashMap<String, Link>();
+	boolean canBeGrouped(Link link);
 
-	private LinkListener listener;
-	private long mostRecent = 0;
+	Comparator<Device> getComparator();
 
-	public void add(final LinkListener listener)
-	{
-		this.listener = listener;
-	}
+	long getLastUpdated();
 
-	public Link get(final String mac)
-	{
-		return links.get(mac);
-	}
+	String getName(Link link);
 
-	public long getMostRecent()
-	{
-		return mostRecent;
-	}
+	State getState(Link link);
 
-	public void updateLinks(final JsArray<Link> newLinks)
-	{
-		for (int index = 0; index < newLinks.length(); index++)
-		{
-			try
-			{
-				add(newLinks.get(index));
-			}
-			catch (final Exception e)
-			{
-				GWT.log(e.getMessage(), e);
-			}
-		}
+	int getZone(Link link);
 
-		try
-		{
-			removeOld();
-			listener.linkUpdateFinished();
-		}
-		catch (final Exception e)
-		{
-			GWT.log(e.getMessage(), e);
-		}
-	}
+	Zone[] getZones();
 
-	private void add(final Link link)
-	{
-		final Link existing = links.get(link.getMacAddress());
-		links.put(link.getMacAddress(), link);
-
-		if (link.getByteCount() > bandWidthMax && !link.isResource() && link.getIPAddress() != null)
-		{
-			// GWT.log("New Bandwidth Max for " + link.getDeviceName() + " with " +
-			// link.getByteCount());
-			bandWidthMax = link.getByteCount();
-			bandWidthTime = (long) link.getTimestamp();
-		}
-
-		if (existing != null)
-		{
-			listener.linkUpdated(link, bandWidthMax);
-		}
-		else
-		{
-			listener.linkAdded(link, bandWidthMax);
-		}
-
-		mostRecent = Math.max(mostRecent, (long) link.getTimestamp());
-	}
-
-	private void removeOld()
-	{
-		GWT.log("Most Recent: " + mostRecent);
-		if (mostRecent > 0)
-		{
-			if (mostRecent - bandWidthTime > TIMEOUT)
-			{
-				bandWidthMax *= DECAY;
-			}
-
-			int removalTime = 50000;
-			if (links.size() > 80)
-			{
-				removalTime = 10000;
-			}
-			else if (links.size() > 50)
-			{
-				removalTime = 20000;
-			}
-			else if (links.size() > 40)
-			{
-				removalTime = 30000;
-			}
-			else if (links.size() > 30)
-			{
-				removalTime = 40000;
-			}
-
-			final Collection<Link> removals = new HashSet<Link>();
-			for (final Link link : links.values())
-			{
-				final long difference = mostRecent - (long) link.getTimestamp();
-				if (difference > removalTime)
-				{
-					removals.add(link);
-				}
-				else if (difference > 10000)
-				{
-					if (link.setOld())
-					{
-						listener.linkUpdated(link, bandWidthMax);
-					}
-				}
-			}
-
-			for (final Link remove : removals)
-			{
-				links.remove(remove);
-				listener.linkRemoved(remove);
-			}
-		}
-	}
+	void updateLinks(final JsArray<Link> newLinks);
 }

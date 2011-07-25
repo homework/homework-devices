@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class DevicesClient implements EntryPoint
 {
 	public static final Resources resources = GWT.create(Resources.class);
-	private final Model model = new Model();
+	private final Model model = GWT.create(Model.class);
 
 	private final DevicesPanel panel;
 
@@ -24,7 +24,6 @@ public class DevicesClient implements EntryPoint
 	{
 		super();
 		panel = new DevicesPanel(service);
-		model.add(panel.getListener());
 	}
 
 	/**
@@ -47,6 +46,7 @@ public class DevicesClient implements EntryPoint
 			}
 		};
 		requestTimer.scheduleRepeating(5000);
+		service.getUpdates();
 
 		service.log("STARTED", "");
 	}

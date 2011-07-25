@@ -35,6 +35,4 @@ public class Link extends JavaScriptObject
 
 	public final native boolean setOld() /*-{ var oldOld = this.old || false; 
 											this.old = true; return !oldOld; }-*/;
-
-	public final native void setZone(int newZone) /*-{ this.zone = newZone; }-*/;
 }

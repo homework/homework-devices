@@ -1,6 +1,7 @@
 .device {
 	position: absolute;
 	border: 3px solid #579;
+	background-color: #79B;	
 	border-left: 0;
 	border-bottom-right-radius: 0.4em;
 	border-top-right-radius: 0.4em;
@@ -14,6 +15,50 @@
 	-moz-user-select: none;
 	white-space: nowrap;
 	-webkit-box-shadow: 2px 2px 5px #AAA;
+}
+
+.deniedDevice {
+	position: absolute;
+	border: 3px solid #777;
+	background-color: #999;
+	border-left: 0;
+	border-bottom-right-radius: 0.4em;
+	border-top-right-radius: 0.4em;
+	-webkit-border-bottom-right-radius: 0.4em;
+	-webkit-border-top-right-radius: 0.4em;
+	-moz-border-radius-bottomright: 0.4em;
+	-moz-border-radius-topright: 0.4em;
+	padding: 3px;
+	padding-right: 0.5em;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	white-space: nowrap;
+	-webkit-box-shadow: 2px 2px 5px #AAA;
+}
+
+.listDevice {
+	background-color: #79B;	
+	border: 3px solid #579;
+	border-radius: 0.4em;
+	padding: 3px;
+	padding-right: 0.5em;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	white-space: nowrap;
+}
+
+.dragDevice {
+	position: absolute;
+	background-color: #79B;	
+	border: 3px solid #579;
+	border-radius: 0.4em;
+	padding: 3px;
+	padding-right: 0.5em;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	white-space: nowrap;
+	-webkit-box-shadow: 2px 2px 5px #AAA;
+	z-index: 20;
 }
 
 .deviceAnim
@@ -40,26 +85,12 @@
 	border-left: 0;
 }
 
-.permitted {
-	background-color: #79B;
-	border-color: #579;
-}
-
-.denied {
-	border-color: #777;
-	background-color: #999;
-}
-
-.requesting {
-	border-color: #777;
-	background-color: #999;
-}
-
+@sprite
 .requesting .deviceName {
 	margin: 0;
 	padding: 0;
+	gwt-image: 'warning';
 	padding-left: 25px;
-	background-image: url("/images/warning.png");
 	background-repeat: no-repeat;
 	background-position: 3px 0.2em;
 }
@@ -165,12 +196,6 @@
 	padding-left: 10px;
 	padding-top: 2px;
 	width: 180px;
-}
-
-.deviceError {
-	position: absolute;
-	z-index: -5;
-	background-color: #D53;
 }
 
 .trafficPanel {

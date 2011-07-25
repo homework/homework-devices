@@ -1,10 +1,14 @@
 package uk.ac.nott.mrl.homework.client;
 
+import uk.ac.nott.mrl.homework.client.model.Model;
+
 import com.google.gwt.http.client.RequestCallback;
 
 public interface DevicesService
 {
 	public void deny(final String macAddress);
+
+	public Model getModel();
 
 	public void getTrayDevice(RequestCallback trayModeCallback);
 
