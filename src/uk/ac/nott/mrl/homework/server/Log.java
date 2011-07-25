@@ -2,6 +2,7 @@ package uk.ac.nott.mrl.homework.server;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -9,8 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.google.gwt.http.client.URL;
 
 public class Log extends HttpServlet
 {
@@ -39,8 +38,8 @@ public class Log extends HttpServlet
 	{
 		response.setContentType("application/json");
 
-		final String type = URL.decode(request.getParameter("type"));
-		final String details = URL.decode(request.getParameter("details"));
+		final String type = URLDecoder.decode(request.getParameter("type"), "UTF-8");
+		final String details = URLDecoder.decode(request.getParameter("details"), "UTF-8");
 
 		log(type, details);
 		logger.info(type + ": " + details);

@@ -7,6 +7,8 @@ import com.google.gwt.resources.client.TextResource;
 public interface Resources extends ClientBundleWithLookup
 {
 	public TextResource testlinks();
+	
+	public TextResource testlinks2();	
 
 	public TextResource testlinkssimple();
 

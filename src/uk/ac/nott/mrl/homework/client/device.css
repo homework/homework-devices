@@ -110,7 +110,7 @@
 }
 
 .deviceLine {
-	position: relative;
+	position: absolute;
 	top: 0px;
 	width: 5px;
 	left: 20px;
@@ -166,6 +166,7 @@
 	position: absolute;
 	bottom: 3px;
 	width: 100%;
+	z-index: 30;
 }
 
 

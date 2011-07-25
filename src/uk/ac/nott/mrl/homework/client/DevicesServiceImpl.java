@@ -33,6 +33,7 @@ public class DevicesServiceImpl implements DevicesService
 				try
 				{
 					model.updateLinks(getLinks(response.getText()));
+					model.updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));					
 				}
 				catch (final Exception e)
 				{
@@ -41,6 +42,7 @@ public class DevicesServiceImpl implements DevicesService
 			}
 			else
 			{
+				model.updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));
 				// Handle the error. Can get the status text from response.getStatusText()
 				//model.updateLinks(getLinks("[{\"timeStamp\":"
 				//							+ new Date().getTime()

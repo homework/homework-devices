@@ -11,11 +11,9 @@ import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Item;
 import uk.ac.nott.mrl.homework.client.model.ItemListener;
 import uk.ac.nott.mrl.homework.client.model.Link;
-import uk.ac.nott.mrl.homework.client.model.LinkItem;
 import uk.ac.nott.mrl.homework.client.model.LinkListItem;
 import uk.ac.nott.mrl.homework.client.model.Model;
 import uk.ac.nott.mrl.homework.client.model.Zone;
-import uk.ac.nott.mrl.homework.client.ui.DragDevice.DragState;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
@@ -28,10 +26,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -141,6 +135,7 @@ public class DevicesPanel extends FlowPanel
 	private final TrayPanel trayPanel;
 
 	private final List<ZonePanel> zones = new ArrayList<ZonePanel>();
+	private final List<ZoneDetail> zoneDetails = new ArrayList<ZoneDetail>();	
 
 	public DevicesPanel(final DevicesService service)
 	{
@@ -283,14 +278,16 @@ public class DevicesPanel extends FlowPanel
 
 		popup.setStylePrimaryName(DevicesClient.resources.style().popup());
 
-		int index = 0;
 		for (final Zone zone : model.getZones())
 		{
 			final ZonePanel zonePanel = new ZonePanel(model, zone);
-			index++;
 
+			final ZoneDetail detail = new ZoneDetail(model, zone);
+			
+			add(detail);
 			add(zonePanel);
 			zones.add(zonePanel);
+			zoneDetails.add(detail);
 		}
 
 		setStylePrimaryName(DevicesClient.resources.style().devicePanel());
@@ -479,15 +476,21 @@ public class DevicesPanel extends FlowPanel
 		if (newHeight != fullHeight)
 		{
 			fullHeight = newHeight;
+			
+			for (final ZonePanel panel : zones)
+			{
+				panel.getElement().getStyle().setHeight(fullHeight, Unit.PX);
+			}					
 		}
 	}
 
 	private void updateLayout()
 	{
-//		final int top = getWinOffsetY();
-//		for (final ZonePanel panel : zones)
-//		{
-//			//panel.getElement().getStyle().setTop(top, Unit.PX);
-//		}
+		final int bottom = getElement().getOffsetHeight() - getElement().getScrollHeight() - getWinOffsetY();
+		for (final ZoneDetail detail : zoneDetails)
+		{
+			detail.getElement().getStyle().setBottom(bottom, Unit.PX);
+			//panel.getElement().getStyle().setTop(top, Unit.PX);
+		}
 	}
 }

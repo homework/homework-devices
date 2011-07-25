@@ -1,27 +1,20 @@
 package uk.ac.nott.mrl.homework.client.ui;
 
 import uk.ac.nott.mrl.homework.client.DevicesClient;
-import uk.ac.nott.mrl.homework.client.model.Item;
 import uk.ac.nott.mrl.homework.client.model.Model;
 import uk.ac.nott.mrl.homework.client.model.Zone;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ZonePanel extends FlowPanel
 {
-	private final Image image = new Image();
-
-	private final Label label;
 	private final SimplePanel line = new SimplePanel();
 	private final Zone zone;
 
@@ -32,20 +25,6 @@ public class ZonePanel extends FlowPanel
 
 		setStylePrimaryName(DevicesClient.resources.style().zoneBar());
 		getElement().getStyle().setWidth(100 / model.getZones().length, Unit.PCT);
-
-		final FlowPanel panel = new FlowPanel();
-		panel.setStylePrimaryName(DevicesClient.resources.style().zone());
-
-		if (zone.getImage() != null)
-		{
-			image.setResource(zone.getImage());
-		}
-		// DefaultModel.zoneManager.updateImage(zone, image, 0);
-		panel.add(image);
-
-		label = new Label(zone.getName());
-		panel.add(label);
-		add(panel);
 
 		line.setStylePrimaryName(DevicesClient.resources.style().deviceLine());
 		add(line);
@@ -60,11 +39,6 @@ public class ZonePanel extends FlowPanel
 	public void addMouseOverHandler(final MouseOverHandler handler)
 	{
 		addDomHandler(handler, MouseOverEvent.getType());
-	}
-
-	public String getName()
-	{
-		return label.getText();
 	}
 
 	@Override
