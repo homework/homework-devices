@@ -32,13 +32,9 @@ public class ZonePanel extends FlowPanel
 
 		setStylePrimaryName(DevicesClient.resources.style().zoneBar());
 		getElement().getStyle().setWidth(100 / model.getZones().length, Unit.PCT);
-		GWT.log("Zone " + zone.getName() + ": " + zone.getIndex() + " left="
-				+ (100 / model.getZones().length * zone.getIndex()));
-		getElement().getStyle().setLeft((100 / model.getZones().length * zone.getIndex()), Unit.PCT);
 
 		final FlowPanel panel = new FlowPanel();
 		panel.setStylePrimaryName(DevicesClient.resources.style().zone());
-		panel.setWidth("100%");
 
 		if (zone.getImage() != null)
 		{

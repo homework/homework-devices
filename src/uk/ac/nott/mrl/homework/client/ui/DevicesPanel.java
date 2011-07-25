@@ -484,10 +484,10 @@ public class DevicesPanel extends FlowPanel
 
 	private void updateLayout()
 	{
-		final int top = getWinOffsetY();
-		for (final ZonePanel panel : zones)
-		{
-			panel.getElement().getStyle().setTop(top, Unit.PX);
-		}
+//		final int top = getWinOffsetY();
+//		for (final ZonePanel panel : zones)
+//		{
+//			//panel.getElement().getStyle().setTop(top, Unit.PX);
+//		}
 	}
 }

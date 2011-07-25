@@ -132,7 +132,7 @@
 }
 
 .devicePanel {
-	height: 100%;
+	min-height: 100%;
 	width: 100%;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -163,14 +163,17 @@
 .zone {
 	font-size: 18px;
 	text-align: center;
-	position: relative;
+	position: absolute;
 	bottom: 3px;
+	width: 100%;
 }
+
 
 .zoneBar {
 	position: relative;
-	height: 100%;
+	min-height: 100%;
 	border-right: 1px solid #CCC;
+	float: left;
 }
 
 .buttonPanel {
