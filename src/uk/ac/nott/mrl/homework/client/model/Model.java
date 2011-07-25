@@ -14,8 +14,6 @@ public interface Model
 
 	void addListener(final ItemListener listener);
 
-	boolean allowDrag();
-
 	boolean canBeGrouped(Link link);
 
 	Comparator<Device> getComparator();
