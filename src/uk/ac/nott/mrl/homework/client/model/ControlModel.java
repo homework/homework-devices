@@ -7,7 +7,7 @@ public class ControlModel extends SimpleModel
 {
 	public ControlModel()
 	{
-		super(new Zone[] { new ControlDeniedZone(0), new Zone(1, "Requesting Permission", DevicesClient.resources.all()),
+		super(new Zone[] { new ControlDeniedZone(0), new Zone(1, "Requesting Permission", DevicesClient.resources.requesting()),
 							new ControlInternetZone(2) });
 	}
 

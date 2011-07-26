@@ -21,13 +21,16 @@ public interface Resources extends ClientBundleWithLookup
 	@Source("web-green.png")
 	public ImageResource webgreen();
 
+	@Source("emblem-important.png")
+	public ImageResource requesting();
+
 	@Source("web-red.png")
 	public ImageResource webred();
 
 	@Source("network-workgroup.png")
 	ImageResource all();
 
-	@Source("process-stop.png")
+	@Source("network-offline.png")
 	ImageResource denied();
 
 	@Source("drive-harddisk.png")
