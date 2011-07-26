@@ -5,15 +5,12 @@ import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Link;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
@@ -67,7 +64,7 @@ public class DragDevice extends Label
 		}
 	}
 	
-	private void handleDrag(final int clientX, final int clientY)
+	public void handleDrag(final int clientX, final int clientY)
 	{
 		if (dragState == DragState.dragInit)
 		{
@@ -76,7 +73,7 @@ public class DragDevice extends Label
 			{
 				GWT.log("Drag Start");
 
-				dragWidget.removeFromParent();
+				dragWidget.getElement().getStyle().setDisplay(Display.NONE);
 			
 				dragState = DragState.dragging;
 				setVisible(true);
@@ -97,6 +94,11 @@ public class DragDevice extends Label
 	
 	public void setDragZone(ZonePanel zone)
 	{
+		if(this.zone == zone)
+		{
+			return;
+		}
+		
 		if(this.zone != null)
 		{
 			this.zone.getElement().getStyle().setBackgroundColor("transparent");
@@ -117,11 +119,7 @@ public class DragDevice extends Label
 		{
 			GWT.log("Drag End");
 			setVisible(false);
-
-			if(dragWidget instanceof Device)
-			{
-				zone.add(dragWidget);
-			}
+			dragWidget.getElement().getStyle().clearDisplay();
 			
 			if(zone != null)
 			{
@@ -136,16 +134,6 @@ public class DragDevice extends Label
 	public void setupUIElements(final Panel panel)
 	{
 		panel.add(this);
-
-		panel.addDomHandler(new MouseMoveHandler()
-		{
-			@Override
-			public void onMouseMove(final MouseMoveEvent event)
-			{
-				handleDrag(event.getClientX(), event.getClientY());
-				event.stopPropagation();
-			}
-		}, MouseMoveEvent.getType());
 
 		panel.addDomHandler(new MouseUpHandler()
 		{
@@ -164,20 +152,16 @@ public class DragDevice extends Label
 				handleDragEnd();				
 			}
 		}, TouchEndEvent.getType());
-		
-		panel.addDomHandler(new TouchMoveHandler()
-		{
-			@Override
-			public void onTouchMove(final TouchMoveEvent event)
-			{
-				handleDrag(event.getChangedTouches().get(0).getClientX(), event.getChangedTouches().get(0).getClientY());
-				event.stopPropagation();
-			}
-		}, TouchMoveEvent.getType());		
+	
 	}
 
 	public DragState getState()
 	{
 		return dragState;
+	}
+
+	public Link getLink()
+	{
+		return link;
 	}	
 }

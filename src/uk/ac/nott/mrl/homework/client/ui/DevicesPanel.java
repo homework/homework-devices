@@ -2,6 +2,7 @@ package uk.ac.nott.mrl.homework.client.ui;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +15,11 @@ import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.LinkListItem;
 import uk.ac.nott.mrl.homework.client.model.Model;
 import uk.ac.nott.mrl.homework.client.model.Zone;
+import uk.ac.nott.mrl.homework.client.ui.DragDevice.DragState;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -26,6 +29,8 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -115,6 +120,7 @@ public class DevicesPanel extends FlowPanel
 		public void run()
 		{
 			popup.getElement().getStyle().setOpacity(0);
+			popup.getElement().getStyle().setVisibility(Visibility.HIDDEN);
 		}
 	};
 	private int fullHeight;
@@ -184,8 +190,9 @@ public class DevicesPanel extends FlowPanel
 													device.getAbsoluteTop() + device.getOffsetHeight() - 3);
 							popup.getElement().getStyle().setOpacity(1);
 							popup.show();
-							fadeTimer.schedule(5000);
-							// event.preventDefault();
+							popup.getElement().getStyle().setOpacity(1);
+							popup.getElement().getStyle().setVisibility(Visibility.VISIBLE);							
+							fadeTimer.schedule(10000);
 						}
 					});
 					device.addDoubleClickHandler(new DoubleClickHandler()
@@ -233,8 +240,7 @@ public class DevicesPanel extends FlowPanel
 
 			@Override
 			public void itemUpdated(final Item item)
-			{
-				
+			{				
 				//GWT.log("Item Updated: " + item.getName());
 				final ZonePanel newZone = getZone(item.getZone().getIndex());
 				final Device device = deviceMap.get(item);
@@ -257,10 +263,13 @@ public class DevicesPanel extends FlowPanel
 				}
 				else
 				{
-					final ZonePanel oldZone = getZone(device.getItem().getZone().getIndex());
+					final ZonePanel oldZone = (ZonePanel) device.getParent();
 					if (newZone != oldZone)
 					{
-						oldZone.remove(device);
+						if(oldZone != null)
+						{
+							oldZone.remove(device);
+						}
 						newZone.add(device);
 					}
 					device.update();
@@ -320,18 +329,69 @@ public class DevicesPanel extends FlowPanel
 			@Override
 			public void onMouseMove(MouseMoveEvent event)
 			{
-				// TODO get zone for 
 				for(ZonePanel zone: zones)
 				{
 					int relX = event.getRelativeX(zone.getElement());
 					int relY = event.getRelativeY(zone.getElement());
-					if(relX > 0 && relX < zone.getOffsetWidth() && relY > 0 && relY < zone.getOffsetWidth())
+					if(relX > 0 && relX < zone.getOffsetWidth() && relY > 0 && relY < zone.getOffsetHeight())
 					{
 						dragDevice.setDragZone(zone);
 					}
 				}
+				
+				dragDevice.handleDrag(event.getRelativeX(getElement()), event.getRelativeY(getElement()));
 			}
 		}, MouseMoveEvent.getType());
+		
+		RootPanel.get().addDomHandler(new TouchMoveHandler()
+		{
+			@Override
+			public void onTouchMove(TouchMoveEvent event)
+			{
+				for(ZonePanel zone: zones)
+				{
+					int relX = event.getChangedTouches().get(0).getRelativeX(zone.getElement());
+					int relY = event.getChangedTouches().get(0).getRelativeY(zone.getElement());
+					if(relX > 0 && relX < zone.getOffsetWidth() && relY > 0 && relY < zone.getOffsetHeight())
+					{
+						dragDevice.setDragZone(zone);
+					}
+				}
+				
+				if(dragDevice.getState() != DragState.waiting)
+				{
+					event.stopPropagation();
+					event.preventDefault();
+					
+					dragDevice.handleDrag(event.getChangedTouches().get(0).getClientX(), event.getChangedTouches().get(0).getClientY());					
+				}
+			}
+		}, TouchMoveEvent.getType());
+		
+//		addDomHandler(new TouchMoveHandler()
+//		{
+//			@Override
+//			public void onTouchMove(TouchMoveEvent event)
+//			{
+//				for(ZonePanel zone: zones)
+//				{
+//					int relX = event.getChangedTouches().get(0).getRelativeX(zone.getElement());
+//					int relY = event.getChangedTouches().get(0).getRelativeY(zone.getElement());
+//					if(relX > 0 && relX < zone.getOffsetWidth() && relY > 0 && relY < zone.getOffsetWidth())
+//					{
+//						dragDevice.setDragZone(zone);
+//					}
+//				}
+//				zoneDetails.get(0).setText("T" + event.getChangedTouches().length() + ": " + event.getChangedTouches().get(0).getClientX() +", " + event.getChangedTouches().get(0).getClientY());
+//				if(dragDevice.getState() != DragState.waiting)
+//				{
+//					event.stopPropagation();
+//					event.preventDefault();
+//					
+//					dragDevice.handleDrag(event.getChangedTouches().get(0).getClientX(), event.getChangedTouches().get(0).getClientY());					
+//				}
+//			}
+//		}, TouchMoveEvent.getType());
 		
 		addDomHandler(new ClickHandler()
 		{
@@ -380,7 +440,11 @@ public class DevicesPanel extends FlowPanel
 		int top = 15;
 		int maxDevice = 0;
 		for (final Device device : devices)
-		{
+		{		
+			if(dragDevice.getState() == DragState.dragging && device.getLink() != null && device.getLink().getMacAddress().equals(dragDevice.getLink().getMacAddress()))
+			{
+				continue;
+			}
 			device.setTop(top);
 			top = top + device.getOffsetHeight() + 15;
 
@@ -468,7 +532,16 @@ public class DevicesPanel extends FlowPanel
 				panel2.add(companySearch);
 				panel.add(panel2);
 			}
-			for (final Link link : item.getLinks())
+			List<Link> links = new ArrayList<Link>(item.getLinks());
+			Collections.sort(links, new Comparator<Link>()
+			{
+				@Override
+				public int compare(Link o1, Link o2)
+				{
+					return o1.getMacAddress().compareTo(o2.getMacAddress());
+				}
+			});
+			for (final Link link : links)
 			{
 				final Label label = new Label(link.getMacAddress());
 				label.setStyleName(DevicesClient.resources.style().listDevice());
@@ -478,6 +551,16 @@ public class DevicesPanel extends FlowPanel
 					public void onMouseDown(MouseDownEvent event)
 					{
 						dragDevice.setupDrag(link, label, label.getText(), event.getClientX(), event.getClientY());	
+					}
+				});
+				label.addTouchStartHandler(new TouchStartHandler()
+				{
+					@Override
+					public void onTouchStart(TouchStartEvent event)
+					{
+						final Touch touch = event.getChangedTouches().get(0);
+						dragDevice.setupDrag(	link, label, label.getText(), touch.getClientX(),
+												touch.getClientY());						
 					}
 				});
 				panel.add(label);
@@ -510,7 +593,7 @@ public class DevicesPanel extends FlowPanel
 
 	private void updateLayout()
 	{
-		final int bottom = RootPanel.get().getElement().getClientHeight() + RootPanel.get().getElement().getScrollTop();
+		final int bottom = - RootPanel.get().getElement().getScrollTop();
 		for (final ZoneDetail detail : zoneDetails)
 		{
 			detail.getElement().getStyle().setBottom(bottom, Unit.PX);

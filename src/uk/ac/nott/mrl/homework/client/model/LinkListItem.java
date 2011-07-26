@@ -99,7 +99,7 @@ public class LinkListItem extends Item
 			setState(bestState);
 			return true;
 		}
-		return !removals.isEmpty();
+		return !removals.isEmpty() || getState() == State.dead;
 	}
 
 	public void remove(Link link)

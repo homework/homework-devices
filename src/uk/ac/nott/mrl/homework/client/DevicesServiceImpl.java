@@ -30,20 +30,13 @@ public class DevicesServiceImpl implements DevicesService
 			{
 				try
 				{
+					//model.updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));
 					model.updateLinks(getLinks(response.getText()));			
 				}
 				catch (final Exception e)
 				{
 					GWT.log(response.getText(), e);
 				}
-			}
-			else
-			{
-				//model.updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));
-				// Handle the error. Can get the status text from response.getStatusText()
-				//model.updateLinks(getLinks("[{\"timeStamp\":"
-				//							+ new Date().getTime()
-				//							+ ",\"macAddress\":\"00:0b:85:92:66:af\",\"rssi\":-86.70968,\"retryCount\":0,\"packetCount\":94,\"byteCount\":11750,\"permitted\":false,\"resource\":false}]"));
 			}
 		}
 	};

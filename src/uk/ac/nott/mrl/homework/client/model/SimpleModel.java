@@ -179,7 +179,6 @@ public class SimpleModel implements Model
 		try
 		{
 			fireEvents();
-			listener.itemUpdateFinished();
 		}
 		catch (final Exception e)
 		{
@@ -205,6 +204,10 @@ public class SimpleModel implements Model
 					listener.itemUpdated(item);
 					item.setState(State.active);
 				}
+				else if(item.getState() == State.dead)
+				{
+					removals.add(item);
+				}
 				else if (item.updateState(this))
 				{
 					if (item.getState() == State.dead)
@@ -223,6 +226,8 @@ public class SimpleModel implements Model
 				listener.itemRemoved(remove);
 				removeItem(remove);
 			}
+			
+			listener.itemUpdateFinished();			
 		}
 	}
 
@@ -240,6 +245,10 @@ public class SimpleModel implements Model
 				{
 					existing.setState(State.updated);
 					return existing;
+				}
+				else
+				{
+					existing.setState(State.dead);
 				}
 			}
 			else
@@ -295,11 +304,8 @@ public class SimpleModel implements Model
 		{
 			itemMap.put(link.getMacAddress(), item);
 			items.put(item.getID(), item);
-			listener.itemAdded(item);
 		}
-		else if(item.getState() == State.updated)
-		{
-			listener.itemUpdated(item);
-		}
+		
+		fireEvents();
 	}
 }

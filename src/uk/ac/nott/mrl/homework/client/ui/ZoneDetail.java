@@ -31,4 +31,9 @@ public class ZoneDetail extends FlowPanel
 		add(image);
 		add(label);	
 	}
+	
+	public void setText(String text)
+	{
+		label.setText(text);
+	}
 }

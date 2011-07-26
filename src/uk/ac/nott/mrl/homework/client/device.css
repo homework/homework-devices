@@ -37,8 +37,8 @@
 }
 
 .listDevice {
-	background-color: #79B;	
-	border: 3px solid #579;
+	border: 3px solid #777;
+	background-color: #999;
 	border-radius: 0.4em;
 	padding: 3px;
 	padding-right: 0.5em;
@@ -46,6 +46,7 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	white-space: nowrap;
+	float:left;
 }
 
 .dragDevice {
@@ -78,6 +79,10 @@
 	border-top-right-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
 	-webkit-box-shadow: 2px 2px 5px #AAA;
+	-webkit-transition: visibility 1s ease, opacity 1s ease;
+	-moz-transition: visibility 1s ease, opacity 1s ease;
+	-o-transition: visibility 1s ease, opacity 1s ease;
+	transition: visibility 1s ease, opacity 1s ease;	
 }
 
 .signal {
