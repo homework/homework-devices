@@ -91,7 +91,7 @@ public class ListLinks extends HttpServlet
 			for (final Link link : sorted)
 			{
 				final double timeStamp = link.getTimeStamp();
-				if (!link.isResource() && lastTime - timeStamp > OLD)
+				if (lastTime - timeStamp > OLD)
 				{
 					continue;
 				}

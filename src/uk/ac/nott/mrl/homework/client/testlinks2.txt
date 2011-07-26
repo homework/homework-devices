@@ -1,115 +1,115 @@
  [ 
-{"byteCount":1218,"corporation":"AzureWave Technologies, Inc","macAddress":"00:25:d3:72:b5:26","packetCount":9,"resource":false,"retryCount":0,"rssi":0.0,"state":"denied","timeStamp":1311598305790} 
-,{"byteCount":12583,"corporation":"Intel Corporate","ipAddress":"10.2.0.1","macAddress":"00:1d:e0:94:a0:87","packetCount":140,"resource":false,"retryCount":29,"rssi":-45.188118,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":2938,"corporation":"Intel Corporate","macAddress":"00:23:14:3e:39:8c","packetCount":13,"resource":false,"retryCount":7,"rssi":-52.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":1219,"corporation":"Hon Hai Precision Ind. Co., Ltd.","macAddress":"00:22:68:90:3d:79","packetCount":6,"resource":false,"retryCount":0,"rssi":-60.6,"state":"denied","timeStamp":1311598305790} 
-,{"byteCount":490,"corporation":"HTC Corporation","macAddress":"f8:db:7f:77:c8:51","packetCount":5,"resource":false,"retryCount":0,"rssi":-60.75,"state":"denied","timeStamp":1311598305790} 
-,{"byteCount":2326,"corporation":"Hon Hai Precision Ind.Co., Ltd.","macAddress":"00:1e:4c:02:2e:b9","packetCount":6,"resource":false,"retryCount":0,"rssi":-60.8,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":682,"corporation":"Apple, Inc","macAddress":"64:b9:e8:3b:9a:01","packetCount":2,"resource":false,"retryCount":0,"rssi":-61.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":682,"corporation":"Apple, Inc.","macAddress":"58:1f:aa:83:f2:7b","packetCount":2,"resource":false,"retryCount":0,"rssi":-61.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":404,"corporation":"Intel Corporate","macAddress":"00:24:d7:c0:4a:44","packetCount":2,"resource":false,"retryCount":0,"rssi":-61.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":124,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"88:9f:fa:3c:fb:96","packetCount":1,"resource":false,"retryCount":0,"rssi":-61.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":199,"corporation":"Wistron Neweb Corp.","macAddress":"00:0b:6b:76:ce:33","packetCount":1,"resource":false,"retryCount":0,"rssi":-61.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":239,"corporation":"Azurewave","macAddress":"e0:b9:a5:5b:48:a8","packetCount":1,"resource":false,"retryCount":0,"rssi":-61.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":192,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"f0:7b:cb:38:d7:b5","packetCount":1,"resource":false,"retryCount":0,"rssi":-61.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":1482,"corporation":"Intel Corporate","macAddress":"00:22:fb:b0:88:7c","packetCount":9,"resource":false,"retryCount":0,"rssi":-61.375,"state":"denied","timeStamp":1311598305783} 
-,{"byteCount":1236,"corporation":"Intel Corporate","macAddress":"00:23:14:6c:aa:d8","packetCount":8,"resource":false,"retryCount":0,"rssi":-61.714287,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":1690,"corporation":"Apple Inc","macAddress":"10:9a:dd:04:22:ec","packetCount":5,"resource":false,"retryCount":0,"rssi":-61.75,"state":"denied","timeStamp":1311598305790} 
-,{"byteCount":98,"corporation":"Quanta Microsystems, INC.","macAddress":"00:17:c4:7c:22:5f","packetCount":1,"resource":false,"retryCount":0,"rssi":-62.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":418,"corporation":"GemTek Technology Co., Ltd.","macAddress":"00:21:00:ee:2e:00","packetCount":2,"resource":false,"retryCount":0,"rssi":-63.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":818,"corporation":"Intel Corporate","macAddress":"00:26:c7:2a:1d:44","packetCount":7,"resource":false,"retryCount":0,"rssi":-64.5,"state":"denied","timeStamp":1311598305783} 
-,{"byteCount":7880,"corporation":"Intel Corporate","macAddress":"00:23:14:c5:16:b0","packetCount":62,"resource":false,"retryCount":0,"rssi":-74.03278,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":1919,"corporation":"Intel Corporate","macAddress":"00:1f:3b:08:a8:8f","packetCount":11,"resource":false,"retryCount":0,"rssi":-75.6,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":1448,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"5c:ac:4c:53:a4:85","packetCount":12,"resource":false,"retryCount":0,"rssi":-81.181816,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":342,"corporation":"MICRO-STAR INT\u0027L CO.,LTD.","macAddress":"00:21:85:7e:90:80","packetCount":3,"resource":false,"retryCount":0,"rssi":-83.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":114,"corporation":"Intel Corporate","macAddress":"00:24:d6:70:a9:78","packetCount":1,"resource":false,"retryCount":0,"rssi":-84.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":183,"corporation":"Apple, Inc","macAddress":"00:21:e9:d8:cf:d8","packetCount":1,"resource":false,"retryCount":0,"rssi":-84.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":255,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"0c:60:76:61:7e:04","packetCount":1,"resource":false,"retryCount":0,"rssi":-84.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"ff:ff:ff:ff:ff:ff","packetCount":1,"resource":false,"retryCount":1,"rssi":-85.0,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":450,"corporation":"Apple","macAddress":"d8:a2:5e:51:b6:5b","packetCount":2,"resource":false,"retryCount":0,"rssi":-85.0,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":156,"corporation":"iiTron Inc.","macAddress":"00:17:36:36:61:fe","packetCount":1,"resource":false,"retryCount":0,"rssi":-85.0,"state":"denied","timeStamp":1311598305781} 
-,{"byteCount":182,"corporation":"Unknown","macAddress":"4a:f9:a1:b5:1f:f6","packetCount":1,"resource":false,"retryCount":0,"rssi":-85.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":692,"corporation":"Apple","macAddress":"cc:08:e0:f7:1f:ca","packetCount":5,"resource":false,"retryCount":0,"rssi":-85.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":82,"corporation":"Unknown","macAddress":"a5:9c:5b:2a:ad:8b","packetCount":1,"resource":false,"retryCount":0,"rssi":-85.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":484,"corporation":"Apple","macAddress":"5c:59:48:3b:a2:6b","packetCount":5,"resource":false,"retryCount":0,"rssi":-85.25,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"50:8a:ef:2c:03:81","packetCount":1,"resource":false,"retryCount":0,"rssi":-86.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":114,"corporation":"Intel Corporate","macAddress":"00:24:d6:31:18:4a","packetCount":1,"resource":false,"retryCount":0,"rssi":-86.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":289,"corporation":"Apple, Inc","macAddress":"64:b9:e8:59:7f:de","packetCount":2,"resource":false,"retryCount":0,"rssi":-86.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"c3:e3:4b:97:ff:b3","packetCount":1,"resource":false,"retryCount":1,"rssi":-86.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":114,"corporation":"Hon Hai Precision Ind.Co.,Ltd.","macAddress":"00:24:2b:f0:06:af","packetCount":1,"resource":false,"retryCount":0,"rssi":-86.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":991,"corporation":"Apple, Inc","macAddress":"90:84:0d:a1:7c:ce","packetCount":9,"resource":false,"retryCount":0,"rssi":-86.5,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":579,"corporation":"Intel Corporate","macAddress":"8c:a9:82:7a:99:94","packetCount":6,"resource":false,"retryCount":1,"rssi":-86.6,"state":"denied","timeStamp":1311598305781} 
-,{"byteCount":46,"corporation":"Unknown","macAddress":"00:45:3a:fd:9d:28","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":147,"corporation":"Unknown","macAddress":"ff:33:4a:be:db:7f","packetCount":1,"resource":false,"retryCount":1,"rssi":-87.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":132,"corporation":"Intel Corporation","macAddress":"00:16:ea:24:5a:34","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":124,"corporation":"Intel Corporate","macAddress":"00:23:14:5c:cb:b0","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":147,"corporation":"Unknown","macAddress":"57:fc:0e:4d:df:47","packetCount":1,"resource":false,"retryCount":1,"rssi":-87.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"ad:bc:50:5b:03:83","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":108,"corporation":"Intel Corporation","macAddress":"00:19:d2:ce:3f:41","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":380,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"5c:ac:4c:53:a4:49","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"05:7b:38:15:00:00","packetCount":1,"resource":false,"retryCount":1,"rssi":-87.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":150,"corporation":"Apple, Inc","macAddress":"00:23:32:03:49:e5","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"3e:be:4b:97:20:00","packetCount":1,"resource":false,"retryCount":1,"rssi":-87.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"aa:f1:63:1a:10:f5","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"75:20:76:da:02:11","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":236,"corporation":"Unknown","macAddress":"38:a3:fa:f8:64:d7","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":492,"corporation":"Intel Corporate","macAddress":"00:15:17:21:21:8a","packetCount":6,"resource":false,"retryCount":0,"rssi":-87.2,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":466,"corporation":"Intel Corp","macAddress":"00:0e:35:8f:21:3d","packetCount":3,"resource":false,"retryCount":0,"rssi":-87.5,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":512,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"4c:0f:6e:11:77:fc","packetCount":5,"resource":false,"retryCount":0,"rssi":-87.75,"state":"denied","timeStamp":1311598305781} 
-,{"byteCount":82,"corporation":"Intel Corporation","macAddress":"00:16:6f:99:c1:72","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":153,"corporation":"Unknown","macAddress":"35:a4:ad:50:bb:ff","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"c1:be:50:5b:03:85","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305790} 
-,{"byteCount":448,"corporation":"Apple","macAddress":"c8:bc:c8:dc:81:10","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"68:5b:65:05:03:84","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":82,"corporation":"Apple","macAddress":"40:a6:d9:c9:93:03","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305783} 
-,{"byteCount":510,"corporation":"AzureWave","macAddress":"1c:4b:d6:6a:2c:3e","packetCount":2,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305790} 
-,{"byteCount":98,"corporation":"Intel Corporate","macAddress":"00:22:fa:76:f8:82","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":98,"corporation":"Apple","macAddress":"c4:2c:03:c8:79:ff","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305783} 
-,{"byteCount":82,"corporation":"Unknown","macAddress":"0e:9c:e4:e2:2c:36","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":159,"corporation":"Pivot3, Inc.","macAddress":"00:17:6c:8b:19:58","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":380,"corporation":"Unknown","macAddress":"41:c0:ca:f3:94:c1","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305783} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"a5:b0:3b:7e:03:81","packetCount":1,"resource":false,"retryCount":1,"rssi":-88.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"ee:60:49:d7:02:10","packetCount":1,"resource":false,"retryCount":1,"rssi":-88.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":116,"corporation":"Intel Corporate","macAddress":"00:23:14:c5:d4:ed","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":164,"corporation":"HTC Corporation","macAddress":"90:21:55:de:a3:e6","packetCount":2,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":1102,"corporation":"Apple","macAddress":"40:a6:d9:f0:98:88","packetCount":2,"resource":false,"retryCount":0,"rssi":-88.0,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":562,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"78:e4:00:c9:03:80","packetCount":5,"resource":false,"retryCount":0,"rssi":-88.75,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":4017,"corporation":"Apple","macAddress":"58:55:ca:f3:94:c1","packetCount":20,"resource":false,"retryCount":0,"rssi":-88.89474,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":2633,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"c4:46:19:49:9c:fe","packetCount":6,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":170,"corporation":"Wistron Neweb Corp.","macAddress":"00:1b:b1:8c:59:cd","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":471,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"78:e4:00:1f:dd:af","packetCount":3,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":98,"corporation":"Unknown","macAddress":"58:cf:46:a1:94:c1","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":403,"corporation":"Intel Corporate","macAddress":"00:13:ce:47:84:af","packetCount":2,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":164,"corporation":"Intel Corporate","macAddress":"00:22:fb:98:6b:f4","packetCount":2,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305790} 
-,{"byteCount":98,"corporation":"Unknown","macAddress":"98:03:50:e4:ac:8f","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":158,"corporation":"Unknown","macAddress":"00:97:4e:1f:2d:48","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":98,"corporation":"Unknown","macAddress":"5c:e0:02:53:3e:13","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":132,"corporation":"Intel Corporate","macAddress":"00:13:02:b7:41:23","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":82,"corporation":"HTC Corporation","macAddress":"90:21:55:0b:56:bf","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":262,"corporation":"Edimax Technology Co. Ltd.","macAddress":"00:1f:1f:60:99:bf","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":252,"corporation":"Unknown","macAddress":"01:13:e8:1c:d1:97","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":158,"corporation":"Unknown","macAddress":"09:17:0e:86:02:10","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":161,"corporation":"Unknown","macAddress":"44:15:0e:86:02:14","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":2142,"corporation":"Apple","macAddress":"c4:2c:03:c8:79:21","packetCount":9,"resource":false,"retryCount":0,"rssi":-89.375,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":314,"corporation":"Gemtek Technology Co., Ltd.","macAddress":"00:1a:73:cd:5d:7f","packetCount":3,"resource":false,"retryCount":0,"rssi":-89.5,"state":"denied","timeStamp":1311598305781} 
-,{"byteCount":874,"corporation":"Apple, Inc.","macAddress":"98:03:d8:e0:0b:aa","packetCount":5,"resource":false,"retryCount":0,"rssi":-89.5,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":14,"corporation":"Unknown","macAddress":"ad:43:2e:1c:07:b0","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"denied","timeStamp":1311598305785} 
-,{"byteCount":252,"corporation":"Unknown","macAddress":"ba:28:51:e4:9e:87","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":98,"corporation":"HTC Corporation","macAddress":"64:a7:69:77:36:e6","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":98,"corporation":"Intel Corporate","macAddress":"00:21:5d:36:a5:d6","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":82,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"4c:0f:6e:91:3f:fc","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":516,"corporation":"Intel Corporate","macAddress":"00:1f:3c:57:4b:ea","packetCount":2,"resource":false,"retryCount":0,"rssi":-90.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":528,"corporation":"Apple, Inc","macAddress":"00:26:b0:a0:c6:6c","packetCount":3,"resource":false,"retryCount":0,"rssi":-90.5,"state":"denied","timeStamp":1311598305783} 
-,{"byteCount":492,"corporation":"Apple","macAddress":"40:a6:d9:c9:93:6d","packetCount":2,"resource":false,"retryCount":0,"rssi":-91.0,"state":"denied","timeStamp":1311598305782} 
-,{"byteCount":159,"corporation":"Unknown","macAddress":"42:b1:bd:84:c7:73","packetCount":1,"resource":false,"retryCount":0,"rssi":-91.0,"state":"denied","timeStamp":1311598305784} 
-,{"byteCount":161,"corporation":"Unknown","macAddress":"00:9e:0b:68:6c:21","packetCount":1,"resource":false,"retryCount":0,"rssi":-91.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":130,"corporation":"Unknown","macAddress":"30:0c:0e:86:02:f8","packetCount":1,"resource":false,"retryCount":1,"rssi":-91.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":162,"corporation":"Gunnebo Cash Automation AB","macAddress":"00:17:8e:98:38:10","packetCount":1,"resource":false,"retryCount":0,"rssi":-92.0,"state":"denied","timeStamp":1311598305788} 
-,{"byteCount":182,"corporation":"Unknown","macAddress":"4a:17:0e:85:ff:b5","packetCount":1,"resource":false,"retryCount":0,"rssi":-92.0,"state":"denied","timeStamp":1311598305790} 
-,{"byteCount":519,"corporation":"Intel Corporate","macAddress":"00:1f:3c:46:ae:b4","packetCount":2,"resource":false,"retryCount":0,"rssi":-92.0,"state":"denied","timeStamp":1311598305787} 
-,{"byteCount":160,"corporation":"WESTERN DIGITAL CORPORATION","macAddress":"00:00:c0:73:c1:13","packetCount":1,"resource":false,"retryCount":0,"rssi":-92.0,"state":"denied","timeStamp":1311598305786} 
-,{"byteCount":216,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"0c:60:76:22:5c:10","packetCount":2,"resource":false,"retryCount":0,"rssi":-92.0,"state":"denied","timeStamp":1311598305781} 
-,{"byteCount":132,"corporation":"Unknown","macAddress":"aa:82:ea:24:37:0b","packetCount":1,"resource":false,"retryCount":0,"rssi":-92.0,"state":"denied","timeStamp":1311598305789} 
-,{"byteCount":108,"corporation":"Unknown","macAddress":"8d:f9:92:a1:fc:e2","packetCount":1,"resource":false,"retryCount":1,"rssi":-93.0,"state":"denied","timeStamp":1311598305783} 
-,{"byteCount":198,"corporation":"Unknown","macAddress":"b9:2d:d5:30:82:91","packetCount":1,"resource":false,"retryCount":0,"rssi":-96.0,"state":"denied","timeStamp":1311598305789} 
+{"byteCount":1218,"corporation":"AzureWave Technologies, Inc","macAddress":"00:25:d3:72:b5:26","packetCount":9,"resource":false,"retryCount":0,"rssi":0.0,"state":"unlisted","timeStamp":1311598305790} 
+,{"byteCount":12583,"corporation":"Intel Corporate","ipAddress":"10.2.0.1","macAddress":"00:1d:e0:94:a0:87","packetCount":140,"resource":false,"retryCount":29,"rssi":-45.188118,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":2938,"corporation":"Intel Corporate","macAddress":"00:23:14:3e:39:8c","packetCount":13,"resource":false,"retryCount":7,"rssi":-52.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":1219,"corporation":"Hon Hai Precision Ind. Co., Ltd.","macAddress":"00:22:68:90:3d:79","packetCount":6,"resource":false,"retryCount":0,"rssi":-60.6,"state":"unlisted","timeStamp":1311598305790} 
+,{"byteCount":490,"corporation":"HTC Corporation","macAddress":"f8:db:7f:77:c8:51","packetCount":5,"resource":false,"retryCount":0,"rssi":-60.75,"state":"unlisted","timeStamp":1311598305790} 
+,{"byteCount":2326,"corporation":"Hon Hai Precision Ind.Co., Ltd.","macAddress":"00:1e:4c:02:2e:b9","packetCount":6,"resource":false,"retryCount":0,"rssi":-60.8,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":682,"corporation":"Apple, Inc","macAddress":"64:b9:e8:3b:9a:01","packetCount":2,"resource":false,"retryCount":0,"rssi":-61.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":682,"corporation":"Apple, Inc.","macAddress":"58:1f:aa:83:f2:7b","packetCount":2,"resource":false,"retryCount":0,"rssi":-61.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":404,"corporation":"Intel Corporate","macAddress":"00:24:d7:c0:4a:44","packetCount":2,"resource":false,"retryCount":0,"rssi":-61.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":124,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"88:9f:fa:3c:fb:96","packetCount":1,"resource":false,"retryCount":0,"rssi":-61.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":199,"corporation":"Wistron Neweb Corp.","macAddress":"00:0b:6b:76:ce:33","packetCount":1,"resource":false,"retryCount":0,"rssi":-61.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":239,"corporation":"Azurewave","macAddress":"e0:b9:a5:5b:48:a8","packetCount":1,"resource":false,"retryCount":0,"rssi":-61.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":192,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"f0:7b:cb:38:d7:b5","packetCount":1,"resource":false,"retryCount":0,"rssi":-61.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":1482,"corporation":"Intel Corporate","macAddress":"00:22:fb:b0:88:7c","packetCount":9,"resource":false,"retryCount":0,"rssi":-61.375,"state":"unlisted","timeStamp":1311598305783} 
+,{"byteCount":1236,"corporation":"Intel Corporate","macAddress":"00:23:14:6c:aa:d8","packetCount":8,"resource":false,"retryCount":0,"rssi":-61.714287,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":1690,"corporation":"Apple Inc","macAddress":"10:9a:dd:04:22:ec","packetCount":5,"resource":false,"retryCount":0,"rssi":-61.75,"state":"unlisted","timeStamp":1311598305790} 
+,{"byteCount":98,"corporation":"Quanta Microsystems, INC.","macAddress":"00:17:c4:7c:22:5f","packetCount":1,"resource":false,"retryCount":0,"rssi":-62.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":418,"corporation":"GemTek Technology Co., Ltd.","macAddress":"00:21:00:ee:2e:00","packetCount":2,"resource":false,"retryCount":0,"rssi":-63.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":818,"corporation":"Intel Corporate","macAddress":"00:26:c7:2a:1d:44","packetCount":7,"resource":false,"retryCount":0,"rssi":-64.5,"state":"unlisted","timeStamp":1311598305783} 
+,{"byteCount":7880,"corporation":"Intel Corporate","macAddress":"00:23:14:c5:16:b0","packetCount":62,"resource":false,"retryCount":0,"rssi":-74.03278,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":1919,"corporation":"Intel Corporate","macAddress":"00:1f:3b:08:a8:8f","packetCount":11,"resource":false,"retryCount":0,"rssi":-75.6,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":1448,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"5c:ac:4c:53:a4:85","packetCount":12,"resource":false,"retryCount":0,"rssi":-81.181816,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":342,"corporation":"MICRO-STAR INT\u0027L CO.,LTD.","macAddress":"00:21:85:7e:90:80","packetCount":3,"resource":false,"retryCount":0,"rssi":-83.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":114,"corporation":"Intel Corporate","macAddress":"00:24:d6:70:a9:78","packetCount":1,"resource":false,"retryCount":0,"rssi":-84.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":183,"corporation":"Apple, Inc","macAddress":"00:21:e9:d8:cf:d8","packetCount":1,"resource":false,"retryCount":0,"rssi":-84.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":255,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"0c:60:76:61:7e:04","packetCount":1,"resource":false,"retryCount":0,"rssi":-84.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"ff:ff:ff:ff:ff:ff","packetCount":1,"resource":false,"retryCount":1,"rssi":-85.0,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":450,"corporation":"Apple","macAddress":"d8:a2:5e:51:b6:5b","packetCount":2,"resource":false,"retryCount":0,"rssi":-85.0,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":156,"corporation":"iiTron Inc.","macAddress":"00:17:36:36:61:fe","packetCount":1,"resource":false,"retryCount":0,"rssi":-85.0,"state":"unlisted","timeStamp":1311598305781} 
+,{"byteCount":182,"corporation":"Unknown","macAddress":"4a:f9:a1:b5:1f:f6","packetCount":1,"resource":false,"retryCount":0,"rssi":-85.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":692,"corporation":"Apple","macAddress":"cc:08:e0:f7:1f:ca","packetCount":5,"resource":false,"retryCount":0,"rssi":-85.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":82,"corporation":"Unknown","macAddress":"a5:9c:5b:2a:ad:8b","packetCount":1,"resource":false,"retryCount":0,"rssi":-85.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":484,"corporation":"Apple","macAddress":"5c:59:48:3b:a2:6b","packetCount":5,"resource":false,"retryCount":0,"rssi":-85.25,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"50:8a:ef:2c:03:81","packetCount":1,"resource":false,"retryCount":0,"rssi":-86.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":114,"corporation":"Intel Corporate","macAddress":"00:24:d6:31:18:4a","packetCount":1,"resource":false,"retryCount":0,"rssi":-86.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":289,"corporation":"Apple, Inc","macAddress":"64:b9:e8:59:7f:de","packetCount":2,"resource":false,"retryCount":0,"rssi":-86.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"c3:e3:4b:97:ff:b3","packetCount":1,"resource":false,"retryCount":1,"rssi":-86.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":114,"corporation":"Hon Hai Precision Ind.Co.,Ltd.","macAddress":"00:24:2b:f0:06:af","packetCount":1,"resource":false,"retryCount":0,"rssi":-86.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":991,"corporation":"Apple, Inc","macAddress":"90:84:0d:a1:7c:ce","packetCount":9,"resource":false,"retryCount":0,"rssi":-86.5,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":579,"corporation":"Intel Corporate","macAddress":"8c:a9:82:7a:99:94","packetCount":6,"resource":false,"retryCount":1,"rssi":-86.6,"state":"unlisted","timeStamp":1311598305781} 
+,{"byteCount":46,"corporation":"Unknown","macAddress":"00:45:3a:fd:9d:28","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":147,"corporation":"Unknown","macAddress":"ff:33:4a:be:db:7f","packetCount":1,"resource":false,"retryCount":1,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":132,"corporation":"Intel Corporation","macAddress":"00:16:ea:24:5a:34","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":124,"corporation":"Intel Corporate","macAddress":"00:23:14:5c:cb:b0","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":147,"corporation":"Unknown","macAddress":"57:fc:0e:4d:df:47","packetCount":1,"resource":false,"retryCount":1,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"ad:bc:50:5b:03:83","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":108,"corporation":"Intel Corporation","macAddress":"00:19:d2:ce:3f:41","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":380,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"5c:ac:4c:53:a4:49","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"05:7b:38:15:00:00","packetCount":1,"resource":false,"retryCount":1,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":150,"corporation":"Apple, Inc","macAddress":"00:23:32:03:49:e5","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"3e:be:4b:97:20:00","packetCount":1,"resource":false,"retryCount":1,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"aa:f1:63:1a:10:f5","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"75:20:76:da:02:11","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":236,"corporation":"Unknown","macAddress":"38:a3:fa:f8:64:d7","packetCount":1,"resource":false,"retryCount":0,"rssi":-87.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":492,"corporation":"Intel Corporate","macAddress":"00:15:17:21:21:8a","packetCount":6,"resource":false,"retryCount":0,"rssi":-87.2,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":466,"corporation":"Intel Corp","macAddress":"00:0e:35:8f:21:3d","packetCount":3,"resource":false,"retryCount":0,"rssi":-87.5,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":512,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"4c:0f:6e:11:77:fc","packetCount":5,"resource":false,"retryCount":0,"rssi":-87.75,"state":"unlisted","timeStamp":1311598305781} 
+,{"byteCount":82,"corporation":"Intel Corporation","macAddress":"00:16:6f:99:c1:72","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":153,"corporation":"Unknown","macAddress":"35:a4:ad:50:bb:ff","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"c1:be:50:5b:03:85","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305790} 
+,{"byteCount":448,"corporation":"Apple","macAddress":"c8:bc:c8:dc:81:10","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"68:5b:65:05:03:84","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":82,"corporation":"Apple","macAddress":"40:a6:d9:c9:93:03","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305783} 
+,{"byteCount":510,"corporation":"AzureWave","macAddress":"1c:4b:d6:6a:2c:3e","packetCount":2,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305790} 
+,{"byteCount":98,"corporation":"Intel Corporate","macAddress":"00:22:fa:76:f8:82","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":98,"corporation":"Apple","macAddress":"c4:2c:03:c8:79:ff","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305783} 
+,{"byteCount":82,"corporation":"Unknown","macAddress":"0e:9c:e4:e2:2c:36","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":159,"corporation":"Pivot3, Inc.","macAddress":"00:17:6c:8b:19:58","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":380,"corporation":"Unknown","macAddress":"41:c0:ca:f3:94:c1","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305783} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"a5:b0:3b:7e:03:81","packetCount":1,"resource":false,"retryCount":1,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"ee:60:49:d7:02:10","packetCount":1,"resource":false,"retryCount":1,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":116,"corporation":"Intel Corporate","macAddress":"00:23:14:c5:d4:ed","packetCount":1,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":164,"corporation":"HTC Corporation","macAddress":"90:21:55:de:a3:e6","packetCount":2,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":1102,"corporation":"Apple","macAddress":"40:a6:d9:f0:98:88","packetCount":2,"resource":false,"retryCount":0,"rssi":-88.0,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":562,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"78:e4:00:c9:03:80","packetCount":5,"resource":false,"retryCount":0,"rssi":-88.75,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":4017,"corporation":"Apple","macAddress":"58:55:ca:f3:94:c1","packetCount":20,"resource":false,"retryCount":0,"rssi":-88.89474,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":2633,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"c4:46:19:49:9c:fe","packetCount":6,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":170,"corporation":"Wistron Neweb Corp.","macAddress":"00:1b:b1:8c:59:cd","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":471,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"78:e4:00:1f:dd:af","packetCount":3,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":98,"corporation":"Unknown","macAddress":"58:cf:46:a1:94:c1","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":403,"corporation":"Intel Corporate","macAddress":"00:13:ce:47:84:af","packetCount":2,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":164,"corporation":"Intel Corporate","macAddress":"00:22:fb:98:6b:f4","packetCount":2,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305790} 
+,{"byteCount":98,"corporation":"Unknown","macAddress":"98:03:50:e4:ac:8f","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":158,"corporation":"Unknown","macAddress":"00:97:4e:1f:2d:48","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":98,"corporation":"Unknown","macAddress":"5c:e0:02:53:3e:13","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":132,"corporation":"Intel Corporate","macAddress":"00:13:02:b7:41:23","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":82,"corporation":"HTC Corporation","macAddress":"90:21:55:0b:56:bf","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":262,"corporation":"Edimax Technology Co. Ltd.","macAddress":"00:1f:1f:60:99:bf","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":252,"corporation":"Unknown","macAddress":"01:13:e8:1c:d1:97","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":158,"corporation":"Unknown","macAddress":"09:17:0e:86:02:10","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":161,"corporation":"Unknown","macAddress":"44:15:0e:86:02:14","packetCount":1,"resource":false,"retryCount":0,"rssi":-89.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":2142,"corporation":"Apple","macAddress":"c4:2c:03:c8:79:21","packetCount":9,"resource":false,"retryCount":0,"rssi":-89.375,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":314,"corporation":"Gemtek Technology Co., Ltd.","macAddress":"00:1a:73:cd:5d:7f","packetCount":3,"resource":false,"retryCount":0,"rssi":-89.5,"state":"unlisted","timeStamp":1311598305781} 
+,{"byteCount":874,"corporation":"Apple, Inc.","macAddress":"98:03:d8:e0:0b:aa","packetCount":5,"resource":false,"retryCount":0,"rssi":-89.5,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":14,"corporation":"Unknown","macAddress":"ad:43:2e:1c:07:b0","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"unlisted","timeStamp":1311598305785} 
+,{"byteCount":252,"corporation":"Unknown","macAddress":"ba:28:51:e4:9e:87","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":98,"corporation":"HTC Corporation","macAddress":"64:a7:69:77:36:e6","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":98,"corporation":"Intel Corporate","macAddress":"00:21:5d:36:a5:d6","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":82,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"4c:0f:6e:91:3f:fc","packetCount":1,"resource":false,"retryCount":0,"rssi":-90.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":516,"corporation":"Intel Corporate","macAddress":"00:1f:3c:57:4b:ea","packetCount":2,"resource":false,"retryCount":0,"rssi":-90.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":528,"corporation":"Apple, Inc","macAddress":"00:26:b0:a0:c6:6c","packetCount":3,"resource":false,"retryCount":0,"rssi":-90.5,"state":"unlisted","timeStamp":1311598305783} 
+,{"byteCount":492,"corporation":"Apple","macAddress":"40:a6:d9:c9:93:6d","packetCount":2,"resource":false,"retryCount":0,"rssi":-91.0,"state":"unlisted","timeStamp":1311598305782} 
+,{"byteCount":159,"corporation":"Unknown","macAddress":"42:b1:bd:84:c7:73","packetCount":1,"resource":false,"retryCount":0,"rssi":-91.0,"state":"unlisted","timeStamp":1311598305784} 
+,{"byteCount":161,"corporation":"Unknown","macAddress":"00:9e:0b:68:6c:21","packetCount":1,"resource":false,"retryCount":0,"rssi":-91.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":130,"corporation":"Unknown","macAddress":"30:0c:0e:86:02:f8","packetCount":1,"resource":false,"retryCount":1,"rssi":-91.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":162,"corporation":"Gunnebo Cash Automation AB","macAddress":"00:17:8e:98:38:10","packetCount":1,"resource":false,"retryCount":0,"rssi":-92.0,"state":"unlisted","timeStamp":1311598305788} 
+,{"byteCount":182,"corporation":"Unknown","macAddress":"4a:17:0e:85:ff:b5","packetCount":1,"resource":false,"retryCount":0,"rssi":-92.0,"state":"unlisted","timeStamp":1311598305790} 
+,{"byteCount":519,"corporation":"Intel Corporate","macAddress":"00:1f:3c:46:ae:b4","packetCount":2,"resource":false,"retryCount":0,"rssi":-92.0,"state":"unlisted","timeStamp":1311598305787} 
+,{"byteCount":160,"corporation":"WESTERN DIGITAL CORPORATION","macAddress":"00:00:c0:73:c1:13","packetCount":1,"resource":false,"retryCount":0,"rssi":-92.0,"state":"unlisted","timeStamp":1311598305786} 
+,{"byteCount":216,"corporation":"Hon Hai Precision Ind. Co.,Ltd.","macAddress":"0c:60:76:22:5c:10","packetCount":2,"resource":false,"retryCount":0,"rssi":-92.0,"state":"unlisted","timeStamp":1311598305781} 
+,{"byteCount":132,"corporation":"Unknown","macAddress":"aa:82:ea:24:37:0b","packetCount":1,"resource":false,"retryCount":0,"rssi":-92.0,"state":"unlisted","timeStamp":1311598305789} 
+,{"byteCount":108,"corporation":"Unknown","macAddress":"8d:f9:92:a1:fc:e2","packetCount":1,"resource":false,"retryCount":1,"rssi":-93.0,"state":"unlisted","timeStamp":1311598305783} 
+,{"byteCount":198,"corporation":"Unknown","macAddress":"b9:2d:d5:30:82:91","packetCount":1,"resource":false,"retryCount":0,"rssi":-96.0,"state":"unlisted","timeStamp":1311598305789} 
 ] 

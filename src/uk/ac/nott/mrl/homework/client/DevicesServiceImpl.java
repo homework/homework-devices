@@ -1,46 +1,14 @@
 package uk.ac.nott.mrl.homework.client;
 
-import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.Model;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 
 public class DevicesServiceImpl implements DevicesService
 {
-	private final RequestCallback callback = new RequestCallback()
-	{
-		@Override
-		public void onError(final Request request, final Throwable exception)
-		{
-			GWT.log(exception.getMessage(), exception);
-		}
-
-		@Override
-		public void onResponseReceived(final Request request, final Response response)
-		{
-			GWT.log("Response " + response.getStatusCode() + ": " + response.getText());
-
-			if (200 == response.getStatusCode())
-			{
-				try
-				{
-					//model.updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));
-					model.updateLinks(getLinks(response.getText()));			
-				}
-				catch (final Exception e)
-				{
-					GWT.log(response.getText(), e);
-				}
-			}
-		}
-	};
-
 	private final Model model;
 
 	public DevicesServiceImpl(final Model model)
@@ -123,13 +91,9 @@ public class DevicesServiceImpl implements DevicesService
 				+ model.getLastUpdated());
 	}
 
-	private final native JsArray<Link> getLinks(final String json) /*-{
-																	return eval('(' + json + ')');
-																	}-*/;
-
 	private void serverRequest(final String url)
 	{
-		serverRequest(url, callback);
+		serverRequest(url, model.getCallback());
 	}
 
 	private void serverRequest(final String url, final RequestCallback callback)

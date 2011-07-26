@@ -6,6 +6,7 @@ import uk.ac.nott.mrl.homework.client.model.Item.State;
 import uk.ac.nott.mrl.homework.client.ui.Device;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.http.client.RequestCallback;
 
 public interface Model
 {
@@ -30,4 +31,6 @@ public interface Model
 	void updateLinks(final JsArray<Link> newLinks);
 	
 	void updateLink(Link link);
+	
+	RequestCallback getCallback();
 }

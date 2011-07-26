@@ -149,7 +149,8 @@ public class DragDevice extends Label
 			@Override
 			public void onTouchEnd(final TouchEndEvent event)
 			{
-				handleDragEnd();				
+				handleDragEnd();
+				event.stopPropagation();
 			}
 		}, TouchEndEvent.getType());
 	

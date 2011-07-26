@@ -63,11 +63,6 @@ public abstract class Item
 		return zone;
 	}
 
-	public boolean isResource()
-	{
-		return false;
-	}
-
 	public void setLastUpdate()
 	{
 		this.lastUpdated = new Date();

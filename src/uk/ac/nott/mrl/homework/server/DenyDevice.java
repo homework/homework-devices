@@ -40,7 +40,7 @@ public class DenyDevice extends HttpServlet
 		{
 		}
 
-		ListLinks.getLink(macAddress).setState(State.blacklisted, new Date().getTime());
+		ListLinks.getLink(macAddress).setState(State.denied, new Date().getTime());
 
 		ListLinks.updatePermitted(conn.getInputStream(), since);
 

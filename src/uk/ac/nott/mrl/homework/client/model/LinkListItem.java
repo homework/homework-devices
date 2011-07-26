@@ -50,13 +50,7 @@ public class LinkListItem extends Item
 	{
 		if (getState() == State.inactive) { return 0.2f; }
 
-		// Opacity by Signal Strength
-		final float maxRSSI = 0;
-		for (final Link link : links.values())
-		{
-			Math.min(link.getRssi(), maxRSSI);
-		}
-		return 1.3f + (maxRSSI / 100);
+		return 1f;
 	}
 
 	@Override

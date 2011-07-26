@@ -25,10 +25,10 @@ public class SetResource extends HttpServlet
 		System.out.println("Set Resource :" + macAddress + " - " + zoneString);
 
 		final Link link = ListLinks.getLink(macAddress);
-		if (link != null)
-		{
-			link.setResource(resource);
-		}
+//		if (link != null)
+//		{
+//			link.setResource(resource);
+//		}
 
 		final String sinceString = request.getParameter("since");
 		long since = 0;

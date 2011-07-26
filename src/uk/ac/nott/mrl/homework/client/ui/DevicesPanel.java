@@ -156,66 +156,60 @@ public class DevicesPanel extends FlowPanel
 			{
 				//GWT.log("Item Added: " + item.getName());
 				final ZonePanel zone = getZone(item.getZone().getIndex());
-				if (item.isResource())
-				{
-					// zone.add(item);
-				}
-				else
-				{
-					final Device device = new Device(model, item);
-					if (item.getID().equals(signalDeviceMac))
-					{
-						device.setSignalDevice(true);
-					}
-					deviceMap.put(item, device);
-					zone.add(device);
-					// add(device);
 
-					device.addMouseDownHandler(new MouseDownHandler()
-					{
-						@Override
-						public void onMouseDown(final MouseDownEvent event)
-						{
-							dragDevice.setupDrag(device.getLink(), device, device.toString(), event.getClientX(),
-													event.getClientY());
-						}
-					});
-					device.addClickHandler(new ClickHandler()
-					{
-						@Override
-						public void onClick(final ClickEvent event)
-						{
-							setPopup(device);
-							popup.setPopupPosition(	device.getAbsoluteLeft() + 10,
-													device.getAbsoluteTop() + device.getOffsetHeight() - 3);
-							popup.getElement().getStyle().setOpacity(1);
-							popup.show();
-							popup.getElement().getStyle().setOpacity(1);
-							popup.getElement().getStyle().setVisibility(Visibility.VISIBLE);							
-							fadeTimer.schedule(10000);
-						}
-					});
-					device.addDoubleClickHandler(new DoubleClickHandler()
-					{
-						@Override
-						public void onDoubleClick(final DoubleClickEvent event)
-						{
-							popup.hide();
-							device.edit(service);
-							event.preventDefault();
-						}
-					});
-					device.addTouchStartHandler(new TouchStartHandler()
-					{
-						@Override
-						public void onTouchStart(final TouchStartEvent event)
-						{
-							final Touch touch = event.getChangedTouches().get(0);
-							dragDevice.setupDrag(	device.getLink(), device, device.toString(), touch.getClientX(),
-													touch.getClientY());
-						}
-					});
+				final Device device = new Device(model, item);
+				if (item.getID().equals(signalDeviceMac))
+				{
+					device.setSignalDevice(true);
 				}
+				deviceMap.put(item, device);
+				zone.add(device);
+				// add(device);
+
+				device.addMouseDownHandler(new MouseDownHandler()
+				{
+					@Override
+					public void onMouseDown(final MouseDownEvent event)
+					{
+						dragDevice.setupDrag(device.getLink(), device, device.toString(), event.getClientX(),
+												event.getClientY());
+					}
+				});
+				device.addClickHandler(new ClickHandler()
+				{
+					@Override
+					public void onClick(final ClickEvent event)
+					{
+						setPopup(device);
+						popup.setPopupPosition(	device.getAbsoluteLeft() + 10,
+												device.getAbsoluteTop() + device.getOffsetHeight() - 3);
+						popup.getElement().getStyle().setOpacity(1);
+						popup.show();
+						popup.getElement().getStyle().setOpacity(1);
+						popup.getElement().getStyle().setVisibility(Visibility.VISIBLE);							
+						fadeTimer.schedule(10000);
+					}
+				});
+				device.addDoubleClickHandler(new DoubleClickHandler()
+				{
+					@Override
+					public void onDoubleClick(final DoubleClickEvent event)
+					{
+						popup.hide();
+						device.edit(service);
+						event.preventDefault();
+					}
+				});
+				device.addTouchStartHandler(new TouchStartHandler()
+				{
+					@Override
+					public void onTouchStart(final TouchStartEvent event)
+					{
+						final Touch touch = event.getChangedTouches().get(0);
+						dragDevice.setupDrag(	device.getLink(), device, device.toString(), touch.getClientX(),
+												touch.getClientY());
+					}
+				});
 			}
 
 			@Override
@@ -223,18 +217,11 @@ public class DevicesPanel extends FlowPanel
 			{
 				//GWT.log("Item Removed: " + item.getName());
 				final ZonePanel zone = getZone(item.getZone().getIndex());
-				if (item.isResource())
+				final Device device = deviceMap.get(item);
+				if (device != null)
 				{
-					// zone.remove(item);
-				}
-				else
-				{
-					final Device device = deviceMap.get(item);
-					if (device != null)
-					{
-						zone.remove(device);
-						deviceMap.remove(item);
-					}
+					zone.remove(device);
+					deviceMap.remove(item);
 				}
 			}
 
@@ -244,19 +231,7 @@ public class DevicesPanel extends FlowPanel
 				//GWT.log("Item Updated: " + item.getName());
 				final ZonePanel newZone = getZone(item.getZone().getIndex());
 				final Device device = deviceMap.get(item);
-				if (item.isResource())
-				{
-					if (device != null)
-					{
-						device.removeFromParent();
-						deviceMap.remove(item);
-					}
-					else
-					{
-						// newZone.update(item);
-					}
-				}
-				else if (device == null)
+				if (device == null)
 				{
 					// newZone.remove(item);
 					itemAdded(item);
@@ -439,8 +414,14 @@ public class DevicesPanel extends FlowPanel
 
 		int top = 15;
 		int maxDevice = 0;
+		int currentZone = 0;
 		for (final Device device : devices)
 		{		
+			if(currentZone != device.getItem().getZone().getIndex())
+			{
+				currentZone = device.getItem().getZone().getIndex();
+				top = 15;
+			}
 			if(dragDevice.getState() == DragState.dragging && device.getLink() != null && device.getLink().getMacAddress().equals(dragDevice.getLink().getMacAddress()))
 			{
 				continue;

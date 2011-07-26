@@ -3,11 +3,14 @@ package uk.ac.nott.mrl.homework.server;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import uk.ac.nott.mrl.homework.server.model.Link.State;
 
 public class PermitDevice extends HttpServlet
 {
@@ -36,6 +39,8 @@ public class PermitDevice extends HttpServlet
 		catch (final Exception e)
 		{
 		}
+		
+		ListLinks.getLink(macAddress).setState(State.permitted, new Date().getTime());
 
 		ListLinks.updatePermitted(conn.getInputStream(), since);
 

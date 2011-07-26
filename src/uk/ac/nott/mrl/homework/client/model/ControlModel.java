@@ -18,7 +18,7 @@ public class ControlModel extends SimpleModel
 		{
 			return 2;
 		}
-		else if (link.getIPAddress() != null) { return 1; }
+		else if (link.getIPAddress() != null && link.getState().equals("unlisted")) { return 1; }
 		return 0;
 	}
 }

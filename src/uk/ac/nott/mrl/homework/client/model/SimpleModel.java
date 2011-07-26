@@ -12,6 +12,9 @@ import uk.ac.nott.mrl.homework.client.ui.Device;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Response;
 
 public class SimpleModel implements Model
 {
@@ -22,11 +25,13 @@ public class SimpleModel implements Model
 
 	private final Map<String, Item> items = new HashMap<String, Item>();
 
+	private int counter = 0;
 	private long lastUpdated = 0;
 
 	private ItemListener listener;
 
 	private final Zone[] zones;
+	private RequestCallback callback;
 
 	public SimpleModel()
 	{
@@ -156,6 +161,10 @@ public class SimpleModel implements Model
 	@Override
 	public void updateLinks(final JsArray<Link> newLinks)
 	{
+		if(counter < this.counter)
+		{
+			return;
+		}
 		for (int index = 0; index < newLinks.length(); index++)
 		{
 			try
@@ -307,5 +316,43 @@ public class SimpleModel implements Model
 		}
 		
 		fireEvents();
+	}
+
+	@Override
+	public RequestCallback getCallback()
+	{
+		callback = new RequestCallback()
+		{
+			@Override
+			public void onError(final Request request, final Throwable exception)
+			{
+				GWT.log(exception.getMessage(), exception);
+			}
+
+			@Override
+			public void onResponseReceived(final Request request, final Response response)
+			{
+				GWT.log("Response " + response.getStatusCode() + ": " + response.getText());
+
+				if (200 == response.getStatusCode())
+				{
+					try
+					{
+						//updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));
+						updateLinks(getLinks(response.getText()));
+					}
+					catch (final Exception e)
+					{
+						GWT.log(response.getText(), e);
+					}
+				}
+			}
+
+			private final native JsArray<Link> getLinks(final String json)
+			/*-{
+				return eval('(' + json + ')');
+			}-*/;
+		};
+		return callback;
 	}
 }

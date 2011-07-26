@@ -14,7 +14,7 @@ public class Link
 {
 	public enum State
 	{
-		blacklisted, denied, permitted, requesting
+		blacklisted, denied, permitted, unlisted
 	}
 
 	private static final Companies companies = new Companies();
@@ -42,7 +42,7 @@ public class Link
 
 		if (ListLinks.routerMacAddresses.contains(link.macAddress))
 		{
-			link.resource = true;
+			//link.resource = true;
 			link.deviceName = "Router";
 		}
 
@@ -71,7 +71,7 @@ public class Link
 
 				if (ListLinks.routerMacAddresses.contains(link.macAddress))
 				{
-					link.resource = true;
+					//link.resource = true;
 					link.deviceName = "Router";
 				}
 
@@ -92,12 +92,11 @@ public class Link
 	private String macAddress;
 	private transient Action nameAction;
 	private int packetCount;
-	private boolean resource = false;
 	private int retryCount;
 
 	private float rssi;
 
-	private State state = State.denied;
+	private State state = State.unlisted;
 	private long timeStamp;
 
 	public Link()
@@ -113,10 +112,6 @@ public class Link
 		this.ipAddress = ip;
 		this.macAddress = mac;
 		this.byteCount = byteCount;
-		if (ip != null)
-		{
-			state = State.permitted;
-		}
 	}
 
 	public int getByteCount()
@@ -177,19 +172,9 @@ public class Link
 		}
 	}
 
-	public boolean isResource()
-	{
-		return resource;
-	}
-
 	public void setDeviceName(final String name, final double since)
 	{
 		deviceName = name;
-	}
-
-	public void setResource(final boolean resource)
-	{
-		this.resource = resource;
 	}
 
 	public void setState(final State state, final long since)
