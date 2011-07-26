@@ -16,6 +16,7 @@ import uk.ac.nott.mrl.homework.client.model.Model;
 import uk.ac.nott.mrl.homework.client.model.Zone;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -40,6 +41,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class DevicesPanel extends FlowPanel
 {
@@ -485,7 +487,7 @@ public class DevicesPanel extends FlowPanel
 
 	private void updateLayout()
 	{
-		final int bottom = getElement().getOffsetHeight() - getElement().getScrollHeight() - getWinOffsetY();
+		final int bottom = RootPanel.get().getElement().getClientHeight() + RootPanel.get().getElement().getScrollTop();
 		for (final ZoneDetail detail : zoneDetails)
 		{
 			detail.getElement().getStyle().setBottom(bottom, Unit.PX);

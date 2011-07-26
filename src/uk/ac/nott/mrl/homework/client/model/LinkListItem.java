@@ -31,7 +31,7 @@ public class LinkListItem extends Item
 	@Override
 	public String getName()
 	{
-		if (links.size() == 1) { return company + " Device"; }
+		if (links.size() == 1) { return company.toLowerCase() + " Device"; }
 		return company + " Devices (" + links.size() + ")";
 	}
 	
@@ -63,6 +63,7 @@ public class LinkListItem extends Item
 	public void update(final Link link)
 	{
 		links.put(link.getMacAddress(), link);
+		setState(State.active);		
 	}
 
 	@Override

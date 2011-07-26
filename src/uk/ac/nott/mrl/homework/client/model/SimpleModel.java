@@ -1,5 +1,6 @@
 package uk.ac.nott.mrl.homework.client.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class SimpleModel implements Model
 	private final Map<String, Item> itemMap = new HashMap<String, Item>();
 
 	private final Map<String, Item> items = new HashMap<String, Item>();
+
 	private long lastUpdated = 0;
 
 	private ItemListener listener;
@@ -34,11 +36,11 @@ public class SimpleModel implements Model
 							new Zone(1, "Internet", DevicesClient.resources.webblue()) });
 	}
 
-	protected SimpleModel(Zone[] zones)
+	protected SimpleModel(final Zone[] zones)
 	{
 		this.zones = zones;
 	}
-	
+
 	@Override
 	public void addListener(final ItemListener listener)
 	{
@@ -161,11 +163,16 @@ public class SimpleModel implements Model
 	@Override
 	public void updateLinks(final JsArray<Link> newLinks)
 	{
+		final Collection<String> updated = new HashSet<String>();
 		for (int index = 0; index < newLinks.length(); index++)
 		{
 			try
 			{
-				add(newLinks.get(index));
+				final String itemid = add(newLinks.get(index));
+				if (itemid != null)
+				{
+					updated.add(itemid);
+				}
 			}
 			catch (final Exception e)
 			{
@@ -174,10 +181,10 @@ public class SimpleModel implements Model
 		}
 
 		GWT.log("Last Updated: " + lastUpdated);
-		
+
 		try
 		{
-			removeOld();
+			update(updated);
 			listener.itemUpdateFinished();
 		}
 		catch (final Exception e)
@@ -186,25 +193,18 @@ public class SimpleModel implements Model
 		}
 	}
 
-	private void add(final Link link)
+	private String add(final Link link)
 	{
-		if (link.getTimestamp() > lastUpdated)
-		{
-			lastUpdated = (long) link.getTimestamp();
-		}
+		lastUpdated = Math.max(lastUpdated, (long) link.getTimestamp());
 
 		final Item existing = itemMap.get(link.getMacAddress());
-		boolean updated = false;
+		final boolean updated = false;
 		if (existing != null)
 		{
 			if (canBeGrouped(link))
 			{
 				existing.update(link);
-				listener.itemUpdated(existing);
-				if (existing instanceof LinkListItem)
-				{
-					updated = true;
-				}
+				if (existing instanceof LinkListItem) { return existing.getID(); }
 			}
 			else
 			{
@@ -213,8 +213,7 @@ public class SimpleModel implements Model
 					existing.update(link);
 					final Zone zone = getZones()[getZone(link)];
 					existing.setZone(zone);
-					listener.itemUpdated(existing);
-					updated = true;
+					return existing.getID();
 				}
 			}
 		}
@@ -229,7 +228,7 @@ public class SimpleModel implements Model
 				if (listItem != null && listItem instanceof LinkListItem)
 				{
 					((LinkListItem) listItem).add(link);
-					listener.itemUpdated(listItem);
+					return listItem.getID();
 				}
 				else
 				{
@@ -248,19 +247,22 @@ public class SimpleModel implements Model
 				listener.itemAdded(item);
 			}
 		}
-
-		lastUpdated = Math.max(lastUpdated, (long) link.getTimestamp());
+		return null;
 	}
 
-	private void removeOld()
+	private void update(final Collection<String> updated)
 	{
 		// GWT.log("Last Updated: " + lastUpdated);
 		if (lastUpdated > 0)
 		{
-			final Collection<Item> removals = new HashSet<Item>();
+			final Collection<Item> removals = new ArrayList<Item>();
 			for (final Item item : items.values())
 			{
-				if (item.update(this))
+				if(updated.contains(item.getID()))
+				{
+					listener.itemUpdated(item);
+				}
+				else if (item.update(this))
 				{
 					if (item.getState() == State.dead)
 					{

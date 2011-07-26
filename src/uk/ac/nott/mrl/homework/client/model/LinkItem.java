@@ -69,6 +69,7 @@ public class LinkItem extends Item
 	public void update(final Link link)
 	{
 		this.link = link;
+		setState(State.active);
 	}
 
 	public boolean update(final long currentUpdate)

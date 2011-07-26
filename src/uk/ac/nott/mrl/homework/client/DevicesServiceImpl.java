@@ -1,7 +1,5 @@
 package uk.ac.nott.mrl.homework.client;
 
-import java.util.Date;
-
 import uk.ac.nott.mrl.homework.client.model.Link;
 import uk.ac.nott.mrl.homework.client.model.Model;
 
@@ -32,8 +30,7 @@ public class DevicesServiceImpl implements DevicesService
 			{
 				try
 				{
-					model.updateLinks(getLinks(response.getText()));
-					model.updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));					
+					model.updateLinks(getLinks(response.getText()));			
 				}
 				catch (final Exception e)
 				{
@@ -42,7 +39,7 @@ public class DevicesServiceImpl implements DevicesService
 			}
 			else
 			{
-				model.updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));
+				//model.updateLinks(getLinks(DevicesClient.resources.testlinks2().getText()));
 				// Handle the error. Can get the status text from response.getStatusText()
 				//model.updateLinks(getLinks("[{\"timeStamp\":"
 				//							+ new Date().getTime()
