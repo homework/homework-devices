@@ -36,8 +36,6 @@ public class ListLinks extends HttpServlet
 
 	static long last = 0;
 
-	private static boolean allowCisco = true;
-
 	private static final Comparator<Link> linkComparator = new Comparator<Link>()
 	{
 		@Override
@@ -99,10 +97,6 @@ public class ListLinks extends HttpServlet
 				}
 
 				link.initCorporation();
-				if (!allowCisco && link.getCorporation() != null && link.getCorporation().startsWith("Cisco"))
-				{
-					continue;
-				}
 
 				if (timeStamp < since)
 				{
@@ -204,8 +198,6 @@ public class ListLinks extends HttpServlet
 						final InetAddress ipAddress = ipAddresses.nextElement();
 						if (ipAddress.getHostAddress().startsWith("128.243."))
 						{
-							allowCisco = false;
-
 							System.setProperty("http.proxyHost", "proxy.nottingham.ac.uk");
 							System.setProperty("http.proxyPort", "8080");
 							System.setProperty("http.nonProxyHosts", "192.168.*");

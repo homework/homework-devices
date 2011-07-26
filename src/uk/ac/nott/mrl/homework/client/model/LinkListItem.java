@@ -25,13 +25,13 @@ public class LinkListItem extends Item
 	@Override
 	public String getID()
 	{
-		return getZone().getName() + ":" + company;
+		return getZone().getName() + ":" + company.toLowerCase();
 	}
 
 	@Override
 	public String getName()
 	{
-		if (links.size() == 1) { return company.toLowerCase() + " Device"; }
+		if (links.size() == 1) { return company + " Device"; }
 		return company + " Devices (" + links.size() + ")";
 	}
 	
@@ -67,7 +67,7 @@ public class LinkListItem extends Item
 	}
 
 	@Override
-	public boolean update(final Model model)
+	public boolean updateState(final Model model)
 	{
 		State bestState = State.dead;
 		final Collection<Link> removals = new ArrayList<Link>();
@@ -91,7 +91,7 @@ public class LinkListItem extends Item
 		for (final Link link : removals)
 		{
 			links.remove(link.getMacAddress());
-			// TODO Model.remove
+			model.removeLink(link);
 		}
 
 		if (bestState != getState())
@@ -100,5 +100,10 @@ public class LinkListItem extends Item
 			return true;
 		}
 		return !removals.isEmpty();
+	}
+
+	public void remove(Link link)
+	{
+		links.remove(link.getMacAddress());
 	}
 }

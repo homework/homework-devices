@@ -32,26 +32,7 @@ public class LinkItem extends Item
 		String deviceName = link.getDeviceName();
 		if (deviceName == null)
 		{
-			deviceName = link.getCorporation();
-			if (deviceName != null)
-			{
-				int cut = deviceName.indexOf(' ');
-				if (cut != -1)
-				{
-					deviceName = deviceName.substring(0, cut);
-				}
-
-				cut = deviceName.indexOf(',');
-				if (cut != -1)
-				{
-					deviceName = deviceName.substring(0, cut);
-				}
-				deviceName += " Device";
-			}
-			else
-			{
-				deviceName = "Unknown Device";
-			}
+			deviceName = Item.getShortCompanyName(link) + " Device";
 		}
 		return deviceName;
 	}
@@ -78,7 +59,7 @@ public class LinkItem extends Item
 	}
 
 	@Override
-	public boolean update(final Model model)
+	public boolean updateState(final Model model)
 	{
 		final State newState = model.getState(link);
 		if (newState != getState())

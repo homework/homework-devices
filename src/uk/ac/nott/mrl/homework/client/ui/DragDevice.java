@@ -77,7 +77,7 @@ public class DragDevice extends Label
 				GWT.log("Drag Start");
 
 				dragWidget.removeFromParent();
-				
+			
 				dragState = DragState.dragging;
 				setVisible(true);
 				setDragZone(zone);
@@ -118,9 +118,15 @@ public class DragDevice extends Label
 			GWT.log("Drag End");
 			setVisible(false);
 
+			if(dragWidget instanceof Device)
+			{
+				zone.add(dragWidget);
+			}
+			
 			if(zone != null)
 			{
-				zone.getZone().add(service, link);				
+				zone.getZone().add(service, link);
+				service.getModel().updateLink(link);				
 				setDragZone(null);
 			}
 		}

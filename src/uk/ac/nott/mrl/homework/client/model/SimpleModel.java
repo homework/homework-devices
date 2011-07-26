@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import uk.ac.nott.mrl.homework.client.DevicesClient;
@@ -13,7 +12,6 @@ import uk.ac.nott.mrl.homework.client.ui.Device;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.resources.client.ImageResource;
 
 public class SimpleModel implements Model
 {
@@ -55,27 +53,6 @@ public class SimpleModel implements Model
 		return true;
 	}
 
-	public String getCompany(final Link link)
-	{
-		String company = link.getCorporation();
-		if (company != null)
-		{
-			int cut = company.indexOf(' ');
-			if (cut != -1)
-			{
-				company = company.substring(0, cut);
-			}
-
-			cut = company.indexOf(',');
-			if (cut != -1)
-			{
-				company = company.substring(0, cut);
-			}
-			return company;
-		}
-		return "Unknown";
-	}
-
 	@Override
 	public Comparator<Device> getComparator()
 	{
@@ -91,12 +68,6 @@ public class SimpleModel implements Model
 				return o1.getItem().getID().compareTo(o2.getItem().getID());
 			}
 		};
-	}
-
-	@Override
-	public ImageResource getImage(final int zone)
-	{
-		return null;
 	}
 
 	@Override
@@ -160,18 +131,41 @@ public class SimpleModel implements Model
 		return zones;
 	}
 
+	public void removeItem(final Item item)
+	{
+		items.remove(item.getID());
+		if (item instanceof LinkListItem)
+		{
+			for (final Link link : ((LinkListItem) item).getLinks())
+			{
+				itemMap.remove(link);
+			}
+		}
+		else if (item instanceof LinkItem)
+		{
+			itemMap.remove(((LinkItem) item).getLink().getMacAddress());
+		}
+	}
+
+	@Override
+	public void removeLink(final Link link)
+	{
+		itemMap.remove(link.getMacAddress());
+	}
+	
 	@Override
 	public void updateLinks(final JsArray<Link> newLinks)
 	{
-		final Collection<String> updated = new HashSet<String>();
 		for (int index = 0; index < newLinks.length(); index++)
 		{
 			try
 			{
-				final String itemid = add(newLinks.get(index));
-				if (itemid != null)
+				final Link link = newLinks.get(index);
+				final Item item = getItem(link);
+				if (item.getState() == State.added)
 				{
-					updated.add(itemid);
+					itemMap.put(link.getMacAddress(), item);
+					items.put(item.getID(), item);
 				}
 			}
 			catch (final Exception e)
@@ -184,7 +178,7 @@ public class SimpleModel implements Model
 
 		try
 		{
-			update(updated);
+			fireEvents();
 			listener.itemUpdateFinished();
 		}
 		catch (final Exception e)
@@ -193,64 +187,7 @@ public class SimpleModel implements Model
 		}
 	}
 
-	private String add(final Link link)
-	{
-		lastUpdated = Math.max(lastUpdated, (long) link.getTimestamp());
-
-		final Item existing = itemMap.get(link.getMacAddress());
-		final boolean updated = false;
-		if (existing != null)
-		{
-			if (canBeGrouped(link))
-			{
-				existing.update(link);
-				if (existing instanceof LinkListItem) { return existing.getID(); }
-			}
-			else
-			{
-				if (existing instanceof LinkItem)
-				{
-					existing.update(link);
-					final Zone zone = getZones()[getZone(link)];
-					existing.setZone(zone);
-					return existing.getID();
-				}
-			}
-		}
-
-		if (!updated)
-		{
-			final Zone zone = getZones()[getZone(link)];
-			if (canBeGrouped(link))
-			{
-				final String company = getCompany(link);
-				final Item listItem = items.get(zone.getName() + ":" + company);
-				if (listItem != null && listItem instanceof LinkListItem)
-				{
-					((LinkListItem) listItem).add(link);
-					return listItem.getID();
-				}
-				else
-				{
-					final LinkListItem item = new LinkListItem(zone, company);
-					item.add(link);
-					itemMap.put(link.getMacAddress(), item);
-					items.put(item.getID(), item);
-					listener.itemAdded(item);
-				}
-			}
-			else
-			{
-				final LinkItem item = new LinkItem(link, zone);
-				itemMap.put(link.getMacAddress(), item);
-				items.put(item.getID(), item);
-				listener.itemAdded(item);
-			}
-		}
-		return null;
-	}
-
-	private void update(final Collection<String> updated)
+	private void fireEvents()
 	{
 		// GWT.log("Last Updated: " + lastUpdated);
 		if (lastUpdated > 0)
@@ -258,11 +195,17 @@ public class SimpleModel implements Model
 			final Collection<Item> removals = new ArrayList<Item>();
 			for (final Item item : items.values())
 			{
-				if(updated.contains(item.getID()))
+				if (item.getState() == State.added)
+				{
+					listener.itemAdded(item);
+					item.setState(State.active);
+				}
+				else if (item.getState() == State.updated)
 				{
 					listener.itemUpdated(item);
+					item.setState(State.active);
 				}
-				else if (item.update(this))
+				else if (item.updateState(this))
 				{
 					if (item.getState() == State.dead)
 					{
@@ -278,7 +221,85 @@ public class SimpleModel implements Model
 			for (final Item remove : removals)
 			{
 				listener.itemRemoved(remove);
+				removeItem(remove);
 			}
+		}
+	}
+
+	private Item getItem(final Link link)
+	{
+		lastUpdated = Math.max(lastUpdated, (long) link.getTimestamp());
+
+		final Item existing = itemMap.get(link.getMacAddress());
+		if (existing != null)
+		{
+			if (canBeGrouped(link))
+			{
+				existing.update(link);
+				if (existing instanceof LinkListItem)
+				{
+					existing.setState(State.updated);
+					return existing;
+				}
+			}
+			else
+			{
+				if (existing instanceof LinkItem)
+				{
+					existing.update(link);
+					final Zone zone = getZones()[getZone(link)];
+					existing.setZone(zone);
+					existing.setState(State.updated);
+					return existing;
+				}
+				else if (existing instanceof LinkListItem)
+				{
+					final LinkListItem listItem = (LinkListItem) existing;
+					listItem.remove(link);
+					listItem.setState(State.updated);
+				}
+			}
+		}
+
+		final Zone zone = getZones()[getZone(link)];
+		if (canBeGrouped(link))
+		{
+			final Item listItem = items.get(Item.getTypeID(link, zone));
+			if (listItem != null && listItem instanceof LinkListItem)
+			{
+				((LinkListItem) listItem).add(link);
+				listItem.setState(State.updated);
+				return listItem;
+			}
+			else
+			{
+				final LinkListItem item = new LinkListItem(zone, Item.getShortCompanyName(link));
+				item.add(link);
+				item.setState(State.added);
+				return item;
+			}
+		}
+		else
+		{
+			final LinkItem item = new LinkItem(link, zone);
+			item.setState(State.added);
+			return item;
+		}
+	}
+
+	@Override
+	public void updateLink(Link link)
+	{
+		final Item item = getItem(link);
+		if (item.getState() == State.added)
+		{
+			itemMap.put(link.getMacAddress(), item);
+			items.put(item.getID(), item);
+			listener.itemAdded(item);
+		}
+		else if(item.getState() == State.updated)
+		{
+			listener.itemUpdated(item);
 		}
 	}
 }

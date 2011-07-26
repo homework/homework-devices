@@ -20,6 +20,7 @@ public class ControlInternetZone extends Zone
 	@Override
 	public void add(DevicesService service, Link link)
 	{
+		link.setState("permitted");
 		service.permit(link.getMacAddress());
 	}
 }

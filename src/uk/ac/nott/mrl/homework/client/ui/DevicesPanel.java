@@ -234,6 +234,7 @@ public class DevicesPanel extends FlowPanel
 			@Override
 			public void itemUpdated(final Item item)
 			{
+				
 				//GWT.log("Item Updated: " + item.getName());
 				final ZonePanel newZone = getZone(item.getZone().getIndex());
 				final Device device = deviceMap.get(item);
@@ -445,6 +446,28 @@ public class DevicesPanel extends FlowPanel
 		else
 		{
 			final LinkListItem item = (LinkListItem) device.getItem();
+			final Link firstLink = item.getLinks().iterator().next();
+			if (firstLink.getCorporation() == null || firstLink.getCorporation().equals("Unknown"))
+			{
+				panel.add(new Label("Manufacturer: Unknown"));
+			}
+			else
+			{
+				final FlowPanel panel2 = new FlowPanel();
+				panel2.add(new InlineLabel("Manufacturer: "));
+				final Anchor companySearch = new Anchor(firstLink.getCorporation(), "http://www.google.co.uk/search?q="
+						+ URL.encodeQueryString(firstLink.getCorporation()), "_blank");
+				companySearch.addClickHandler(new ClickHandler()
+				{
+					@Override
+					public void onClick(final ClickEvent event)
+					{
+						service.log("Search Manufacturer", firstLink.getMacAddress());
+					}
+				});
+				panel2.add(companySearch);
+				panel.add(panel2);
+			}
 			for (final Link link : item.getLinks())
 			{
 				final Label label = new Label(link.getMacAddress());
