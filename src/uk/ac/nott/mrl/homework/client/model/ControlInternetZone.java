@@ -7,8 +7,7 @@ public class ControlInternetZone extends Zone
 {
 	public ControlInternetZone(int index)
 	{
-		super(index, "Internet", DevicesClient.resources.webblue());
-		this.deviceStyle = DevicesClient.resources.style().device();
+		super(index, "Permitted", DevicesClient.resources.webblue());
 	}
 
 	@Override
@@ -18,9 +17,9 @@ public class ControlInternetZone extends Zone
 	}
 
 	@Override
-	public void add(DevicesService service, Link link)
+	public void add(DevicesService service, String macAddress)
 	{
-		link.setState("permitted");
-		service.permit(link.getMacAddress());
+		service.getModel().update(macAddress, "permitted");		
+		service.permit(macAddress);
 	}
 }

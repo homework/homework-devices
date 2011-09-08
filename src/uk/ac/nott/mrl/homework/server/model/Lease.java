@@ -1,8 +1,7 @@
 package uk.ac.nott.mrl.homework.server.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.logging.Logger;
 
 public class Lease
 {
@@ -10,14 +9,16 @@ public class Lease
 	{
 		add, del, old, upd
 	}
+	
+	private static final Logger logger = Logger.getLogger(Lease.class.getName());	
 
-	public static Iterable<Lease> parseResultSet(final String results)
+	public static void parseResultSet(final String results, final Model model)
 	{
-		final Collection<Lease> leases = new ArrayList<Lease>();
-
-		// System.out.println(results);
-
 		final String[] lines = results.split("\n");
+		if(!lines[0].endsWith("<|>0<|>0<|>"))
+		{
+			System.out.println("Leases	: " + lines[0]);
+		}
 		for (int index = 2; index < lines.length; index++)
 		{
 			try
@@ -26,7 +27,7 @@ public class Lease
 				final Lease lease = new Lease();
 				final String time = columns[0].substring(1, columns[0].length() - 1);
 				final long timeLong = Long.parseLong(time, 16);
-				lease.timeStamp = new Date(timeLong / 1000000).getTime();
+				lease.timestamp = new Date(timeLong / 1000000).getTime();
 				lease.action = Action.valueOf(columns[1].toLowerCase());
 				lease.macAddress = columns[2];
 				lease.ipAddress = columns[3];
@@ -35,21 +36,22 @@ public class Lease
 				{
 					lease.hostName = null;
 				}
-				leases.add(lease);
+				
+				model.add(lease);
 			}
 			catch (final Exception e)
 			{
 				e.printStackTrace();
 			}
 		}
-		return leases;
 	}
 
 	private Action action;
 	private String hostName;
 	private String ipAddress;
 	private String macAddress;
-	private long timeStamp;
+	private long timestamp;
+	private transient Action nameAction;	
 
 	public void clearIPAddress()
 	{
@@ -78,6 +80,29 @@ public class Lease
 
 	public long getTimestamp()
 	{
-		return timeStamp;
+		return timestamp;
+	}
+	
+	public void update(Lease lease)
+	{
+		if (lease.getAction() == Action.del)
+		{
+			clearIPAddress();
+		}
+		else
+		{
+			if(lease.getIpAddress() != null)
+			{
+				ipAddress = lease.getIpAddress();
+			}
+			
+			if (nameAction != Action.upd || lease.getAction() == Action.upd)
+			{
+				hostName = lease.getHostName();
+				nameAction = lease.getAction();
+			}
+		}
+		
+		timestamp = lease.getTimestamp();
 	}
 }

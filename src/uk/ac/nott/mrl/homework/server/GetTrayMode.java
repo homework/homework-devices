@@ -22,7 +22,7 @@ public class GetTrayMode extends HttpServlet
 	{
 		try
 		{
-			if (PollingThread.trayPlugged = false) { return; }
+			//if (PollingThread.trayPlugged = false) { return; }
 
 			String filepath = getInitParameter("filepath");
 			if (filepath == null)

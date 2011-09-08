@@ -1,8 +1,8 @@
 package uk.ac.nott.mrl.homework.server;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.ac.nott.mrl.homework.server.model.Link;
+import org.hwdb.srpc.Connection;
+
+import uk.ac.nott.mrl.homework.server.model.Device;
+import uk.ac.nott.mrl.homework.server.model.Model;
 
 public class SetName extends HttpServlet
 {
@@ -29,34 +32,32 @@ public class SetName extends HttpServlet
 
 		System.out.println("Set Name :" + macAddress + " - " + nameString);
 
-		final Link link = ListLinks.getLink(macAddress);
-		if (link != null)
+		final Device device = Model.getModel().getDevice(macAddress);
+		String oldID = device.getID();
+		if (device != null)
 		{
-			link.setDeviceName(nameString, ListLinks.last);
+			device.setDeviceName(nameString, new Date().getTime());
 		}
 
-		final JavaSRPC rpc = new JavaSRPC();
-		rpc.connect(InetAddress.getByName(PollingThread.hwdbHost), 987);
+		Model.getModel().deviceUpdated(oldID, device);
+
+		final Connection connection = ModelController.createRPCConnection();
 		final String query = String.format(	"SQL:INSERT into Leases values (\"upd\", \"%s\", \"%s\", \"%s\")",
-											link.getMacAddress(), link.getIPAddress(), nameString);
+											device.getMacAddress(), device.getIPAddress(), nameString);
 		logger.info(query);
-		final String result = rpc.call(query);
+		final String result = connection.call(query);
 		logger.info(result);
-		rpc.disconnect();
+		connection.disconnect();
 
-		final String sinceString = request.getParameter("since");
-		long since = 0;
-		try
+		String sinceString = request.getParameter("since");
+		long since = new Date().getTime() - Model.getTimeout();
+		if(sinceString != null)
 		{
-			since = Long.parseLong(sinceString);
-		}
-		catch (final Exception e)
-		{
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			since = (long) Double.parseDouble(sinceString);
 		}
 
 		Log.log("Rename Device", macAddress);
 
-		ListLinks.listLinks(response.getWriter(), since);
+		ModelController.listItems(response.getWriter(), since);
 	}
 }

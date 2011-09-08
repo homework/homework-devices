@@ -1,9 +1,14 @@
 package uk.ac.nott.mrl.homework.client.model;
 
-import java.util.Date;
+import com.google.gwt.core.client.JavaScriptObject;
 
-public abstract class Item
+public class Item extends JavaScriptObject
 {
+	public enum State
+	{
+		added, updated, active, dead, inactive
+	}
+
 	public static final String getShortCompanyName(final Link link)
 	{
 		String company = link.getCorporation();
@@ -24,63 +29,66 @@ public abstract class Item
 		}
 		return "Unknown";
 	}
-	
-	public static final String getTypeID(Link link, Zone zone)
+
+	public static final String getTypeID(final Link link, final Zone zone)
 	{
-		final String company = getShortCompanyName(link).toLowerCase();		
+		final String company = getShortCompanyName(link).toLowerCase();
 		return zone.getName() + ":" + company;
 	}
+
+	protected Item()
+	{
+	}
+
+	public final native String getID()
+	/*-{
+		return this.id;
+	}-*/;
+
+	public final native String getMacAddress()
+	/*-{
+		return this.macAddress;
+	}-*/;
 	
-	public enum State
-	{
-		added, updated, active, dead, inactive
-	}
+	public final native String getIPAddress()
+	/*-{
+		return this.ipAddress;
+	}-*/;
+	
+	public final native String getCompany()
+	/*-{
+		return this.company;
+	}-*/;	
+	
+	public final native double getTimestamp()
+	/*-{
+		return this.timestamp;
+	}-*/;
+	
+	public final native String getName()
+	/*-{
+		return this.name;
+	}-*/;
 
-	private Date lastUpdated;
-	private State state;
-	private Zone zone;
-
-	public abstract String getID();
-
-	public Date getLastUpdate()
-	{
-		return lastUpdated;
-	}
-
-	public abstract String getName();
-
-	// public abstract boolean isResource();
-
-	public abstract float getOpacity();
-
-	public State getState()
-	{
-		return state;
-	}
-
-	public Zone getZone()
-	{
-		return zone;
-	}
-
-	public void setLastUpdate()
-	{
-		this.lastUpdated = new Date();
-	}
-
-	// public abstract void addLink(final Link link);
-
-	public void setZone(final Zone zone)
-	{
-		this.zone = zone;
-	}
-
-	public abstract void update(Link link);
-
-	public abstract boolean updateState(final Model model);
-
-	void setState(final State state)
-	{
+	public final native String getState()
+	/*-{
+		return this.state;
+	}-*/;
+	
+	public final native void setState(String state)
+	/*-{
 		this.state = state;
+	}-*/;
+	
+	public final native String getChange()
+	/*-{
+		return this.change;
+	}-*/;
+	
+	
+	public final float getOpacity()
+	{
+
+		return 1f;
 	}
 }

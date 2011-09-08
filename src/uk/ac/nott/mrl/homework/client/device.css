@@ -14,10 +14,45 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	white-space: nowrap;
-	-webkit-box-shadow: 2px 2px 5px #AAA;
+}
+
+.requestingDevice {
+	position: absolute;
+	border: 3px solid #579;
+	background-color: #79B;	
+	border-left: 0;
+	border-bottom-right-radius: 0.4em;
+	border-top-right-radius: 0.4em;
+	-webkit-border-bottom-right-radius: 0.4em;
+	-webkit-border-top-right-radius: 0.4em;
+	-moz-border-radius-bottomright: 0.4em;
+	-moz-border-radius-topright: 0.4em;
+	padding: 3px;
+	padding-right: 0.5em;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	white-space: nowrap;
 }
 
 .deniedDevice {
+	position: absolute;
+	border: 3px solid #A66;
+	background-color: #B99;
+	border-left: 0;
+	border-bottom-right-radius: 0.4em;
+	border-top-right-radius: 0.4em;
+	-webkit-border-bottom-right-radius: 0.4em;
+	-webkit-border-top-right-radius: 0.4em;
+	-moz-border-radius-bottomright: 0.4em;
+	-moz-border-radius-topright: 0.4em;
+	padding: 3px;
+	padding-right: 0.5em;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	white-space: nowrap;
+}
+
+.unlistedDevice {
 	position: absolute;
 	border: 3px solid #777;
 	background-color: #999;
@@ -33,7 +68,6 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	white-space: nowrap;
-	-webkit-box-shadow: 2px 2px 5px #AAA;
 }
 
 .listDevice {
@@ -60,21 +94,21 @@
 	-moz-user-select: none;
 	white-space: nowrap;
 	-webkit-box-shadow: 2px 2px 5px #AAA;
-	z-index: 20;
+	z-index: 100;
 }
 
 .deviceAnim
 {
-	-webkit-transition: font-size 2s ease, opacity 2s ease, top 2s ease;
-	-moz-transition: font-size 2s ease, opacity 2s ease, top 2s ease;
-	-o-transition: font-size 2s ease, opacity 2s ease, top 2s ease;
-	transition: font-size 2s ease, opacity 2s ease, top 2s ease;
+	-webkit-transition: top 4s ease;
+	-moz-transition: top 4s ease;
+	-o-transition: top 4s ease;
+	transition: top 4s ease;
 }
 
 .popup {
 	background-color: #F0E68C;
 	border: 3px solid #F0E68C;
-	max-width: 300px;
+	max-width: 400px;
 	border-radius: 0.5em;
 	border-top-right-radius: 0.5em;
 	-webkit-border-radius: 0.5em;
@@ -82,23 +116,14 @@
 	-webkit-transition: visibility 1s ease, opacity 1s ease;
 	-moz-transition: visibility 1s ease, opacity 1s ease;
 	-o-transition: visibility 1s ease, opacity 1s ease;
-	transition: visibility 1s ease, opacity 1s ease;	
+	transition: visibility 1s ease, opacity 1s ease;
+	z-index: 200;	
 }
 
 .signal {
 	border-width: 5px;
 	border-color: #246;
 	border-left: 0;
-}
-
-@sprite
-.requesting .deviceName {
-	margin: 0;
-	padding: 0;
-	gwt-image: 'warning';
-	padding-left: 25px;
-	background-repeat: no-repeat;
-	background-position: 3px 0.2em;
 }
 
 .deviceName {
@@ -121,7 +146,6 @@
 	left: 20px;
 	bottom: 0px;
 	background-color: #579;
-	-webkit-box-shadow: 2px 0px 2px #AAA;
 }
 
 .detailPanel {

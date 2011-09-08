@@ -12,13 +12,13 @@ public class ControlModel extends SimpleModel
 	}
 
 	@Override
-	public int getZone(Link link)
+	public int getZone(Item item)
 	{
-		if(link.getState().equals("permitted"))
+		if("permitted".equals(item.getState()))
 		{
 			return 2;
 		}
-		else if (link.getIPAddress() != null && link.getState().equals("unlisted")) { return 1; }
+		else if (item.getIPAddress() != null && item.getState().equals("unlisted")) { return 1; }
 		return 0;
 	}
 }

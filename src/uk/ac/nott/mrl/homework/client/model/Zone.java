@@ -3,6 +3,7 @@ package uk.ac.nott.mrl.homework.client.model;
 import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ImageResource;
 
 public class Zone
@@ -10,7 +11,6 @@ public class Zone
 	private ImageResource image;
 	private int index;
 	private String name;
-	protected String deviceStyle;
 	
 
 	public Zone(final int index, final String name, final ImageResource image)
@@ -18,7 +18,6 @@ public class Zone
 		this.image = image;
 		this.name = name;
 		this.index = index;
-		this.deviceStyle = DevicesClient.resources.style().deniedDevice();
 	}
 
 	public ImageResource getImage()
@@ -36,9 +35,25 @@ public class Zone
 		return name;
 	}
 	
-	public String getDeviceStyle()
+	public String getDeviceStyle(final Item item)
 	{
-		return deviceStyle;
+		if("denied".equals(item.getState()))
+		{
+			return DevicesClient.resources.style().deniedDevice();
+		}
+		else if(item.getIPAddress() != null)
+		{
+			if("permitted".equals(item.getState()))
+			{
+				return DevicesClient.resources.style().device();
+			}
+			else
+			{
+				GWT.log("Style = requesting");
+				return DevicesClient.resources.style().requestingDevice();
+			}
+		}
+		return DevicesClient.resources.style().unlistedDevice();
 	}
 	
 	public boolean canAdd()
@@ -46,7 +61,7 @@ public class Zone
 		return false;
 	}
 	
-	public void add(DevicesService service, Link link)
+	public void add(DevicesService service, String macAdress)
 	{
 		
 	}

@@ -1,7 +1,6 @@
 package uk.ac.nott.mrl.homework.server;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hwdb.srpc.Connection;
+
 public class Log extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(Log.class.getName());
@@ -19,12 +20,11 @@ public class Log extends HttpServlet
 	{
 		try
 		{
-			final JavaSRPC rpc = new JavaSRPC();
-			rpc.connect(InetAddress.getByName(PollingThread.hwdbHost), 987);
+			final Connection connection = ModelController.createRPCConnection();
 			final String query = String.format(	"SQL:INSERT into UserEvents values (\"%s\", \"%s\", \"%s\")",
 												"Control App", eventType, details);
-			rpc.call(query);
-			rpc.disconnect();
+			connection.call(query);
+			connection.disconnect();
 		}
 		catch (final Exception e)
 		{

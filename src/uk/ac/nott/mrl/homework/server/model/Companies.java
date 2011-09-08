@@ -3,7 +3,6 @@ package uk.ac.nott.mrl.homework.server.model;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -55,35 +54,35 @@ public class Companies
 		{
 			result = "Unknown";
 			// logger.info(macAddress + " corporation not found (" + macCompanies.size() + ")");
-			if (lastTried == 0 || (new Date().getTime() - lastTried) > 360000)
-			{
-				try
-				{
-					final URL url = new URL(ieeeURL + getIEEEMacFormat(macAddress));
-					final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-					while (true)
-					{
-						final String line = reader.readLine();
-						if (line == null)
-						{
-							break;
-						}
-						if (line.contains("(hex)"))
-						{
-							final int index = line.indexOf("(hex)");
-							result = line.substring(index + 5).trim();
-							macCompanies.put(macValue, result);
-							return result;
-						}
-					}
-					lastTried = 0;
-				}
-				catch (final Exception e)
-				{
-					lastTried = new Date().getTime();
-					logger.log(Level.SEVERE, e.getMessage(), e);
-				}
-			}
+//			if (lastTried == 0 || (new Date().getTime() - lastTried) > 360000)
+//			{
+//				try
+//				{
+//					final URL url = new URL(ieeeURL + getIEEEMacFormat(macAddress));
+//					final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+//					while (true)
+//					{
+//						final String line = reader.readLine();
+//						if (line == null)
+//						{
+//							break;
+//						}
+//						if (line.contains("(hex)"))
+//						{
+//							final int index = line.indexOf("(hex)");
+//							result = line.substring(index + 5).trim();
+//							macCompanies.put(macValue, result);
+//							return result;
+//						}
+//					}
+//					lastTried = 0;
+//				}
+//				catch (final Exception e)
+//				{
+//					lastTried = new Date().getTime();
+//					logger.log(Level.SEVERE, e.getMessage(), e);
+//				}
+//			}
 		}
 		return result;
 

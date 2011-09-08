@@ -47,7 +47,8 @@ public class ZonePanel extends FlowPanel
 		super.add(w);
 		if(w instanceof Device)
 		{
-			w.setStyleName(zone.getDeviceStyle());				
+			Device device = (Device)w;
+			w.setStyleName(zone.getDeviceStyle(device.getItem()));				
 		}
 		update();
 	}

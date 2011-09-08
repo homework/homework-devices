@@ -19,6 +19,7 @@ public class DevicesServiceImpl implements DevicesService
 	@Override
 	public void deny(final String macAddress)
 	{
+		
 		serverRequest(GWT.getModuleBaseURL() + "deny?macAddress=" + macAddress + "&since" + model.getLastUpdated());
 	}
 
@@ -43,9 +44,15 @@ public class DevicesServiceImpl implements DevicesService
 	@Override
 	public void getUpdates()
 	{
-		serverRequest(GWT.getModuleBaseURL() + "links?since=" + model.getLastUpdated());
+		serverRequest(GWT.getModuleBaseURL() + "changes?since=" + model.getLastUpdated());
 	}
 
+	@Override
+	public void getDevices(final String groupID, final RequestCallback callback)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "changes?group=" + groupID + "&since=" + model.getLastUpdated(), callback);
+	}
+	
 	@Override
 	public void log(final String type, final String details)
 	{

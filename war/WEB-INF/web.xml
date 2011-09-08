@@ -3,12 +3,11 @@
     PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app>
+<web-app>	
 	<servlet>
-		<servlet-name>listLinks</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.ListLinks</servlet-class>
-		<load-on-startup>0</load-on-startup>
-	</servlet>
+		<servlet-name>getChanges</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.GetChanges</servlet-class>
+	</servlet>	
 
 	<servlet>
 		<servlet-name>permitDevice</servlet-name>
@@ -65,12 +64,11 @@
 			<param-value>/homework/homeworkduino/res/probe.cfg</param-value>
 		</init-param>		
 	</servlet>
-
-
+	
 	<servlet-mapping>
-		<servlet-name>listLinks</servlet-name>
-		<url-pattern>/device/links</url-pattern>
-	</servlet-mapping>
+		<servlet-name>getChanges</servlet-name>
+		<url-pattern>/device/changes</url-pattern>
+	</servlet-mapping>	
 
 	<servlet-mapping>
 		<servlet-name>permitDevice</servlet-name>

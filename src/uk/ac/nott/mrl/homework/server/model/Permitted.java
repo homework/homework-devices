@@ -1,20 +1,24 @@
 package uk.ac.nott.mrl.homework.server.model;
 
-import java.util.Iterator;
 import java.util.List;
 
-public class Permitted implements Iterable<String>
+public class Permitted
 {
 	private List<String> permitted;
+	private List<String> denied;
 
 	public Permitted()
 	{
 
 	}
 
-	@Override
-	public Iterator<String> iterator()
+	public Iterable<String> permitted()
 	{
-		return permitted.iterator();
+		return permitted;
+	}
+	
+	public Iterable<String> denied()
+	{
+		return denied;
 	}
 }

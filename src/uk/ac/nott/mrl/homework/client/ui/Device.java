@@ -3,11 +3,9 @@ package uk.ac.nott.mrl.homework.client.ui;
 import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Item;
-import uk.ac.nott.mrl.homework.client.model.Link;
-import uk.ac.nott.mrl.homework.client.model.LinkItem;
-import uk.ac.nott.mrl.homework.client.model.LinkListItem;
 import uk.ac.nott.mrl.homework.client.model.Model;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -70,6 +68,7 @@ public class Device extends FlowPanel
 			{
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
+					GWT.log("Accept");
 					acceptEdit();
 				}
 				else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
@@ -81,33 +80,16 @@ public class Device extends FlowPanel
 		textBoxName.setVisible(false);
 
 		setLeft(25);
-		update();
+		update(item);
 	}
 
 	public void acceptEdit()
 	{
 		text.setText(textBoxName.getText());
 		textBoxName.setFocus(false);
-		// service.setName(item.getMacAddress(), textBoxName.getText());
+		service.setName(item.getMacAddress(), textBoxName.getText());
 	}
 	
-	public Link getLink()
-	{
-		if(item instanceof LinkItem)
-		{
-			return ((LinkItem)item).getLink();
-		}
-		else if(item instanceof LinkListItem)
-		{
-			LinkListItem listItem = (LinkListItem)item;
-			if(listItem.getSize() == 1)
-			{
-				return listItem.getLinks().iterator().next();
-			}
-		}
-		return null;
-	}
-
 	public void addClickHandler(final ClickHandler handler)
 	{
 		addDomHandler(handler, ClickEvent.getType());
@@ -130,7 +112,7 @@ public class Device extends FlowPanel
 
 	public void cancelEdit()
 	{
-		service.log("Cancel Edit", item.getName());
+		service.log("Name Edit Ended", item.getName());
 		textBoxName.setFocus(false);
 		textBoxName.setVisible(false);
 		text.setVisible(true);
@@ -139,8 +121,8 @@ public class Device extends FlowPanel
 	public void edit(final DevicesService service)
 	{
 		this.service = service;
-		if (!(item instanceof LinkItem)) { return; }
-		service.log("Start Edit", item.getName());
+		if (item.getMacAddress() == null) { return; }
+		service.log("Name Edit Started", item.getName());
 		textBoxName.setText(text.getText());
 		text.setVisible(false);
 		textBoxName.setVisible(true);
@@ -182,15 +164,23 @@ public class Device extends FlowPanel
 		return text.getText();
 	}
 
-	public void update()
+	public void update(Item item)
 	{
-		if (!item.getName().equals(text.getText()))
+		if (!text.getText().equals(item.getName()))
 		{
 			text.setText(item.getName());
 		}
 
 		getElement().getStyle().setOpacity(item.getOpacity());
 
+		this.item = item;
+		
+		ZonePanel zone = (ZonePanel)getParent();
+		if(zone != null)
+		{
+			setStyleName(zone.getZone().getDeviceStyle(item));
+		}
+		
 		// updateStyle(oldItem);
 
 		// Font size by bandwidth

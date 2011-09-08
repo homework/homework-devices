@@ -16,6 +16,10 @@ public interface DeviceCSS extends CssResource
 	
 	String deniedDevice();
 
+	String requestingDevice();
+	
+	String unlistedDevice();
+	
 	String deviceAnim();
 	
 	String listDevice();

@@ -2,7 +2,6 @@ package uk.ac.nott.mrl.homework.client.ui;
 
 import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
-import uk.ac.nott.mrl.homework.client.model.Link;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Display;
@@ -33,7 +32,7 @@ public class DragDevice extends Label
 	private final DevicesService service;
 	private DragState dragState = DragState.waiting;
 	
-	private Link link;
+	private String macAddress;
 	
 	private ZonePanel zone;
 	
@@ -50,14 +49,14 @@ public class DragDevice extends Label
 	/**
 	 * On mouse down
 	 */
-	public void setupDrag(final Link link, final Widget widget, final String text, final int clientX, final int clientY)
+	public void setupDrag(final String macAddress, final Widget widget, final String text, final int clientX, final int clientY)
 	{
-		if (link == null) { return; }
+		if (macAddress == null) { return; }
 		if (dragState == DragState.waiting)
 		{
 			dragState = DragState.dragInit;
 			dragWidget = widget;
-			this.link = link;
+			this.macAddress = macAddress;
 			originx = clientX;
 			originy = clientY;
 			setText(text);
@@ -123,8 +122,7 @@ public class DragDevice extends Label
 			
 			if(zone != null)
 			{
-				zone.getZone().add(service, link);
-				service.getModel().updateLink(link);				
+				zone.getZone().add(service, macAddress);				
 				setDragZone(null);
 			}
 		}
@@ -159,10 +157,5 @@ public class DragDevice extends Label
 	public DragState getState()
 	{
 		return dragState;
-	}
-
-	public Link getLink()
-	{
-		return link;
 	}	
 }

@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import uk.ac.nott.mrl.homework.server.model.Link.State;
-
 public class DenyDevice extends HttpServlet
 {
+	private static final Logger logger = Logger.getLogger(PermitDevice.class.getName());	
+	
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException
@@ -23,9 +24,9 @@ public class DenyDevice extends HttpServlet
 
 		final String macAddress = request.getParameter("macAddress");
 
-		System.out.println("Deny:" + macAddress);
+		logger.info("Deny:" + macAddress);
 
-		final URL url = new URL("http://" + PollingThread.hwdbHost + "/ws.v1/homework/deny/" + macAddress);
+		final URL url = new URL("http://" + ModelController.hwdbHost + "/ws.v1/homework/deny/" + macAddress);
 		final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true);
 		conn.setRequestMethod("POST");
@@ -40,12 +41,10 @@ public class DenyDevice extends HttpServlet
 		{
 		}
 
-		ListLinks.getLink(macAddress).setState(State.denied, new Date().getTime());
-
-		ListLinks.updatePermitted(conn.getInputStream(), since);
+		ModelController.updatePermitted(conn.getInputStream(), new Date().getTime());
 
 		Log.log("Deny Device", macAddress);
 
-		ListLinks.listLinks(response.getWriter(), since);
-	}
+		ModelController.listItems(response.getWriter(), since);
+	}	
 }

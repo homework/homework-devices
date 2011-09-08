@@ -16,6 +16,8 @@ public interface DevicesService
 
 	public void getUpdates();
 
+	public void getDevices(final String groupID, final RequestCallback callback);
+
 	public void log(final String type, final String details);
 
 	public void nextTrayMode(final RequestCallback callback);

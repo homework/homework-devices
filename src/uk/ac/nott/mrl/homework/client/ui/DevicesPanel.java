@@ -2,7 +2,6 @@ package uk.ac.nott.mrl.homework.client.ui;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +10,12 @@ import uk.ac.nott.mrl.homework.client.DevicesClient;
 import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Item;
 import uk.ac.nott.mrl.homework.client.model.ItemListener;
-import uk.ac.nott.mrl.homework.client.model.Link;
-import uk.ac.nott.mrl.homework.client.model.LinkListItem;
 import uk.ac.nott.mrl.homework.client.model.Model;
 import uk.ac.nott.mrl.homework.client.model.Zone;
 import uk.ac.nott.mrl.homework.client.ui.DragDevice.DragState;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.dom.client.Touch;
@@ -39,6 +37,10 @@ import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONString;
+import com.google.gwt.json.client.JSONValue;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
@@ -110,7 +112,7 @@ public class DevicesPanel extends FlowPanel
 		}
 	};
 
-	private final Map<Item, Device> deviceMap = new HashMap<Item, Device>();
+	private final Map<String, Device> deviceMap = new HashMap<String, Device>();
 
 	private final DragDevice dragDevice;
 
@@ -155,23 +157,23 @@ public class DevicesPanel extends FlowPanel
 			public void itemAdded(final Item item)
 			{
 				//GWT.log("Item Added: " + item.getName());
-				final ZonePanel zone = getZone(item.getZone().getIndex());
 
 				final Device device = new Device(model, item);
 				if (item.getID().equals(signalDeviceMac))
 				{
 					device.setSignalDevice(true);
 				}
-				deviceMap.put(item, device);
+				deviceMap.put(item.getID(), device);
+				ZonePanel zone = zones.get(model.getZone(item));
 				zone.add(device);
-				// add(device);
+				//add(device);
 
 				device.addMouseDownHandler(new MouseDownHandler()
 				{
 					@Override
 					public void onMouseDown(final MouseDownEvent event)
 					{
-						dragDevice.setupDrag(device.getLink(), device, device.toString(), event.getClientX(),
+						dragDevice.setupDrag(device.getItem().getMacAddress(), device, device.toString(), event.getClientX(),
 												event.getClientY());
 					}
 				});
@@ -206,7 +208,7 @@ public class DevicesPanel extends FlowPanel
 					public void onTouchStart(final TouchStartEvent event)
 					{
 						final Touch touch = event.getChangedTouches().get(0);
-						dragDevice.setupDrag(	device.getLink(), device, device.toString(), touch.getClientX(),
+						dragDevice.setupDrag(	device.getItem().getMacAddress(), device, device.toString(), touch.getClientX(),
 												touch.getClientY());
 					}
 				});
@@ -215,13 +217,12 @@ public class DevicesPanel extends FlowPanel
 			@Override
 			public void itemRemoved(final Item item)
 			{
-				//GWT.log("Item Removed: " + item.getName());
-				final ZonePanel zone = getZone(item.getZone().getIndex());
-				final Device device = deviceMap.get(item);
+				//GWT.log("Item Removed: " + item.getID());
+				final Device device = deviceMap.get(item.getID());
 				if (device != null)
 				{
-					zone.remove(device);
-					deviceMap.remove(item);
+					device.removeFromParent();
+					deviceMap.remove(item.getID());
 				}
 			}
 
@@ -229,8 +230,8 @@ public class DevicesPanel extends FlowPanel
 			public void itemUpdated(final Item item)
 			{				
 				//GWT.log("Item Updated: " + item.getName());
-				final ZonePanel newZone = getZone(item.getZone().getIndex());
-				final Device device = deviceMap.get(item);
+				final ZonePanel newZone = zones.get(model.getZone(item));
+				final Device device = deviceMap.get(item.getID());
 				if (device == null)
 				{
 					// newZone.remove(item);
@@ -247,7 +248,7 @@ public class DevicesPanel extends FlowPanel
 						}
 						newZone.add(device);
 					}
-					device.update();
+					device.update(item);
 					if (device == popupDevice)
 					{
 						setPopup(device);
@@ -417,15 +418,15 @@ public class DevicesPanel extends FlowPanel
 		int currentZone = 0;
 		for (final Device device : devices)
 		{		
-			if(currentZone != device.getItem().getZone().getIndex())
+			if(currentZone != model.getZone(device.getItem()))
 			{
-				currentZone = device.getItem().getZone().getIndex();
+				currentZone = model.getZone(device.getItem());
 				top = 15;
 			}
-			if(dragDevice.getState() == DragState.dragging && device.getLink() != null && device.getLink().getMacAddress().equals(dragDevice.getLink().getMacAddress()))
-			{
-				continue;
-			}
+			//if(dragDevice.getState() == DragState.dragging && device.getLink() != null && device.getLink().getMacAddress().equals(dragDevice.getLink().getMacAddress()))
+			//{
+			//	continue;
+			//}
 			device.setTop(top);
 			top = top + device.getOffsetHeight() + 15;
 
@@ -440,40 +441,41 @@ public class DevicesPanel extends FlowPanel
 	{
 		final FlowPanel panel = new FlowPanel();
 
-		if (device.getLink() != null)
+		final Item item = device.getItem();
+		
+		if (item.getCompany() == null || item.getCompany().equals("Unknown"))
 		{
-			final Link link = device.getLink();
-
-			if (link.getState() != null && link.getState().equals("requesting"))
+			panel.add(new Label("Manufacturer: Unknown"));
+		}
+		else
+		{
+			final FlowPanel panel2 = new FlowPanel();
+			panel2.add(new InlineLabel("Manufacturer: "));
+			final Anchor companySearch = new Anchor(item.getCompany(), "http://www.google.co.uk/search?q="
+					+ URL.encodeQueryString(item.getCompany()), "_blank");
+			companySearch.addClickHandler(new ClickHandler()
+			{
+				@Override
+				public void onClick(final ClickEvent event)
+				{
+					service.log("Search Manufacturer", item.getCompany());
+				}
+			});
+			panel2.add(companySearch);
+			panel.add(panel2);
+		}
+		
+		if(item.getMacAddress() != null)
+		{
+			if (item.getIPAddress() != null && !"permitted".equals(item.getState()))
 			{
 				final Label label = new Label(
 						"This machine is requesting permission to use your network. Drag it to the right to allow it or to the left to deny it access.");
 				label.addStyleName(DevicesClient.resources.style().warning());
 				panel.add(label);
-			}
-
-			if (link.getCorporation() == null || link.getCorporation().equals("Unknown"))
-			{
-				panel.add(new Label("Manufacturer: Unknown"));
-			}
-			else
-			{
-				final FlowPanel panel2 = new FlowPanel();
-				panel2.add(new InlineLabel("Manufacturer: "));
-				final Anchor companySearch = new Anchor(link.getCorporation(), "http://www.google.co.uk/search?q="
-						+ URL.encodeQueryString(link.getCorporation()), "_blank");
-				companySearch.addClickHandler(new ClickHandler()
-				{
-					@Override
-					public void onClick(final ClickEvent event)
-					{
-						service.log("Search Manufacturer", link.getMacAddress());
-					}
-				});
-				panel2.add(companySearch);
-				panel.add(panel2);
-			}
-			panel.add(new Label("MAC Address: " + link.getMacAddress()));
+			}	
+			
+			panel.add(new Label("MAC Address: " + item.getMacAddress()));
 
 			final Anchor renameLink = new Anchor("Rename Device");
 			renameLink.setStylePrimaryName(DevicesClient.resources.style().popupLink());
@@ -490,65 +492,101 @@ public class DevicesPanel extends FlowPanel
 		}
 		else
 		{
-			final LinkListItem item = (LinkListItem) device.getItem();
-			final Link firstLink = item.getLinks().iterator().next();
-			if (firstLink.getCorporation() == null || firstLink.getCorporation().equals("Unknown"))
-			{
-				panel.add(new Label("Manufacturer: Unknown"));
-			}
-			else
-			{
-				final FlowPanel panel2 = new FlowPanel();
-				panel2.add(new InlineLabel("Manufacturer: "));
-				final Anchor companySearch = new Anchor(firstLink.getCorporation(), "http://www.google.co.uk/search?q="
-						+ URL.encodeQueryString(firstLink.getCorporation()), "_blank");
-				companySearch.addClickHandler(new ClickHandler()
-				{
-					@Override
-					public void onClick(final ClickEvent event)
-					{
-						service.log("Search Manufacturer", firstLink.getMacAddress());
-					}
-				});
-				panel2.add(companySearch);
-				panel.add(panel2);
-			}
-			List<Link> links = new ArrayList<Link>(item.getLinks());
-			Collections.sort(links, new Comparator<Link>()
-			{
+			service.getDevices(item.getID(), new RequestCallback()
+			{	
 				@Override
-				public int compare(Link o1, Link o2)
+				public void onResponseReceived(Request request, Response response) 
 				{
-					return o1.getMacAddress().compareTo(o2.getMacAddress());
+					try
+					{
+						JSONValue value = JSONParser.parseStrict(response.getText());
+						JSONArray array = value.isArray();
+						if(array != null)
+						{
+							for(int index = 0; index < array.size(); index++)
+							{
+								final JSONString item = array.get(index).isString();
+								if(item != null)
+								{
+									final String macAddress = item.stringValue();
+									final Label label = new Label(macAddress);
+									label.setStyleName(DevicesClient.resources.style().listDevice());
+									label.addMouseDownHandler(new MouseDownHandler()
+									{
+										@Override
+										public void onMouseDown(MouseDownEvent event)
+										{
+											dragDevice.setupDrag(label.getText(), label, label.getText(), event.getClientX(), event.getClientY());	
+										}
+									});
+									label.addTouchStartHandler(new TouchStartHandler()
+									{
+										@Override
+										public void onTouchStart(TouchStartEvent event)
+										{
+											final Touch touch = event.getChangedTouches().get(0);
+											dragDevice.setupDrag(	label.getText(), label, label.getText(), touch.getClientX(),
+																	touch.getClientY());						
+										}
+									});
+		
+									panel.add(label);
+								}
+							}
+						}
+					}
+					catch(Exception e)
+					{
+						GWT.log(e.getMessage(), e);
+					}
+				}
+				
+				
+				@Override
+				public void onError(Request request, Throwable exception) 
+				{
 				}
 			});
-			for (final Link link : links)
-			{
-				final Label label = new Label(link.getMacAddress());
-				label.setStyleName(DevicesClient.resources.style().listDevice());
-				label.addMouseDownHandler(new MouseDownHandler()
-				{
-					@Override
-					public void onMouseDown(MouseDownEvent event)
-					{
-						dragDevice.setupDrag(link, label, label.getText(), event.getClientX(), event.getClientY());	
-					}
-				});
-				label.addTouchStartHandler(new TouchStartHandler()
-				{
-					@Override
-					public void onTouchStart(TouchStartEvent event)
-					{
-						final Touch touch = event.getChangedTouches().get(0);
-						dragDevice.setupDrag(	link, label, label.getText(), touch.getClientX(),
-												touch.getClientY());						
-					}
-				});
-				panel.add(label);
-			}
 		}
-		trayPanel.addTrayLinks(device, panel);
+		
 
+
+//			List<Link> links = new ArrayList<Link>(device.getItem().getLinks());
+//			Collections.sort(links, new Comparator<Link>()
+//			{
+//				@Override
+//				public int compare(Link o1, Link o2)
+//				{
+//					return o1.getMacAddress().compareTo(o2.getMacAddress());
+//				}
+//			});
+//			for (final Link link : links)
+//			{
+//				final Label label = new Label(link.getMacAddress());
+//				label.setStyleName(DevicesClient.resources.style().listDevice());
+//				label.addMouseDownHandler(new MouseDownHandler()
+//				{
+//					@Override
+//					public void onMouseDown(MouseDownEvent event)
+//					{
+//						dragDevice.setupDrag(link, label, label.getText(), event.getClientX(), event.getClientY());	
+//					}
+//				});
+//				label.addTouchStartHandler(new TouchStartHandler()
+//				{
+//					@Override
+//					public void onTouchStart(TouchStartEvent event)
+//					{
+//						final Touch touch = event.getChangedTouches().get(0);
+//						dragDevice.setupDrag(	link, label, label.getText(), touch.getClientX(),
+//												touch.getClientY());						
+//					}
+//				});
+//				panel.add(label);
+//			}
+//		}
+//		trayPanel.addTrayLinks(device, panel);
+//
 		popup.setWidget(panel);
 		popupDevice = device;
 	}

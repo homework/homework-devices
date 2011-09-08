@@ -7,7 +7,7 @@ public class ControlDeniedZone extends Zone
 {
 	public ControlDeniedZone(int index)
 	{
-		super(index, "Not Connected", DevicesClient.resources.denied());
+		super(index, "Not Permitted", DevicesClient.resources.denied());
 	}
 
 	@Override
@@ -17,8 +17,9 @@ public class ControlDeniedZone extends Zone
 	}
 
 	@Override
-	public void add(DevicesService service, Link link)
-	{
-		service.deny(link.getMacAddress());
+	public void add(DevicesService service, String macAddress)
+	{	
+		service.getModel().update(macAddress, "denied");
+		service.deny(macAddress);
 	}
 }
