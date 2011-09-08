@@ -10,11 +10,11 @@ import java.util.logging.Logger;
 
 public class Companies
 {
-	private static final String ieeeURL = "http://standards.ieee.org/cgi-bin/ouisearch?";
+	// private static final String ieeeURL = "http://standards.ieee.org/cgi-bin/ouisearch?";
 
 	private static final Logger logger = Logger.getLogger(Companies.class.getName());
 
-	private long lastTried = 0;
+	// private long lastTried = 0;
 
 	private final Map<Integer, String> macCompanies = new HashMap<Integer, String>();
 
@@ -54,44 +54,45 @@ public class Companies
 		{
 			result = "Unknown";
 			// logger.info(macAddress + " corporation not found (" + macCompanies.size() + ")");
-//			if (lastTried == 0 || (new Date().getTime() - lastTried) > 360000)
-//			{
-//				try
-//				{
-//					final URL url = new URL(ieeeURL + getIEEEMacFormat(macAddress));
-//					final BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-//					while (true)
-//					{
-//						final String line = reader.readLine();
-//						if (line == null)
-//						{
-//							break;
-//						}
-//						if (line.contains("(hex)"))
-//						{
-//							final int index = line.indexOf("(hex)");
-//							result = line.substring(index + 5).trim();
-//							macCompanies.put(macValue, result);
-//							return result;
-//						}
-//					}
-//					lastTried = 0;
-//				}
-//				catch (final Exception e)
-//				{
-//					lastTried = new Date().getTime();
-//					logger.log(Level.SEVERE, e.getMessage(), e);
-//				}
-//			}
+			// if (lastTried == 0 || (new Date().getTime() - lastTried) > 360000)
+			// {
+			// try
+			// {
+			// final URL url = new URL(ieeeURL + getIEEEMacFormat(macAddress));
+			// final BufferedReader reader = new BufferedReader(new
+			// InputStreamReader(url.openStream()));
+			// while (true)
+			// {
+			// final String line = reader.readLine();
+			// if (line == null)
+			// {
+			// break;
+			// }
+			// if (line.contains("(hex)"))
+			// {
+			// final int index = line.indexOf("(hex)");
+			// result = line.substring(index + 5).trim();
+			// macCompanies.put(macValue, result);
+			// return result;
+			// }
+			// }
+			// lastTried = 0;
+			// }
+			// catch (final Exception e)
+			// {
+			// lastTried = new Date().getTime();
+			// logger.log(Level.SEVERE, e.getMessage(), e);
+			// }
+			// }
 		}
 		return result;
 
 	}
 
-	private String getIEEEMacFormat(final String macAddress)
-	{
-		return macAddress.replaceAll(":", "-").trim().substring(0, 8);
-	}
+	// private String getIEEEMacFormat(final String macAddress)
+	// {
+	// return macAddress.replaceAll(":", "-").trim().substring(0, 8);
+	// }
 
 	private int getMacValue(final String macAddress)
 	{

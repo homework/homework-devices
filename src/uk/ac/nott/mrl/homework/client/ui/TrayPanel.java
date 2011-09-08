@@ -52,7 +52,7 @@ public class TrayPanel extends FlowPanel
 		}
 	};
 
-	private final DevicesService service;
+	//private final DevicesService service;
 
 	private final Image trayIcon = new Image(DevicesClient.resources.traySignal());
 
@@ -61,12 +61,12 @@ public class TrayPanel extends FlowPanel
 												DevicesClient.resources.trayEvents() };
 
 	private final String[] trayStates = { "Signal Strength Monitor", "Bandwidth Monitor", "Network Event Monitor" };
-	
+
 	private final Label trayLabel = new Label(trayStates[0]);
 
 	public TrayPanel(final DevicesService service)
 	{
-		this.service = service;
+		//this.service = service;
 		service.getTrayMode(callback);
 
 		setStylePrimaryName(DevicesClient.resources.style().trayButton());
@@ -100,10 +100,10 @@ public class TrayPanel extends FlowPanel
 				@Override
 				public void onClick(final ClickEvent event)
 				{
-//					if (device.getItem() instanceof LinkItem)
-//					{
-//						service.setTrayDevice(((LinkItem) device.getItem()).getMacAddress());
-//					}
+					// if (device.getItem() instanceof LinkItem)
+					// {
+					// service.setTrayDevice(((LinkItem) device.getItem()).getMacAddress());
+					// }
 				}
 			});
 			panel.add(trayLink);

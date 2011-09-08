@@ -19,8 +19,15 @@ public class DevicesServiceImpl implements DevicesService
 	@Override
 	public void deny(final String macAddress)
 	{
-		
+
 		serverRequest(GWT.getModuleBaseURL() + "deny?macAddress=" + macAddress + "&since" + model.getLastUpdated());
+	}
+
+	@Override
+	public void getDevices(final String groupID, final RequestCallback callback)
+	{
+		serverRequest(	GWT.getModuleBaseURL() + "changes?group=" + groupID + "&since=" + model.getLastUpdated(),
+						callback);
 	}
 
 	@Override
@@ -48,12 +55,6 @@ public class DevicesServiceImpl implements DevicesService
 	}
 
 	@Override
-	public void getDevices(final String groupID, final RequestCallback callback)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "changes?group=" + groupID + "&since=" + model.getLastUpdated(), callback);
-	}
-	
-	@Override
 	public void log(final String type, final String details)
 	{
 		serverRequest(GWT.getModuleBaseURL() + "log?type=" + URL.encodeQueryString(type) + "&details="
@@ -70,6 +71,24 @@ public class DevicesServiceImpl implements DevicesService
 	public void permit(final String macAddress)
 	{
 		serverRequest(GWT.getModuleBaseURL() + "permit?macAddress=" + macAddress + "&since" + model.getLastUpdated());
+	}
+
+	private void serverRequest(final String url)
+	{
+		serverRequest(url, model.getCallback());
+	}
+
+	private void serverRequest(final String url, final RequestCallback callback)
+	{
+		final RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
+		try
+		{
+			builder.sendRequest(null, callback);
+		}
+		catch (final Exception e)
+		{
+			GWT.log(e.getMessage(), e);
+		}
 	}
 
 	@Override
@@ -96,23 +115,5 @@ public class DevicesServiceImpl implements DevicesService
 	{
 		serverRequest(GWT.getModuleBaseURL() + "setZone?macAddress=" + macAddress + "&zone=" + zone + "&since"
 				+ model.getLastUpdated());
-	}
-
-	private void serverRequest(final String url)
-	{
-		serverRequest(url, model.getCallback());
-	}
-
-	private void serverRequest(final String url, final RequestCallback callback)
-	{
-		final RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
-		try
-		{
-			builder.sendRequest(null, callback);
-		}
-		catch (final Exception e)
-		{
-			GWT.log(e.getMessage(), e);
-		}
 	}
 }

@@ -19,7 +19,7 @@ public class ZoneDetail extends FlowPanel
 	{
 		super();
 		getElement().getStyle().setWidth(100 / model.getZones().length, Unit.PCT);
-		getElement().getStyle().setLeft((100 / model.getZones().length) * zone.getIndex(), Unit.PCT);		
+		getElement().getStyle().setLeft((100 / model.getZones().length) * zone.getIndex(), Unit.PCT);
 
 		setStylePrimaryName(DevicesClient.resources.style().zone());
 
@@ -27,12 +27,12 @@ public class ZoneDetail extends FlowPanel
 		{
 			image.setResource(zone.getImage());
 		}
-		label.setText(zone.getName());		
+		label.setText(zone.getName());
 		add(image);
-		add(label);	
+		add(label);
 	}
-	
-	public void setText(String text)
+
+	public void setText(final String text)
 	{
 		label.setText(text);
 	}

@@ -5,21 +5,21 @@ import uk.ac.nott.mrl.homework.client.DevicesService;
 
 public class ControlDeniedZone extends Zone
 {
-	public ControlDeniedZone(int index)
+	public ControlDeniedZone(final int index)
 	{
 		super(index, "Not Permitted", DevicesClient.resources.denied());
+	}
+
+	@Override
+	public void add(final DevicesService service, final String macAddress)
+	{
+		service.getModel().update(macAddress, "denied");
+		service.deny(macAddress);
 	}
 
 	@Override
 	public boolean canAdd()
 	{
 		return true;
-	}
-
-	@Override
-	public void add(DevicesService service, String macAddress)
-	{	
-		service.getModel().update(macAddress, "denied");
-		service.deny(macAddress);
 	}
 }

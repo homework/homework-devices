@@ -6,41 +6,52 @@ import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 
 /**
-* @author Magnus Morton
-*/
-public class ConnectPayload extends ControlPayload {
+ * @author Magnus Morton
+ */
+public class ConnectPayload extends ControlPayload
+{
 
-    private String service;
+	private String service;
 
-    protected ConnectPayload(ByteBuffer buffer) throws IOException {
-        super(buffer);
-        service = CharBuffer.wrap(SRPC.decoder.decode(buffer)).toString().trim();
-    }
+	protected ConnectPayload(final ByteBuffer buffer) throws IOException
+	{
+		super(buffer);
+		service = CharBuffer.wrap(SRPC.decoder.decode(buffer)).toString().trim();
+	}
 
-    protected ConnectPayload(Command command, int subport, int seqNo, int fragment, int fragmentCount, String service) {
-        super(command, subport, seqNo, fragment, fragmentCount);
-        this.service = service;
-    }
+	protected ConnectPayload(final Command command, final int subport, final int seqNo, final int fragment,
+			final int fragmentCount)
+	{
+		super(command, subport, seqNo, fragment, fragmentCount);
+	}
 
-    protected String getService() {
-        return service;
-    }
+	protected ConnectPayload(final Command command, final int subport, final int seqNo, final int fragment,
+			final int fragmentCount, final String service)
+	{
+		super(command, subport, seqNo, fragment, fragmentCount);
+		this.service = service;
+	}
 
-    @Override
-	protected ByteBuffer toBuffer()  {
-        ByteBuffer control = super.toBuffer();
-        ByteBuffer out = ByteBuffer.allocate(COMMAND_SIZE + service.length() );
-        out.put(control);
-        try {
-            out.put(SRPC.encoder.encode(CharBuffer.wrap(service)));
-        } catch (CharacterCodingException e) {
-            throw new RuntimeException(e);
-        }
-        out.rewind();
-        return out;
-    }
+	protected String getService()
+	{
+		return service;
+	}
 
-    protected ConnectPayload(Command command, int subport, int seqNo, int fragment, int fragmentCount) {
-        super(command, subport, seqNo, fragment, fragmentCount);
-    }
+	@Override
+	protected ByteBuffer toBuffer()
+	{
+		final ByteBuffer control = super.toBuffer();
+		final ByteBuffer out = ByteBuffer.allocate(COMMAND_SIZE + service.length());
+		out.put(control);
+		try
+		{
+			out.put(SRPC.encoder.encode(CharBuffer.wrap(service)));
+		}
+		catch (final CharacterCodingException e)
+		{
+			throw new RuntimeException(e);
+		}
+		out.rewind();
+		return out;
+	}
 }

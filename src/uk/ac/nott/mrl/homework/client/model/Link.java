@@ -29,10 +29,10 @@ public class Link extends JavaScriptObject
 
 	public final native String getState() /*-{ return this.state; }-*/;
 
-	public final native String setState(String state) /*-{ this.state = state; }-*/;
-	
 	public final native double getTimestamp() /*-{ return this.timeStamp; }-*/;
 
 	public final native boolean setOld() /*-{ var oldOld = this.old || false; 
 											this.old = true; return !oldOld; }-*/;
+
+	public final native String setState(String state) /*-{ this.state = state; }-*/;
 }

@@ -6,6 +6,8 @@ public interface DeviceCSS extends CssResource
 {
 	String buttonPanel();
 
+	String deniedDevice();
+
 	String detailItem();
 
 	String detailPanel();
@@ -13,16 +15,8 @@ public interface DeviceCSS extends CssResource
 	String detailTitle();
 
 	String device();
-	
-	String deniedDevice();
 
-	String requestingDevice();
-	
-	String unlistedDevice();
-	
 	String deviceAnim();
-	
-	String listDevice();
 
 	String deviceLine();
 
@@ -30,9 +24,15 @@ public interface DeviceCSS extends CssResource
 
 	String devicePanel();
 
+	String dragDevice();
+
+	String listDevice();
+
 	String popup();
 
 	String popupLink();
+
+	String requestingDevice();
 
 	String signal();
 
@@ -40,11 +40,11 @@ public interface DeviceCSS extends CssResource
 
 	String trayButton();
 
+	String unlistedDevice();
+
 	String warning();
 
 	String zone();
 
 	String zoneBar();
-	
-	String dragDevice();
 }

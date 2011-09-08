@@ -6,27 +6,6 @@ import com.google.gwt.resources.client.TextResource;
 
 public interface Resources extends ClientBundleWithLookup
 {
-	public TextResource testlinks();
-	
-	public TextResource testlinks2();	
-
-	public TextResource testlinkssimple();
-
-	@Source("tray-bandwidth.png")
-	public ImageResource trayBandwidth();
-
-	@Source("web-blue.png")
-	public ImageResource webblue();
-
-	@Source("web-green.png")
-	public ImageResource webgreen();
-
-	@Source("emblem-important.png")
-	public ImageResource requesting();
-
-	@Source("web-red.png")
-	public ImageResource webred();
-
 	@Source("network-workgroup.png")
 	ImageResource all();
 
@@ -38,8 +17,20 @@ public interface Resources extends ClientBundleWithLookup
 
 	ImageResource printer();
 
+	@Source("emblem-important.png")
+	public ImageResource requesting();
+
 	@Source("device.css")
 	DeviceCSS style();
+
+	public TextResource testlinks();
+
+	public TextResource testlinks2();
+
+	public TextResource testlinkssimple();
+
+	@Source("tray-bandwidth.png")
+	public ImageResource trayBandwidth();
 
 	@Source("tray-events.png")
 	ImageResource trayEvents();
@@ -48,4 +39,13 @@ public interface Resources extends ClientBundleWithLookup
 	ImageResource traySignal();
 
 	ImageResource warning();
+
+	@Source("web-blue.png")
+	public ImageResource webblue();
+
+	@Source("web-green.png")
+	public ImageResource webgreen();
+
+	@Source("web-red.png")
+	public ImageResource webred();
 }

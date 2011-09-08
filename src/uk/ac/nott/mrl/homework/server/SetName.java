@@ -3,7 +3,6 @@ package uk.ac.nott.mrl.homework.server;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -33,7 +32,7 @@ public class SetName extends HttpServlet
 		System.out.println("Set Name :" + macAddress + " - " + nameString);
 
 		final Device device = Model.getModel().getDevice(macAddress);
-		String oldID = device.getID();
+		final String oldID = device.getID();
 		if (device != null)
 		{
 			device.setDeviceName(nameString, new Date().getTime());
@@ -49,9 +48,9 @@ public class SetName extends HttpServlet
 		logger.info(result);
 		connection.disconnect();
 
-		String sinceString = request.getParameter("since");
+		final String sinceString = request.getParameter("since");
 		long since = new Date().getTime() - Model.getTimeout();
-		if(sinceString != null)
+		if (sinceString != null)
 		{
 			since = (long) Double.parseDouble(sinceString);
 		}

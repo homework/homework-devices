@@ -5,9 +5,13 @@ import java.util.Map;
 
 import com.google.gson.annotations.Expose;
 
-
 public class Item
 {
+	public enum Change
+	{
+		added, updated, removed
+	}
+
 	public static final String getShortCompanyName(final Device device)
 	{
 		String company = device.getCompany();
@@ -28,80 +32,124 @@ public class Item
 		}
 		return "Unknown";
 	}
-//	
-//	public static final String getTypeID(Device device, Zone zone)
-//	{
-//		final String company = getShortCompanyName(device).toLowerCase();		
-//		return zone.getName() + ":" + company;
-//	}
-//	
 
-	public enum Change
-	{
-		added, updated, removed
-	}
+	//
+	// public static final String getTypeID(Device device, Zone zone)
+	// {
+	// final String company = getShortCompanyName(device).toLowerCase();
+	// return zone.getName() + ":" + company;
+	// }
+	//
 
 	@Expose
 	private String company;
-	@Expose	
+	@Expose
 	private String name;
-	@Expose	
+	@Expose
 	private String id;
-	@Expose	
-	private String macAddress;	
+	@Expose
+	private String macAddress;
 	@Expose
 	private String ipAddress;
-	@Expose	
+	@Expose
 	private State state = State.unlisted;
-	@Expose	
+	@Expose
 	private Change change = null;
-	@Expose	
+	@Expose
 	private long timestamp;
 	@Expose
 	private Float rssi = null;
-	
 	private Map<String, Device> devices = new HashMap<String, Device>();
-	
-	public Item(Device device)
+
+	public Item(final Device device)
 	{
-		id = device.getID();		
+		id = device.getID();
 		add(device);
-	}
-	
-	public String getID()
-	{
-		return id;
-	}
-	
-	public long getTimestamp()
-	{
-		return timestamp;
 	}
 
 	public void add(final Device device)
 	{
 		synchronized (devices)
 		{
-			devices.put(device.getMacAddress(), device);	
+			devices.put(device.getMacAddress(), device);
 		}
-		update(device.getTimestamp());	
+		update(device.getTimestamp());
 	}
-	
+
+	public Change getChange()
+	{
+		return change;
+	}
+
+	public String getCompany()
+	{
+		return company;
+	}
+
+	public Iterable<Device> getDevices()
+	{
+		return devices.values();
+	}
+
+	public String getID()
+	{
+		return id;
+	}
+
+	public String getIpAddress()
+	{
+		return ipAddress;
+	}
+
+	public String getMacAddress()
+	{
+		return macAddress;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+
+	public Float getRssi()
+	{
+		return rssi;
+	}
+
+	public State getState()
+	{
+		return state;
+	}
+
+	public long getTimestamp()
+	{
+		return timestamp;
+	}
+
+	public void remove(final Device device, final long timestamp)
+	{
+		synchronized (devices)
+		{
+			devices.remove(device.getMacAddress());
+		}
+		update(timestamp);
+	}
+
 	public void update(final Device device)
 	{
 		synchronized (devices)
 		{
-			devices.put(device.getMacAddress(), device);	
+			devices.put(device.getMacAddress(), device);
 		}
-		update(device.getTimestamp());	
+		update(device.getTimestamp());
 	}
-	
+
 	private void update(final long timestamp)
 	{
-		synchronized(devices)
+		synchronized (devices)
 		{
-			int count = devices.size();
-			if(count == 0)
+			final int count = devices.size();
+			if (count == 0)
 			{
 				name = null;
 				company = null;
@@ -110,10 +158,10 @@ public class Item
 				ipAddress = null;
 				rssi = null;
 			}
-			else if(count == 1)
+			else if (count == 1)
 			{
-				Device device = devices.values().iterator().next();
-				if(device.canBeGrouped())
+				final Device device = devices.values().iterator().next();
+				if (device.canBeGrouped())
 				{
 					name = device.getShortCompanyName() + " Device";
 				}
@@ -130,7 +178,7 @@ public class Item
 			}
 			else
 			{
-				Device device = devices.values().iterator().next();			
+				final Device device = devices.values().iterator().next();
 				name = device.getShortCompanyName() + " Devices (" + count + ")";
 				company = device.getCompany();
 				change = null;
@@ -140,29 +188,5 @@ public class Item
 			}
 		}
 		this.timestamp = Math.max(this.timestamp, timestamp);
-	}
-
-	public Iterable<Device> getDevices()
-	{
-		return devices.values();
-	}
-	
-	public void remove(final Device device, final long timestamp)
-	{
-		synchronized (devices)
-		{
-			devices.remove(device.getMacAddress());
-		}
-		update(timestamp);
-	}
-	
-	public String getCompany()
-	{
-		return company;
-	}
-
-	public String getName()
-	{
-		return name;
 	}
 }

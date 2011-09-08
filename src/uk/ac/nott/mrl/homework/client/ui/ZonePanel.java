@@ -31,6 +31,18 @@ public class ZonePanel extends FlowPanel
 		line.setVisible(false);
 	}
 
+	@Override
+	public void add(final Widget w)
+	{
+		super.add(w);
+		if (w instanceof Device)
+		{
+			final Device device = (Device) w;
+			w.setStyleName(zone.getDeviceStyle(device.getItem()));
+		}
+		update();
+	}
+
 	public void addMouseOutHandler(final MouseOutHandler handler)
 	{
 		addDomHandler(handler, MouseOutEvent.getType());
@@ -41,22 +53,15 @@ public class ZonePanel extends FlowPanel
 		addDomHandler(handler, MouseOverEvent.getType());
 	}
 
-	@Override
-	public void add(Widget w)
+	public Zone getZone()
 	{
-		super.add(w);
-		if(w instanceof Device)
-		{
-			Device device = (Device)w;
-			w.setStyleName(zone.getDeviceStyle(device.getItem()));				
-		}
-		update();
+		return zone;
 	}
 
 	@Override
-	public boolean remove(Widget w)
+	public boolean remove(final Widget w)
 	{
-		boolean result = super.remove(w);
+		final boolean result = super.remove(w);
 		update();
 		return result;
 	}
@@ -64,20 +69,15 @@ public class ZonePanel extends FlowPanel
 	public void update()
 	{
 		boolean visible = false;
-		for(Widget widget: getChildren())
+		for (final Widget widget : getChildren())
 		{
-			if(widget instanceof Device)
+			if (widget instanceof Device)
 			{
 				visible = true;;
 				break;
 			}
 		}
-		
-		line.setVisible(visible);
-	}	
 
-	public Zone getZone()
-	{
-		return zone;		
+		line.setVisible(visible);
 	}
 }

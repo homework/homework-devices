@@ -11,17 +11,17 @@ public interface Model
 {
 	void addListener(final ItemListener listener);
 
+	RequestCallback getCallback();
+
 	Comparator<Device> getComparator();
 
 	double getLastUpdated();
 
-	Zone[] getZones();
-	
 	int getZone(Item item);
-	
+
+	Zone[] getZones();
+
 	void update(JsArray<Item> items);
-	
+
 	void update(String id, String state);
-	
-	RequestCallback getCallback();
 }

@@ -12,13 +12,13 @@ public class Permitted
 
 	}
 
-	public Iterable<String> permitted()
-	{
-		return permitted;
-	}
-	
 	public Iterable<String> denied()
 	{
 		return denied;
+	}
+
+	public Iterable<String> permitted()
+	{
+		return permitted;
 	}
 }

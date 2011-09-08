@@ -9,8 +9,8 @@ import java.util.Map;
 public class Model
 {
 	private static final Model model = new Model();
-	//private static final Logger logger = Logger.getLogger(Model.class.getName());
-	
+	// private static final Logger logger = Logger.getLogger(Model.class.getName());
+
 	private final Map<String, Lease> leases = new HashMap<String, Lease>();
 	private final Map<String, Device> devices = new HashMap<String, Device>();
 	private final Map<String, Item> items = new HashMap<String, Item>();
@@ -18,24 +18,19 @@ public class Model
 	private long mostRecentDevice = 0;
 	private long mostRecentLease = 0;
 
-	//private static final int inactive = 5000;
+	// private static final int inactive = 5000;
 	private static final int timeout = 20000;
 
 	public static Model getModel()
 	{
 		return model;
 	}
-	
+
 	public static int getTimeout()
 	{
 		return timeout;
 	}
-	
-	public Device getDevice(final String macAddress)
-	{
-		return devices.get(macAddress);
-	}
-	
+
 	public void add(final Device device)
 	{
 		device.initCorporation();
@@ -45,18 +40,18 @@ public class Model
 		{
 			device.update(lease);
 		}
-		
+
 		final Device existingDevice = devices.get(device.getMacAddress());
 		if (existingDevice != null)
 		{
-			String oldID = existingDevice.getID();
+			final String oldID = existingDevice.getID();
 			existingDevice.update(device);
 			deviceUpdated(oldID, existingDevice);
 		}
 		else
 		{
-			String id = device.getID();
-			Item item = items.get(id);			
+			final String id = device.getID();
+			Item item = items.get(id);
 			if (item == null)
 			{
 				item = new Item(device);
@@ -66,10 +61,10 @@ public class Model
 			{
 				item.add(device);
 			}
-			synchronized(devices)
+			synchronized (devices)
 			{
 				devices.put(device.getMacAddress(), device);
-			}			
+			}
 		}
 	}
 
@@ -78,25 +73,25 @@ public class Model
 		mostRecentLease = Math.max(lease.getTimestamp(), mostRecentLease);
 		final Device device = devices.get(lease.getMacAddress());
 		final Lease oldLease = leases.get(lease.getMacAddress());
-		if(oldLease != null)
+		if (oldLease != null)
 		{
 			oldLease.update(lease);
-			if(device != null)
+			if (device != null)
 			{
 				final String oldID = device.getID();
 				device.update(oldLease);
-				deviceUpdated(oldID, device);				
+				deviceUpdated(oldID, device);
 			}
 		}
 		else
 		{
 			leases.put(lease.getMacAddress(), lease);
-			if(device != null)
+			if (device != null)
 			{
 				final String oldID = device.getID();
 				device.update(lease);
-				deviceUpdated(oldID, device);				
-			}			
+				deviceUpdated(oldID, device);
+			}
 		}
 	}
 
@@ -105,7 +100,7 @@ public class Model
 		final long timestamp = new Date().getTime();
 		final long timeout = timestamp - getTimeout();
 		final Collection<Device> removals = new ArrayList<Device>();
-		synchronized(devices)
+		synchronized (devices)
 		{
 			for (final Device device : devices.values())
 			{
@@ -115,11 +110,43 @@ public class Model
 				}
 			}
 		}
-		
-		for(final Device device: removals)
+
+		for (final Device device : removals)
 		{
 			remove(device, timestamp);
 		}
+	}
+
+	public void deviceUpdated(final String oldID, final Device device)
+	{
+		if (oldID.equals(device.getID()))
+		{
+			final Item item = items.get(device.getID());
+			if (item != null)
+			{
+				item.update(device);
+			}
+		}
+		else
+		{
+			final Item oldItem = items.get(oldID);
+			final Item newItem = items.get(device.getID());
+			oldItem.remove(device, device.getTimestamp());
+			if (newItem == null)
+			{
+				final Item item = new Item(device);
+				items.put(device.getID(), item);
+			}
+			else
+			{
+				newItem.add(device);
+			}
+		}
+	}
+
+	public Device getDevice(final String macAddress)
+	{
+		return devices.get(macAddress);
 	}
 
 	public int getDeviceCount()
@@ -152,47 +179,20 @@ public class Model
 		return mostRecentLease + 1;
 	}
 
-	public void remove(final Item item)
-	{
-		items.get(item.getID());
-	}
-	
 	public void remove(final Device device, final long timestamp)
 	{
-		synchronized(devices)
+		synchronized (devices)
 		{
 			devices.remove(device.getMacAddress());
 		}
-			
+
 		final Item item = items.get(device.getID());
 		item.remove(device, timestamp);
 	}
 
-	public void deviceUpdated(final String oldID, final Device device)
+	public void remove(final Item item)
 	{
-		if(oldID.equals(device.getID()))
-		{
-			Item item = items.get(device.getID());
-			if(item != null)
-			{
-				item.update(device);
-			}			
-		}
-		else
-		{
-			Item oldItem = items.get(oldID);
-			Item newItem = items.get(device.getID());	
-			oldItem.remove(device, device.getTimestamp());
-			if(newItem == null)
-			{
-				Item item = new Item(device);
-				items.put(device.getID(), item);
-			}
-			else
-			{
-				newItem.add(device);
-			}
-		}
+		items.get(item.getID());
 	}
 
 	public void setState(final String macAddress, final State state, final long timestamp)
@@ -200,9 +200,9 @@ public class Model
 		final Device device = devices.get(macAddress);
 		if (device != null)
 		{
-			String oldID = device.getID();			
+			final String oldID = device.getID();
 			device.setState(state, timestamp);
-			deviceUpdated(oldID, device);			
+			deviceUpdated(oldID, device);
 		}
 	}
 }

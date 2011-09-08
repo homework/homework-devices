@@ -89,59 +89,6 @@ public class Convert
 
 	private static final DateFormat outFormat = new SimpleDateFormat("yyyyMMdd");
 
-	/**
-	 * @param args
-	 */
-	public static void main(final String[] args)
-	{
-		try
-		{
-			// Convert Flows
-			final File dataDirectory = new File("etc/data");
-			final File[] files = dataDirectory.listFiles();
-			final Collection<Converter> converters = new ArrayList<Converter>();
-
-			converters.add(new FlowConverter());
-			converters.add(new LeaseConverter());
-
-			for (final File file : files)
-			{
-				for (final Converter converter : converters)
-				{
-					if (converter.shouldConvertFile(file))
-					{
-						convert(converter, file);
-					}
-				}
-			}
-		}
-		catch (final Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	// if (file.getName().startsWith("flow") && file.getName().endsWith(".txt"))
-	// {
-	// convertFlow(file);
-	// }
-	// else if (file.getName().startsWith("lease") && file.getName().endsWith(".txt"))
-	// {
-	// convertLease(file, new File("etc/data/" + file.getName().replace(".txt", ".csv")));
-	// }
-	// else if (file.getName().startsWith("link") && file.getName().endsWith(".txt"))
-	// {
-	// convertLink(file, new File("etc/data/" + file.getName().replace(".txt", ".csv")));
-	// }
-	// else if (file.getName().startsWith("sys") && file.getName().endsWith(".txt"))
-	// {
-	// convertSystemEvents(file, new File("etc/data/" + file.getName().replace(".txt", ".csv")));
-	// }
-	// else if (file.getName().startsWith("userevent") && file.getName().endsWith(".txt"))
-	// {
-	// convertUserEvents(file, new File("etc/data/" + file.getName().replace(".txt", ".csv")));
-	// }
-
 	private static void convert(final Converter converter, final File file)
 	{
 		System.out.println("Converting " + file.getName() + " with " + converter.getClass().getSimpleName());
@@ -182,6 +129,59 @@ public class Convert
 
 				writer.write(converter.convertLine(line));
 				writer.newLine();
+			}
+		}
+		catch (final Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	// if (file.getName().startsWith("flow") && file.getName().endsWith(".txt"))
+	// {
+	// convertFlow(file);
+	// }
+	// else if (file.getName().startsWith("lease") && file.getName().endsWith(".txt"))
+	// {
+	// convertLease(file, new File("etc/data/" + file.getName().replace(".txt", ".csv")));
+	// }
+	// else if (file.getName().startsWith("link") && file.getName().endsWith(".txt"))
+	// {
+	// convertLink(file, new File("etc/data/" + file.getName().replace(".txt", ".csv")));
+	// }
+	// else if (file.getName().startsWith("sys") && file.getName().endsWith(".txt"))
+	// {
+	// convertSystemEvents(file, new File("etc/data/" + file.getName().replace(".txt", ".csv")));
+	// }
+	// else if (file.getName().startsWith("userevent") && file.getName().endsWith(".txt"))
+	// {
+	// convertUserEvents(file, new File("etc/data/" + file.getName().replace(".txt", ".csv")));
+	// }
+
+	/**
+	 * @param args
+	 */
+	public static void main(final String[] args)
+	{
+		try
+		{
+			// Convert Flows
+			final File dataDirectory = new File("etc/data");
+			final File[] files = dataDirectory.listFiles();
+			final Collection<Converter> converters = new ArrayList<Converter>();
+
+			converters.add(new FlowConverter());
+			converters.add(new LeaseConverter());
+
+			for (final File file : files)
+			{
+				for (final Converter converter : converters)
+				{
+					if (converter.shouldConvertFile(file))
+					{
+						convert(converter, file);
+					}
+				}
 			}
 		}
 		catch (final Exception e)

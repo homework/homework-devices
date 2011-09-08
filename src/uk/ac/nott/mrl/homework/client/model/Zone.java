@@ -11,13 +11,43 @@ public class Zone
 	private ImageResource image;
 	private int index;
 	private String name;
-	
 
 	public Zone(final int index, final String name, final ImageResource image)
 	{
 		this.image = image;
 		this.name = name;
 		this.index = index;
+	}
+
+	public void add(final DevicesService service, final String macAdress)
+	{
+
+	}
+
+	public boolean canAdd()
+	{
+		return false;
+	}
+
+	public String getDeviceStyle(final Item item)
+	{
+		if ("denied".equals(item.getState()))
+		{
+			return DevicesClient.resources.style().deniedDevice();
+		}
+		else if (item.getIPAddress() != null)
+		{
+			if ("permitted".equals(item.getState()))
+			{
+				return DevicesClient.resources.style().device();
+			}
+			else
+			{
+				GWT.log("Style = requesting");
+				return DevicesClient.resources.style().requestingDevice();
+			}
+		}
+		return DevicesClient.resources.style().unlistedDevice();
 	}
 
 	public ImageResource getImage()
@@ -33,36 +63,5 @@ public class Zone
 	public String getName()
 	{
 		return name;
-	}
-	
-	public String getDeviceStyle(final Item item)
-	{
-		if("denied".equals(item.getState()))
-		{
-			return DevicesClient.resources.style().deniedDevice();
-		}
-		else if(item.getIPAddress() != null)
-		{
-			if("permitted".equals(item.getState()))
-			{
-				return DevicesClient.resources.style().device();
-			}
-			else
-			{
-				GWT.log("Style = requesting");
-				return DevicesClient.resources.style().requestingDevice();
-			}
-		}
-		return DevicesClient.resources.style().unlistedDevice();
-	}
-	
-	public boolean canAdd()
-	{
-		return false;
-	}
-	
-	public void add(DevicesService service, String macAdress)
-	{
-		
 	}
 }

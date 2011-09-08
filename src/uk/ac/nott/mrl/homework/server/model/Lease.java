@@ -1,7 +1,6 @@
 package uk.ac.nott.mrl.homework.server.model;
 
 import java.util.Date;
-import java.util.logging.Logger;
 
 public class Lease
 {
@@ -9,13 +8,13 @@ public class Lease
 	{
 		add, del, old, upd
 	}
-	
-	private static final Logger logger = Logger.getLogger(Lease.class.getName());	
+
+	// private static final Logger logger = Logger.getLogger(Lease.class.getName());
 
 	public static void parseResultSet(final String results, final Model model)
 	{
 		final String[] lines = results.split("\n");
-		if(!lines[0].endsWith("<|>0<|>0<|>"))
+		if (!lines[0].endsWith("<|>0<|>0<|>"))
 		{
 			System.out.println("Leases	: " + lines[0]);
 		}
@@ -36,7 +35,7 @@ public class Lease
 				{
 					lease.hostName = null;
 				}
-				
+
 				model.add(lease);
 			}
 			catch (final Exception e)
@@ -51,7 +50,7 @@ public class Lease
 	private String ipAddress;
 	private String macAddress;
 	private long timestamp;
-	private transient Action nameAction;	
+	private transient Action nameAction;
 
 	public void clearIPAddress()
 	{
@@ -82,8 +81,8 @@ public class Lease
 	{
 		return timestamp;
 	}
-	
-	public void update(Lease lease)
+
+	public void update(final Lease lease)
 	{
 		if (lease.getAction() == Action.del)
 		{
@@ -91,18 +90,18 @@ public class Lease
 		}
 		else
 		{
-			if(lease.getIpAddress() != null)
+			if (lease.getIpAddress() != null)
 			{
 				ipAddress = lease.getIpAddress();
 			}
-			
+
 			if (nameAction != Action.upd || lease.getAction() == Action.upd)
 			{
 				hostName = lease.getHostName();
 				nameAction = lease.getAction();
 			}
 		}
-		
+
 		timestamp = lease.getTimestamp();
 	}
 }

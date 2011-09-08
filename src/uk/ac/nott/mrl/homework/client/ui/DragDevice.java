@@ -28,17 +28,17 @@ public class DragDevice extends Label
 
 	private int originx;
 	private int originy;
-	
+
 	private final DevicesService service;
 	private DragState dragState = DragState.waiting;
-	
+
 	private String macAddress;
-	
+
 	private ZonePanel zone;
-	
+
 	private Widget dragWidget;
-	
-	public DragDevice(DevicesService service)
+
+	public DragDevice(final DevicesService service)
 	{
 		super();
 		this.service = service;
@@ -46,10 +46,79 @@ public class DragDevice extends Label
 		setVisible(false);
 	}
 
+	public DragState getState()
+	{
+		return dragState;
+	}
+
+	public void handleDrag(final int clientX, final int clientY)
+	{
+		if (dragState == DragState.dragInit)
+		{
+			final int distance = Math.abs(clientX - originx) + Math.abs(clientY - originy);
+			if (distance > DRAG_DISTANCE)
+			{
+				GWT.log("Drag Start");
+
+				dragWidget.getElement().getStyle().setDisplay(Display.NONE);
+
+				dragState = DragState.dragging;
+				setVisible(true);
+				setDragZone(zone);
+
+				offsetx = getOffsetWidth() / 2;
+				offsety = getOffsetHeight() / 2;
+			}
+		}
+
+		if (dragState == DragState.dragging)
+		{
+			getElement().getStyle().setLeft(clientX - offsetx, Unit.PX);
+			getElement().getStyle().setTop(clientY - offsety, Unit.PX);
+
+		}
+	}
+
+	private void handleDragEnd()
+	{
+		if (dragState == DragState.dragging)
+		{
+			GWT.log("Drag End");
+			setVisible(false);
+			dragWidget.getElement().getStyle().clearDisplay();
+
+			if (zone != null)
+			{
+				zone.getZone().add(service, macAddress);
+				setDragZone(null);
+			}
+		}
+		dragState = DragState.waiting;
+	}
+
+	public void setDragZone(final ZonePanel zone)
+	{
+		if (this.zone == zone) { return; }
+
+		if (this.zone != null)
+		{
+			this.zone.getElement().getStyle().setBackgroundColor("transparent");
+		}
+		this.zone = zone;
+		if (zone != null)
+		{
+			if (zone.getZone().canAdd() && dragState == DragState.dragging)
+			{
+				zone.getElement().getStyle().setBackgroundColor("#DDF");
+			}
+		}
+	}
+
 	/**
 	 * On mouse down
 	 */
-	public void setupDrag(final String macAddress, final Widget widget, final String text, final int clientX, final int clientY)
+	public void setupDrag(final String macAddress, final Widget widget, final String text, final int clientX,
+			final int clientY)
 	{
 		if (macAddress == null) { return; }
 		if (dragState == DragState.waiting)
@@ -61,72 +130,6 @@ public class DragDevice extends Label
 			originy = clientY;
 			setText(text);
 		}
-	}
-	
-	public void handleDrag(final int clientX, final int clientY)
-	{
-		if (dragState == DragState.dragInit)
-		{
-			final int distance = Math.abs(clientX - originx) + Math.abs(clientY - originy);
-			if (distance > DRAG_DISTANCE)
-			{
-				GWT.log("Drag Start");
-
-				dragWidget.getElement().getStyle().setDisplay(Display.NONE);
-			
-				dragState = DragState.dragging;
-				setVisible(true);
-				setDragZone(zone);
-				
-				offsetx = getOffsetWidth() / 2;
-				offsety = getOffsetHeight() / 2;
-			}
-		}
-
-		if (dragState == DragState.dragging)
-		{
-			getElement().getStyle().setLeft(clientX - offsetx, Unit.PX);
-			getElement().getStyle().setTop(clientY - offsety, Unit.PX);
-			
-		}
-	}
-	
-	public void setDragZone(ZonePanel zone)
-	{
-		if(this.zone == zone)
-		{
-			return;
-		}
-		
-		if(this.zone != null)
-		{
-			this.zone.getElement().getStyle().setBackgroundColor("transparent");
-		}
-		this.zone = zone;
-		if(zone != null)
-		{
-			if(zone.getZone().canAdd() && dragState == DragState.dragging)
-			{
-				zone.getElement().getStyle().setBackgroundColor("#DDF");
-			}
-		}
-	}
-
-	private void handleDragEnd()
-	{
-		if (dragState == DragState.dragging)
-		{
-			GWT.log("Drag End");
-			setVisible(false);
-			dragWidget.getElement().getStyle().clearDisplay();
-			
-			if(zone != null)
-			{
-				zone.getZone().add(service, macAddress);				
-				setDragZone(null);
-			}
-		}
-		dragState = DragState.waiting;
 	}
 
 	public void setupUIElements(final Panel panel)
@@ -141,7 +144,7 @@ public class DragDevice extends Label
 				handleDragEnd();
 			}
 		}, MouseUpEvent.getType());
-		
+
 		panel.addDomHandler(new TouchEndHandler()
 		{
 			@Override
@@ -151,11 +154,6 @@ public class DragDevice extends Label
 				event.stopPropagation();
 			}
 		}, TouchEndEvent.getType());
-	
-	}
 
-	public DragState getState()
-	{
-		return dragState;
-	}	
+	}
 }

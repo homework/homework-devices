@@ -89,7 +89,7 @@ public class Device extends FlowPanel
 		textBoxName.setFocus(false);
 		service.setName(item.getMacAddress(), textBoxName.getText());
 	}
-	
+
 	public void addClickHandler(final ClickHandler handler)
 	{
 		addDomHandler(handler, ClickEvent.getType());
@@ -164,7 +164,7 @@ public class Device extends FlowPanel
 		return text.getText();
 	}
 
-	public void update(Item item)
+	public void update(final Item item)
 	{
 		if (!text.getText().equals(item.getName()))
 		{
@@ -174,13 +174,13 @@ public class Device extends FlowPanel
 		getElement().getStyle().setOpacity(item.getOpacity());
 
 		this.item = item;
-		
-		ZonePanel zone = (ZonePanel)getParent();
-		if(zone != null)
+
+		final ZonePanel zone = (ZonePanel) getParent();
+		if (zone != null)
 		{
 			setStyleName(zone.getZone().getDeviceStyle(item));
 		}
-		
+
 		// updateStyle(oldItem);
 
 		// Font size by bandwidth

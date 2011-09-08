@@ -36,11 +36,11 @@ public class Device
 	public static void parseResultSet(final String results, final Model model)
 	{
 		final String[] lines = results.split("\n");
-		if(!lines[0].endsWith("<|>0<|>0<|>"))
+		if (!lines[0].endsWith("<|>0<|>0<|>"))
 		{
 			System.out.println("Links: " + lines[0]);
 		}
-		
+
 		for (int index = 2; index < lines.length; index++)
 		{
 			try
@@ -92,47 +92,18 @@ public class Device
 		this.macAddress = mac;
 		this.byteCount = byteCount;
 	}
-	
-	public String getName()
-	{
-		if(deviceName != null)
-		{
-			return deviceName;
-		}
-		return getShortCompanyName() + " Device";
-	}
 
 	public boolean canBeGrouped()
 	{
-		if(deviceName != null || ipAddress != null || state != State.unlisted)
-		{
-			return false;
-		}
+		if (deviceName != null || ipAddress != null || state != State.unlisted) { return false; }
 		return true;
 	}
-	
+
 	public int getByteCount()
 	{
 		return byteCount;
 	}
 
-	public String getID()
-	{
-		if(canBeGrouped())
-		{
-			return getGroupID();
-		}
-		else
-		{
-			return macAddress;
-		}
-	}
-	
-	private String getGroupID()
-	{
-		return state + ":" + getShortCompanyName().toLowerCase(); 
-	}
-	
 	public String getCompany()
 	{
 		return corporation;
@@ -141,6 +112,23 @@ public class Device
 	public String getDeviceName()
 	{
 		return deviceName;
+	}
+
+	private String getGroupID()
+	{
+		return state + ":" + getShortCompanyName().toLowerCase();
+	}
+
+	public String getID()
+	{
+		if (canBeGrouped())
+		{
+			return getGroupID();
+		}
+		else
+		{
+			return macAddress;
+		}
 	}
 
 	public String getIPAddress()
@@ -152,7 +140,28 @@ public class Device
 	{
 		return macAddress;
 	}
-	
+
+	public String getName()
+	{
+		if (deviceName != null) { return deviceName; }
+		return getShortCompanyName() + " Device";
+	}
+
+	public int getPacketCount()
+	{
+		return packetCount;
+	}
+
+	public int getRetryCount()
+	{
+		return retryCount;
+	}
+
+	public float getRssi()
+	{
+		return rssi;
+	}
+
 	public String getShortCompanyName()
 	{
 		String company = getCompany();
@@ -172,21 +181,6 @@ public class Device
 			return company;
 		}
 		return "Unknown";
-	}
-
-	public int getPacketCount()
-	{
-		return packetCount;
-	}
-
-	public int getRetryCount()
-	{
-		return retryCount;
-	}
-
-	public float getRssi()
-	{
-		return rssi;
 	}
 
 	public State getState()
@@ -216,11 +210,12 @@ public class Device
 	{
 		if (this.state != state)
 		{
-			//String oldID = getID();
-			//State oldState = this.state; 
+			// String oldID = getID();
+			// State oldState = this.state;
 			this.state = state;
 			timestamp = since;
-			//System.out.println("Set State of " + getName() + " from " + oldState + " to " + state + ": " + oldID + "->" + getID());						
+			// System.out.println("Set State of " + getName() + " from " + oldState + " to " + state
+			// + ": " + oldID + "->" + getID());
 		}
 	}
 
@@ -228,13 +223,6 @@ public class Device
 	public String toString()
 	{
 		return timestamp + ": " + macAddress;
-	}
-
-	public void update(final Lease lease)
-	{
-		ipAddress = lease.getIpAddress();
-		deviceName = lease.getHostName();
-		timestamp = Math.max(lease.getTimestamp(), timestamp);
 	}
 
 	public void update(final Device link)
@@ -245,5 +233,12 @@ public class Device
 		retryCount = link.retryCount;
 		byteCount = link.byteCount;
 		rssi = link.rssi;
+	}
+
+	public void update(final Lease lease)
+	{
+		ipAddress = lease.getIpAddress();
+		deviceName = lease.getHostName();
+		timestamp = Math.max(lease.getTimestamp(), timestamp);
 	}
 }

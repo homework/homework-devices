@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PermitDevice extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(PermitDevice.class.getName());
-	
+
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException
@@ -40,7 +40,7 @@ public class PermitDevice extends HttpServlet
 		catch (final Exception e)
 		{
 		}
-		
+
 		ModelController.updatePermitted(conn.getInputStream(), new Date().getTime());
 
 		Log.log("Permit Device", macAddress);

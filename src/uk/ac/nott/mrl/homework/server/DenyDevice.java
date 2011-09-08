@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 public class DenyDevice extends HttpServlet
 {
-	private static final Logger logger = Logger.getLogger(PermitDevice.class.getName());	
-	
+	private static final Logger logger = Logger.getLogger(PermitDevice.class.getName());
+
 	@Override
 	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException,
 			IOException
@@ -46,5 +46,5 @@ public class DenyDevice extends HttpServlet
 		Log.log("Deny Device", macAddress);
 
 		ModelController.listItems(response.getWriter(), since);
-	}	
+	}
 }

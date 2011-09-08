@@ -1,6 +1,6 @@
 /**
-* @author Magnus Morton
-*/
+ * @author Magnus Morton
+ */
 
 /**
  * Provides a Java implementation of Homework's Simple RPC system - a UDP based RPC protocol.
@@ -61,33 +61,34 @@
  *           String serviceName = "Handler";
  *           SRPC srpc = new SRPC();
  *           service = srpc.offer(serviceName);
-            (new Thread(new HWDBClient())).start();
-            Connection conn = srpc.connect("localhost", 987,"HWDB");
-            int port = srpc.details().getPort();
-            System.out.println(conn.call(String.format("SQL:subscribe TestQuery 127.0.0.1 %d %s", port, serviceName)));
+ (new Thread(new HWDBClient())).start();
+ Connection conn = srpc.connect("localhost", 987,"HWDB");
+ int port = srpc.details().getPort();
+ System.out.println(conn.call(String.format("SQL:subscribe TestQuery 127.0.0.1 %d %s", port, serviceName)));
 
-            } catch (Exception e) {
-                System.exit(1);
-            }
+ } catch (Exception e) {
+ System.exit(1);
+ }
 
-    }
+ }
 
 
 
-    static Service service;
-    public void run() {
-        try {
-            Message query;
-            while ((query = service.query()) != null) {
-                System.out.println(query.getContent());
-                query.getConnection().response("OK");
-            }
-        } catch (IOException e) {
-            System.exit(1);
-        }
-    }
+ static Service service;
+ public void run() {
+ try {
+ Message query;
+ while ((query = service.query()) != null) {
+ System.out.println(query.getContent());
+ query.getConnection().response("OK");
+ }
+ } catch (IOException e) {
+ System.exit(1);
+ }
+ }
  * }
  * }
  * </pre>
  */
 package org.hwdb.srpc;
+

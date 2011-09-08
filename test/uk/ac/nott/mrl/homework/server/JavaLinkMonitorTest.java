@@ -6,8 +6,6 @@ import java.util.logging.Logger;
 import org.hwdb.srpc.Connection;
 import org.hwdb.srpc.SRPC;
 
-import uk.ac.nott.mrl.homework.server.model.Device;
-
 public class JavaLinkMonitorTest
 {
 	// private static int sig_received;
@@ -93,7 +91,9 @@ public class JavaLinkMonitorTest
 					e.printStackTrace();
 				}
 
-				final String result = connection.call(query);
+				System.out.println(query);
+				
+				//final String result = connection.call(query);
 
 				//Link.parseResultSet(result);
 
