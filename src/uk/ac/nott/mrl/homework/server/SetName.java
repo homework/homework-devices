@@ -35,7 +35,7 @@ public class SetName extends HttpServlet
 		final String oldID = device.getID();
 		if (device != null)
 		{
-			device.setDeviceName(nameString, new Date().getTime());
+			//device.setDeviceName(nameString, new Date().getTime());
 		}
 
 		Model.getModel().deviceUpdated(oldID, device);
@@ -48,6 +48,8 @@ public class SetName extends HttpServlet
 		logger.info(result);
 		connection.disconnect();
 
+		ModelController.updateModel();
+		
 		final String sinceString = request.getParameter("since");
 		long since = new Date().getTime() - Model.getTimeout();
 		if (sinceString != null)

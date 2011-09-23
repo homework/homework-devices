@@ -20,7 +20,7 @@ public class DevicesServiceImpl implements DevicesService
 	public void deny(final String macAddress)
 	{
 
-		serverRequest(GWT.getModuleBaseURL() + "deny?macAddress=" + macAddress + "&since" + model.getLastUpdated());
+		serverRequest(GWT.getModuleBaseURL() + "status?command=deny&macAddress=" + macAddress + "&since=" + model.getLastUpdated());
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class DevicesServiceImpl implements DevicesService
 	@Override
 	public void permit(final String macAddress)
 	{
-		serverRequest(GWT.getModuleBaseURL() + "permit?macAddress=" + macAddress + "&since" + model.getLastUpdated());
+		serverRequest(GWT.getModuleBaseURL() + "status?command=permit&macAddress=" + macAddress + "&since=" + model.getLastUpdated());
 	}
 
 	private void serverRequest(final String url)

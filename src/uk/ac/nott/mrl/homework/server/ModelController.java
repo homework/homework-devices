@@ -1,12 +1,7 @@
 package uk.ac.nott.mrl.homework.server;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -20,8 +15,6 @@ import uk.ac.nott.mrl.homework.server.model.Device;
 import uk.ac.nott.mrl.homework.server.model.Item;
 import uk.ac.nott.mrl.homework.server.model.Lease;
 import uk.ac.nott.mrl.homework.server.model.Model;
-import uk.ac.nott.mrl.homework.server.model.Permitted;
-import uk.ac.nott.mrl.homework.server.model.State;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -137,7 +130,7 @@ public class ModelController
 			updateLeases(connection);
 			updateLinks(connection);
 
-			updatePermitted();
+			updatePermitted(connection);
 
 			Model.getModel().clearOld();
 		}
@@ -151,37 +144,28 @@ public class ModelController
 		}
 	}
 
-	private static void updatePermitted()
+	private static void updatePermitted(final Connection connection) throws IOException
 	{
-		try
+		final String s = String.format("@%016x@", Model.getModel().getMostRecentNoxStatus() * 1000000);
+		final String noxQuery = String.format("SQL:select * from NoxStatus [ since %s ]", s);
+		final String noxResults = connection.call(noxQuery);
+		if (noxResults != null)
 		{
-			final URL url = new URL("http://" + hwdbHost + "/ws.v1/homework/status");
-			final HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setDoOutput(true);
-
-			updatePermitted(conn.getInputStream(), new Date().getTime());
-		}
-		catch (final ConnectException e)
-		{
-			logger.warning("Failed to connect to nox service. " + e.getMessage());
-		}
-		catch (final Exception e)
-		{
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			Device.parseResultSet(noxResults, Model.getModel());
 		}
 	}
 
-	public static void updatePermitted(final InputStream is, final long timestamp)
-	{
-		final Gson gson = new Gson();
-		final Permitted permitted = gson.fromJson(new InputStreamReader(is), Permitted.class);
-		for (final String macAddress : permitted.permitted())
-		{
-			Model.getModel().setState(macAddress, State.permitted, timestamp);
-		}
-		for (final String macAddress : permitted.denied())
-		{
-			Model.getModel().setState(macAddress, State.denied, timestamp);
-		}
-	}
+//	public static void updatePermitted(final InputStream is, final long timestamp)
+//	{
+//		final Gson gson = new Gson();
+//		final Permitted permitted = gson.fromJson(new InputStreamReader(is), Permitted.class);
+//		for (final String macAddress : permitted.permitted())
+//		{
+//			Model.getModel().setState(macAddress, State.permitted, timestamp);
+//		}
+//		for (final String macAddress : permitted.denied())
+//		{
+//			Model.getModel().setState(macAddress, State.denied, timestamp);
+//		}
+//	}
 }

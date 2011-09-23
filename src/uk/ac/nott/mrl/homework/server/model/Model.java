@@ -12,9 +12,11 @@ public class Model
 	// private static final Logger logger = Logger.getLogger(Model.class.getName());
 
 	private final Map<String, Lease> leases = new HashMap<String, Lease>();
+	private final Map<String, NoxStatus> statuses = new HashMap<String, NoxStatus>();	
 	private final Map<String, Device> devices = new HashMap<String, Device>();
 	private final Map<String, Item> items = new HashMap<String, Item>();
 
+	private long mostRecentNoxStatus = 0;
 	private long mostRecentDevice = 0;
 	private long mostRecentLease = 0;
 
@@ -39,6 +41,12 @@ public class Model
 		if (lease != null)
 		{
 			device.update(lease);
+		}
+		
+		final NoxStatus status = statuses.get(device.getMacAddress());
+		if(status != null)
+		{
+			device.update(status);
 		}
 
 		final Device existingDevice = devices.get(device.getMacAddress());
@@ -66,6 +74,19 @@ public class Model
 				devices.put(device.getMacAddress(), device);
 			}
 		}
+	}
+	
+	public void add(final NoxStatus status)
+	{
+		mostRecentNoxStatus = Math.max(status.getTimestamp(), mostRecentNoxStatus);
+		final Device device = devices.get(status.getMacAddress());
+		statuses.put(status.getMacAddress(), status);
+		if (device != null)
+		{
+			final String oldID = device.getID();
+			device.update(status);
+			deviceUpdated(oldID, device);
+		}		
 	}
 
 	public void add(final Lease lease)
@@ -174,6 +195,11 @@ public class Model
 		return Math.max(mostRecentDevice, new Date().getTime() - timeout) + 1;
 	}
 
+	public long getMostRecentNoxStatus()
+	{
+		return mostRecentNoxStatus + 1;
+	}
+	
 	public long getMostRecentLease()
 	{
 		return mostRecentLease + 1;
@@ -195,14 +221,14 @@ public class Model
 		items.get(item.getID());
 	}
 
-	public void setState(final String macAddress, final State state, final long timestamp)
-	{
-		final Device device = devices.get(macAddress);
-		if (device != null)
-		{
-			final String oldID = device.getID();
-			device.setState(state, timestamp);
-			deviceUpdated(oldID, device);
-		}
-	}
+//	public void setState(final String macAddress, final State state, final long timestamp)
+//	{
+//		final Device device = devices.get(macAddress);
+//		if (device != null)
+//		{
+//			final String oldID = device.getID();
+//			device.setState(state, timestamp);
+//			deviceUpdated(oldID, device);
+//		}
+//	}
 }

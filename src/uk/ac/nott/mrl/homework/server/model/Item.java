@@ -52,7 +52,7 @@ public class Item
 	@Expose
 	private String ipAddress;
 	@Expose
-	private State state = State.unlisted;
+	private State state = State.unlist;
 	@Expose
 	private Change change = null;
 	@Expose

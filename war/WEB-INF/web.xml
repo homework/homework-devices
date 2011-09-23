@@ -10,15 +10,10 @@
 	</servlet>	
 
 	<servlet>
-		<servlet-name>permitDevice</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.PermitDevice</servlet-class>
+		<servlet-name>setDeviceStatus</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.SetDeviceStatus</servlet-class>
 	</servlet>
 
-	<servlet>
-		<servlet-name>denyDevice</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.DenyDevice</servlet-class>
-	</servlet>
-	
 	<servlet>
 		<servlet-name>setName</servlet-name>
 		<servlet-class>uk.ac.nott.mrl.homework.server.SetName</servlet-class>
@@ -71,13 +66,8 @@
 	</servlet-mapping>	
 
 	<servlet-mapping>
-		<servlet-name>permitDevice</servlet-name>
-		<url-pattern>/device/permit</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>denyDevice</servlet-name>
-		<url-pattern>/device/deny</url-pattern>
+		<servlet-name>setDeviceStatus</servlet-name>
+		<url-pattern>/device/status</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

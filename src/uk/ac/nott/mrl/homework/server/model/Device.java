@@ -1,7 +1,5 @@
 package uk.ac.nott.mrl.homework.server.model;
 
-import java.util.Date;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,28 +8,6 @@ public class Device
 	private static final Companies companies = new Companies();
 
 	private static final Logger logger = Logger.getLogger(Device.class.getName());
-
-	public static Device parseLink(final String logLine)
-	{
-		final Device link = new Device();
-		final int start = logLine.indexOf('@');
-		final int end = logLine.indexOf('@', start + 1);
-		final String time = logLine.substring(start + 1, end);
-		final long timeLong = Long.parseLong(time, 16);
-		link.timestamp = timeLong / 1000000;
-		final StringTokenizer tokenizer = new StringTokenizer(logLine.substring(end + 1).trim(), ";");
-		link.macAddress = tokenizer.nextToken();
-		while (link.macAddress.length() < 12)
-		{
-			link.macAddress = "0" + link.macAddress;
-		}
-		link.rssi = Float.parseFloat(tokenizer.nextToken());
-		link.retryCount = Integer.parseInt(tokenizer.nextToken());
-		link.packetCount = Integer.parseInt(tokenizer.nextToken());
-		link.byteCount = Integer.parseInt(tokenizer.nextToken());
-
-		return link;
-	}
 
 	public static void parseResultSet(final String results, final Model model)
 	{
@@ -50,7 +26,7 @@ public class Device
 				final String time = columns[0].substring(1, columns[0].length() - 1);
 				final long timeLong = Long.parseLong(time, 16);
 				link.timestamp = timeLong / 1000000;
-				link.macAddress = columns[1];
+				link.macAddress = columns[1].toLowerCase();
 				link.rssi = Float.parseFloat(columns[2]);
 				link.retryCount = Integer.parseInt(columns[3]);
 				link.packetCount = Integer.parseInt(columns[4]);
@@ -70,12 +46,13 @@ public class Device
 	private String deviceName;
 	private String ipAddress;
 	private String macAddress;
+	private String stateSource;
 	private int packetCount;
 	private int retryCount;
 
 	private float rssi;
 
-	private State state = State.unlisted;
+	private State state = State.unlist;
 	private long timestamp;
 
 	public Device()
@@ -83,19 +60,9 @@ public class Device
 
 	}
 
-	public Device(final String name, final String mac, final String ip, final float rssi, final int byteCount)
-	{
-		this.deviceName = name;
-		timestamp = new Date().getTime();
-		this.rssi = rssi;
-		this.ipAddress = ip;
-		this.macAddress = mac;
-		this.byteCount = byteCount;
-	}
-
 	public boolean canBeGrouped()
 	{
-		if (deviceName != null || ipAddress != null || state != State.unlisted) { return false; }
+		if (deviceName != null || ipAddress != null || state != State.unlist) { return false; }
 		return true;
 	}
 
@@ -201,24 +168,6 @@ public class Device
 		}
 	}
 
-	public void setDeviceName(final String name, final double since)
-	{
-		deviceName = name;
-	}
-
-	public void setState(final State state, final long since)
-	{
-		if (this.state != state)
-		{
-			// String oldID = getID();
-			// State oldState = this.state;
-			this.state = state;
-			timestamp = since;
-			// System.out.println("Set State of " + getName() + " from " + oldState + " to " + state
-			// + ": " + oldID + "->" + getID());
-		}
-	}
-
 	@Override
 	public String toString()
 	{
@@ -235,6 +184,13 @@ public class Device
 		rssi = link.rssi;
 	}
 
+	public void update(final NoxStatus status)
+	{
+		timestamp = Math.max(status.getTimestamp(), timestamp);
+		state = status.getState();
+		stateSource = status.getSource();
+	}
+	
 	public void update(final Lease lease)
 	{
 		ipAddress = lease.getIpAddress();

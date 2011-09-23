@@ -28,7 +28,7 @@ public class Lease
 				final long timeLong = Long.parseLong(time, 16);
 				lease.timestamp = new Date(timeLong / 1000000).getTime();
 				lease.action = Action.valueOf(columns[1].toLowerCase());
-				lease.macAddress = columns[2];
+				lease.macAddress = columns[2].toLowerCase();
 				lease.ipAddress = columns[3];
 				lease.hostName = columns[4];
 				if (lease.hostName.equals("NULL"))
