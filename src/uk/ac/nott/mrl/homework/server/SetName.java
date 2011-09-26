@@ -41,8 +41,8 @@ public class SetName extends HttpServlet
 		Model.getModel().deviceUpdated(oldID, device);
 
 		final Connection connection = ModelController.createRPCConnection();
-		final String query = String.format(	"SQL:INSERT into Leases values (\"upd\", \"%s\", \"%s\", \"%s\")",
-											device.getMacAddress(), device.getIPAddress(), nameString);
+		final String query = String.format("SQL:INSERT into Leases values (\"upd\", \"%s\", \"%s\", \"%s\")", device.getMacAddress(), device.getIPAddress(), nameString);	
+								
 		logger.info(query);
 		final String result = connection.call(query);
 		logger.info(result);

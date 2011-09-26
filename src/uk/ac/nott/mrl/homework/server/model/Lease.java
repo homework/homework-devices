@@ -16,7 +16,7 @@ public class Lease
 		final String[] lines = results.split("\n");
 		if (!lines[0].endsWith("<|>0<|>0<|>"))
 		{
-			System.out.println("Leases	: " + lines[0]);
+			System.out.println("Leases	: " + results);
 		}
 		for (int index = 2; index < lines.length; index++)
 		{
@@ -30,8 +30,12 @@ public class Lease
 				lease.action = Action.valueOf(columns[1].toLowerCase());
 				lease.macAddress = columns[2].toLowerCase();
 				lease.ipAddress = columns[3];
+				if(lease.ipAddress.toLowerCase().equals("null"))
+				{
+					lease.ipAddress = null;
+				}
 				lease.hostName = columns[4];
-				if (lease.hostName.equals("NULL"))
+				if (lease.hostName.toLowerCase().equals("null"))
 				{
 					lease.hostName = null;
 				}
