@@ -15,6 +15,7 @@ import uk.ac.nott.mrl.homework.server.model.Device;
 import uk.ac.nott.mrl.homework.server.model.Item;
 import uk.ac.nott.mrl.homework.server.model.Lease;
 import uk.ac.nott.mrl.homework.server.model.Model;
+import uk.ac.nott.mrl.homework.server.model.NoxStatus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -151,7 +152,7 @@ public class ModelController
 		final String noxResults = connection.call(noxQuery);
 		if (noxResults != null)
 		{
-			Device.parseResultSet(noxResults, Model.getModel());
+			NoxStatus.parseResultSet(noxResults, Model.getModel());
 		}
 	}
 

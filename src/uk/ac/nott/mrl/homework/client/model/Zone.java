@@ -31,13 +31,13 @@ public class Zone
 
 	public String getDeviceStyle(final Item item)
 	{
-		if ("denied".equals(item.getState()))
+		if ("deny".equals(item.getState()) || "blacklist".equals(item.getState()))
 		{
 			return DevicesClient.resources.style().deniedDevice();
 		}
 		else if (item.getIPAddress() != null)
 		{
-			if ("permitted".equals(item.getState()))
+			if ("permit".equals(item.getState()) || "whitelist".equals(item.getState()))
 			{
 				return DevicesClient.resources.style().device();
 			}

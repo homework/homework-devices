@@ -13,7 +13,7 @@ public class ControlInternetZone extends Zone
 	@Override
 	public void add(final DevicesService service, final String macAddress)
 	{
-		service.getModel().update(macAddress, "permitted");
+		service.getModel().update(macAddress, "permit");
 		service.permit(macAddress);
 	}
 

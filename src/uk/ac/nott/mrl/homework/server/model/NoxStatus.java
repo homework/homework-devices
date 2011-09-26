@@ -12,7 +12,7 @@ public class NoxStatus
 		final String[] lines = results.split("\n");
 		if (!lines[0].endsWith("<|>0<|>0<|>"))
 		{
-			System.out.println("Statuses: " + lines[0]);
+			System.out.println("Statuses: " + results);
 		}
 
 		for (int index = 2; index < lines.length; index++)

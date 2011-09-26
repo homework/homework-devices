@@ -118,11 +118,11 @@ public class SimpleModel implements Model
 	@Override
 	public int getZone(final Item item)
 	{
-		if ("denied".equals(item.getState()))
+		if ("deny".equals(item.getState()) || "blacklist".equals(item.getState()))
 		{
 			return 0;
 		}
-		else if ("permitted".equals(item.getState())) { return 1; }
+		else if ("permit".equals(item.getState()) || "whitelist".equals(item.getState())) { return 1; }
 		return 0;
 	}
 

@@ -447,7 +447,7 @@ public class DevicesPanel extends FlowPanel
 
 		final Item item = device.getItem();
 
-		if(item.getStateSource() != null && !item.getStateSource().toLowerCase().equals("user"))
+		if(item.getStateSource() != null && !item.getStateSource().toLowerCase().equals("user") && item.getState() != null)
 		{
 			if(item.getState().toLowerCase().equals("deny") || item.getState().toLowerCase().equals("blacklist"))
 			{
@@ -483,7 +483,7 @@ public class DevicesPanel extends FlowPanel
 
 		if (item.getMacAddress() != null)
 		{
-			if (item.getIPAddress() != null && !"permitted".equals(item.getState()))
+			if (item.getIPAddress() != null && item.getState() == null)
 			{
 				final Label label = new Label(
 						"This machine is requesting permission to use your network. Drag it to the right to allow it or to the left to deny it access.");

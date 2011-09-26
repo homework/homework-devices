@@ -16,28 +16,13 @@ public class SetDeviceStatus extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger(SetDeviceStatus.class.getName());
 
-	private String shortenMacAddress(final String macAddress)
+	private String fixMacAddress(final String macAddress)
 	{
-		String[] pairs = null;
-		if(macAddress.indexOf(':') > -1)
+		if(macAddress.indexOf(':') == -1)
 		{
-			pairs = macAddress.split(":");
+			return macAddress.substring(0,2) + ":" + macAddress.substring(2,4) + ":" + macAddress.substring(4,6) + ":" + macAddress.substring(6,8) + ":" + macAddress.substring(8,10) + ":" + macAddress.substring(10,12); 
 		}
-		else if(macAddress.indexOf('-') > -1)
-		{
-			pairs = macAddress.split("-");
-		}
-		
-		String result = macAddress;
-		if(pairs != null)
-		{
-			result = "";
-			for(String pair: pairs)
-			{
-				result += pair;
-			}
-		}
-		return result;
+		return macAddress;
 	}
 	
 	@Override
@@ -56,7 +41,7 @@ public class SetDeviceStatus extends HttpServlet
 		{
 			final Connection connection = ModelController.createRPCConnection();
 			final String query = String.format(	"SQL:INSERT into NoxCommand values (\"%s\", \"%s\", \"%s\", \"%s\")",
-												UUID.randomUUID().toString(), command, "ETH|" + shortenMacAddress(macAddress), "User");
+												UUID.randomUUID().toString(), command, "ETH|" + fixMacAddress(macAddress), "User");
 			connection.call(query);
 			connection.disconnect();
 

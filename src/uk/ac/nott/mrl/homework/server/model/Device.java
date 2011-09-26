@@ -88,7 +88,11 @@ public class Device
 
 	private String getGroupID()
 	{
-		return state + ":" + getShortCompanyName().toLowerCase();
+		if(state != null)
+		{
+			return state + ":" + getShortCompanyName().toLowerCase();			
+		}
+		return getShortCompanyName().toLowerCase();
 	}
 
 	public String getID()

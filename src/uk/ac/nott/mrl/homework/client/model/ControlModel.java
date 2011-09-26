@@ -14,11 +14,11 @@ public class ControlModel extends SimpleModel
 	@Override
 	public int getZone(final Item item)
 	{
-		if ("permitted".equals(item.getState()))
+		if ("permit".equals(item.getState()) || "whitelist".equals(item.getState()))
 		{
 			return 2;
 		}
-		else if (item.getIPAddress() != null && item.getState().equals("unlisted")) { return 1; }
+		else if (item.getIPAddress() != null && item.getState() == null) { return 1; }
 		return 0;
 	}
 }
