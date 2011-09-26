@@ -52,7 +52,7 @@ public class Device
 
 	private float rssi;
 
-	private State state = State.unlist;
+	private String state;
 	private long timestamp;
 
 	public Device()
@@ -62,7 +62,7 @@ public class Device
 
 	public boolean canBeGrouped()
 	{
-		if (deviceName != null || ipAddress != null || state != State.unlist) { return false; }
+		if (deviceName != null || ipAddress != null || state != null) { return false; }
 		return true;
 	}
 
@@ -71,6 +71,11 @@ public class Device
 		return byteCount;
 	}
 
+	public String getStateSource()
+	{
+		return stateSource;
+	}
+	
 	public String getCompany()
 	{
 		return corporation;
@@ -150,7 +155,7 @@ public class Device
 		return "Unknown";
 	}
 
-	public State getState()
+	public String getState()
 	{
 		return state;
 	}

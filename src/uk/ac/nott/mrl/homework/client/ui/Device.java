@@ -205,4 +205,9 @@ public class Device extends FlowPanel
 		// setLeft(getZone() * model.getZoneWidth() + 25);
 		// }
 	}
+
+	public String getStateSource()
+	{
+		return item.getStateSource();
+	}
 }

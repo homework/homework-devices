@@ -39,6 +39,11 @@ public class Item extends JavaScriptObject
 	protected Item()
 	{
 	}
+	
+	public final native String getStateSource()
+	/*-{
+		return this.stateSource;
+	}-*/;
 
 	public final native String getChange()
 	/*-{

@@ -173,7 +173,7 @@ public class DevicesPanel extends FlowPanel
 					public void onMouseDown(final MouseDownEvent event)
 					{
 						dragDevice.setupDrag(	device.getItem().getMacAddress(), device, device.toString(),
-												event.getClientX(), event.getClientY());
+												event.getClientX(), event.getClientY(), device.getStateSource());
 					}
 				});
 				device.addClickHandler(new ClickHandler()
@@ -208,7 +208,7 @@ public class DevicesPanel extends FlowPanel
 					{
 						final Touch touch = event.getChangedTouches().get(0);
 						dragDevice.setupDrag(	device.getItem().getMacAddress(), device, device.toString(),
-												touch.getClientX(), touch.getClientY());
+												touch.getClientX(), touch.getClientY(), device.getStateSource());
 					}
 				});
 			}
@@ -447,6 +447,18 @@ public class DevicesPanel extends FlowPanel
 
 		final Item item = device.getItem();
 
+		if(item.getStateSource() != null && !item.getStateSource().toLowerCase().equals("user"))
+		{
+			if(item.getState().toLowerCase().equals("deny") || item.getState().toLowerCase().equals("blacklist"))
+			{
+				panel.add(new Label("This Device has been denied by a policy. Check your policies if you want to allow it."));				
+			}
+			else
+			{
+				panel.add(new Label("This Device has been permitted by a policy. Check your policies if you want to deny it."));
+			}
+		}
+			
 		if (item.getCompany() == null || item.getCompany().equals("Unknown"))
 		{
 			panel.add(new Label("Manufacturer: Unknown"));
@@ -526,7 +538,7 @@ public class DevicesPanel extends FlowPanel
 										public void onMouseDown(final MouseDownEvent event)
 										{
 											dragDevice.setupDrag(	label.getText(), label, label.getText(),
-																	event.getClientX(), event.getClientY());
+																	event.getClientX(), event.getClientY(), null);
 										}
 									});
 									label.addTouchStartHandler(new TouchStartHandler()
@@ -536,7 +548,7 @@ public class DevicesPanel extends FlowPanel
 										{
 											final Touch touch = event.getChangedTouches().get(0);
 											dragDevice.setupDrag(	label.getText(), label, label.getText(),
-																	touch.getClientX(), touch.getClientY());
+																	touch.getClientX(), touch.getClientY(), null);
 										}
 									});
 

@@ -52,7 +52,9 @@ public class Item
 	@Expose
 	private String ipAddress;
 	@Expose
-	private State state = State.unlist;
+	private String state;
+	@Expose
+	private String stateSource;
 	@Expose
 	private Change change = null;
 	@Expose
@@ -96,6 +98,11 @@ public class Item
 		return id;
 	}
 
+	public String getStateSource()
+	{
+		return stateSource;
+	}
+	
 	public String getIpAddress()
 	{
 		return ipAddress;
@@ -116,7 +123,7 @@ public class Item
 		return rssi;
 	}
 
-	public State getState()
+	public String getState()
 	{
 		return state;
 	}
@@ -174,6 +181,7 @@ public class Item
 				macAddress = device.getMacAddress();
 				ipAddress = device.getIPAddress();
 				state = device.getState();
+				stateSource = device.getStateSource();
 				rssi = device.getRssi();
 			}
 			else

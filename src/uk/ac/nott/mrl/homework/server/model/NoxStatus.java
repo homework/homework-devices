@@ -25,7 +25,7 @@ public class NoxStatus
 				final long timeLong = Long.parseLong(time, 16);
 				status.timestamp = timeLong / 1000000;
 				status.macAddress = columns[1].toLowerCase();
-				status.state = State.valueOf(State.class, columns[2].toLowerCase());
+				status.state = columns[2].toLowerCase();
 				status.source = columns[3];
 
 				model.add(status);
@@ -38,7 +38,7 @@ public class NoxStatus
 	}
 
 	private String macAddress;
-	private State state = State.unlist;
+	private String state;
 	private String source;
 	private long timestamp;
 
@@ -52,8 +52,7 @@ public class NoxStatus
 		return macAddress;
 	}
 
-
-	public State getState()
+	public String getState()
 	{
 		return state;
 	}

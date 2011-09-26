@@ -118,9 +118,10 @@ public class DragDevice extends Label
 	 * On mouse down
 	 */
 	public void setupDrag(final String macAddress, final Widget widget, final String text, final int clientX,
-			final int clientY)
+			final int clientY, String stateSource)
 	{
 		if (macAddress == null) { return; }
+		if(stateSource != null && !stateSource.toLowerCase().equals("user")) { return; }
 		if (dragState == DragState.waiting)
 		{
 			dragState = DragState.dragInit;
