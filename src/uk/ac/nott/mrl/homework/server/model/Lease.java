@@ -27,14 +27,14 @@ public class Lease
 				final String time = columns[0].substring(1, columns[0].length() - 1);
 				final long timeLong = Long.parseLong(time, 16);
 				lease.timestamp = new Date(timeLong / 1000000).getTime();
-				lease.action = Action.valueOf(columns[1].toLowerCase());
-				lease.macAddress = columns[2].toLowerCase();
-				lease.ipAddress = columns[3];
+				lease.action = Action.valueOf(columns[4].toLowerCase());
+				lease.macAddress = columns[1].toLowerCase();
+				lease.ipAddress = columns[2];
+				lease.hostName = columns[3];
 				if(lease.ipAddress.toLowerCase().equals("null"))
 				{
 					lease.ipAddress = null;
-				}
-				lease.hostName = columns[4];
+				}				
 				if (lease.hostName.toLowerCase().equals("null"))
 				{
 					lease.hostName = null;
