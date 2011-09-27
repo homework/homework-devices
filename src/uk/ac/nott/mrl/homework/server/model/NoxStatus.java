@@ -25,6 +25,10 @@ public class NoxStatus
 				final long timeLong = Long.parseLong(time, 16);
 				status.timestamp = timeLong / 1000000;
 				status.macAddress = columns[1].toLowerCase();
+				if(status.macAddress.startsWith("eth|"))
+				{
+					status.macAddress = status.macAddress.substring(4);
+				}
 				status.state = columns[2].toLowerCase();
 				status.source = columns[3];
 
