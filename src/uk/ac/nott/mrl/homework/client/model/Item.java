@@ -75,10 +75,18 @@ public class Item extends JavaScriptObject
 		return this.name;
 	}-*/;
 
+	public final native float getRssi()
+	/*-{
+		if('rssi' in this)
+		{
+			return this.rssi;
+		}
+		return 0;
+	}-*/;
+	
 	public final float getOpacity()
 	{
-
-		return 1f;
+		return (150 + getRssi()) / 100;
 	}
 
 	public final native String getState()
