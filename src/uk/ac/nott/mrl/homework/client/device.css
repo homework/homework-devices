@@ -99,10 +99,10 @@
 
 .deviceAnim
 {
-	-webkit-transition: top 4s ease;
-	-moz-transition: top 4s ease;
-	-o-transition: top 4s ease;
-	transition: top 4s ease;
+	-webkit-transition: top 4s ease, opacity 1s ease, visibility 1s ease;
+	-moz-transition: top 4s ease, opacity 1s ease, visibility 1s ease;
+	-o-transition: top 4s ease, opacity 1s ease, visibility 1s ease;
+	transition: top 4s ease, opacity 1s ease, visibility 1s ease;
 }
 
 .popup {

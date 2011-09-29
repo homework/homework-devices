@@ -136,6 +136,18 @@ public class DevicesPanel extends FlowPanel
 
 	private Device popupDevice;
 
+	private final Timer removalTimer = new Timer()
+	{
+		@Override
+		public void run()
+		{
+			for(Device device: removed)
+			{
+				device.removeFromParent();
+			}		
+		}
+	};
+	
 	private Object selected;
 
 	private final DevicesService service;
@@ -144,6 +156,7 @@ public class DevicesPanel extends FlowPanel
 
 	private final List<ZonePanel> zones = new ArrayList<ZonePanel>();
 	private final List<ZoneDetail> zoneDetails = new ArrayList<ZoneDetail>();
+	private final List<Device> removed = new ArrayList<Device>();
 
 	public DevicesPanel(final DevicesService service)
 	{
@@ -220,8 +233,10 @@ public class DevicesPanel extends FlowPanel
 				final Device device = deviceMap.get(item.getID());
 				if (device != null)
 				{
-					device.removeFromParent();
 					deviceMap.remove(item.getID());
+					removed.add(device);
+					device.getElement().getStyle().setOpacity(0);
+					device.getElement().getStyle().setVisibility(Visibility.HIDDEN);
 				}
 			}
 
@@ -258,6 +273,10 @@ public class DevicesPanel extends FlowPanel
 			@Override
 			public void itemUpdateFinished()
 			{
+				if(!removed.isEmpty())
+				{
+					removalTimer.schedule(2000);
+				}
 				reflowDevices();
 			}
 		});

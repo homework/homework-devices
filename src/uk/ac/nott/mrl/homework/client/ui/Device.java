@@ -16,6 +16,8 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -66,6 +68,7 @@ public class Device extends FlowPanel
 			@Override
 			public void onKeyDown(final KeyDownEvent event)
 			{
+				clearQuotes();
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
 				{
 					GWT.log("Accept");
@@ -77,12 +80,35 @@ public class Device extends FlowPanel
 				}
 			}
 		});
+		textBoxName.addKeyUpHandler(new KeyUpHandler()
+		{
+			@Override
+			public void onKeyUp(final KeyUpEvent event)
+			{
+				clearQuotes();
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
+				{
+					GWT.log("Accept");
+					acceptEdit();
+				}
+				else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
+				{
+					cancelEdit();
+				}
+			}
+		});
+		
 		textBoxName.setVisible(false);
 
 		setLeft(25);
 		update(item);
 	}
 
+	private void clearQuotes()
+	{
+		textBoxName.setText(textBoxName.getText().replace("\"", ""));
+	}
+	
 	public void acceptEdit()
 	{
 		text.setText(textBoxName.getText());

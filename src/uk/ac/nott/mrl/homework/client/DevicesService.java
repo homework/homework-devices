@@ -16,7 +16,7 @@ public interface DevicesService
 
 	public void getTrayMode(final RequestCallback callback);
 
-	public void getUpdates();
+	public void getUpdates(final RequestCallback callback);
 
 	public void log(final String type, final String details);
 

@@ -49,9 +49,9 @@ public class DevicesServiceImpl implements DevicesService
 	}
 
 	@Override
-	public void getUpdates()
+	public void getUpdates(final RequestCallback callback)
 	{
-		serverRequest(GWT.getModuleBaseURL() + "changes?since=" + model.getLastUpdated());
+		serverRequest(GWT.getModuleBaseURL() + "changes?since=" + model.getLastUpdated(), callback);
 	}
 
 	@Override
@@ -83,6 +83,7 @@ public class DevicesServiceImpl implements DevicesService
 		final RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
 		try
 		{
+			builder.setTimeoutMillis(15000);
 			builder.sendRequest(null, callback);
 		}
 		catch (final Exception e)
