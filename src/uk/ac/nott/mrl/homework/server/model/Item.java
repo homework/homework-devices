@@ -158,17 +158,12 @@ public class Item
 
 	public void setOld(final long timestamp)
 	{
-		System.out.println("Set Old " + getID());
 		change = Change.old;
 		this.timestamp = timestamp;
 	}
 	
 	private void update(final long timestamp)
 	{
-		if(change == Change.old)
-		{
-			System.out.println("Update");
-		}
 		synchronized (devices)
 		{
 			final int count = devices.size();
