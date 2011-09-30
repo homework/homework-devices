@@ -117,4 +117,17 @@ public class DevicesServiceImpl implements DevicesService
 		serverRequest(GWT.getModuleBaseURL() + "setZone?macAddress=" + macAddress + "&zone=" + zone + "&since"
 				+ model.getLastUpdated());
 	}
+
+	@Override
+	public void getMetadata(RequestCallback callback)
+	{
+		serverRequest(GWT.getHostPageBaseURL() + "metadata.json", callback);
+	}
+
+	@Override
+	public void setState(String macAddress, String state, String name,
+			String owner, String type)
+	{
+		serverRequest(GWT.getModuleBaseURL() + "status?command=" + state + "&macAddress=" + macAddress + "&name=" + name + "&owner=" + owner + "&type=" + type + "&since=" + model.getLastUpdated());
+	}
 }

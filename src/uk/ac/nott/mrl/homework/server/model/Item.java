@@ -9,7 +9,7 @@ public class Item
 {
 	public enum Change
 	{
-		added, updated, removed
+		old, removed
 	}
 
 	public static final String getShortCompanyName(final Device device)
@@ -61,6 +61,11 @@ public class Item
 	private long timestamp;
 	@Expose
 	private Float rssi = null;
+	@Expose
+	private String owner;
+	@Expose
+	private String type;
+	
 	private Map<String, Device> devices = new HashMap<String, Device>();
 
 	public Item(final Device device)
@@ -151,8 +156,19 @@ public class Item
 		update(device.getTimestamp());
 	}
 
+	public void setOld(final long timestamp)
+	{
+		System.out.println("Set Old " + getID());
+		change = Change.old;
+		this.timestamp = timestamp;
+	}
+	
 	private void update(final long timestamp)
 	{
+		if(change == Change.old)
+		{
+			System.out.println("Update");
+		}
 		synchronized (devices)
 		{
 			final int count = devices.size();
@@ -164,6 +180,8 @@ public class Item
 				macAddress = null;
 				ipAddress = null;
 				rssi = null;
+				type = null;
+				owner = null;
 			}
 			else if (count == 1)
 			{
@@ -183,6 +201,8 @@ public class Item
 				state = device.getState();
 				stateSource = device.getStateSource();
 				rssi = device.getRssi();
+				owner = device.getOwner();
+				type = device.getType();
 			}
 			else
 			{
@@ -193,6 +213,8 @@ public class Item
 				macAddress = null;
 				ipAddress = null;
 				rssi = null;
+				type = null;
+				owner = null;
 			}
 		}
 		this.timestamp = Math.max(this.timestamp, timestamp);

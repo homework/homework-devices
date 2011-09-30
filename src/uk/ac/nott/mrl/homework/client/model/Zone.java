@@ -19,7 +19,7 @@ public class Zone
 		this.index = index;
 	}
 
-	public void add(final DevicesService service, final String macAdress)
+	public void add(final DevicesService service, final Item item)
 	{
 
 	}

@@ -197,7 +197,14 @@ public class Device extends FlowPanel
 			text.setText(item.getName());
 		}
 
-		getElement().getStyle().setOpacity(item.getOpacity());
+		if("old".equals(item.getChange()))
+		{
+			getElement().getStyle().setOpacity(0.2);
+		}
+		else
+		{
+			getElement().getStyle().setOpacity(item.getOpacity());
+		}
 
 		this.item = item;
 
@@ -206,30 +213,6 @@ public class Device extends FlowPanel
 		{
 			setStyleName(zone.getZone().getDeviceStyle(item));
 		}
-
-		// updateStyle(oldItem);
-
-		// Font size by bandwidth
-		// if (DefaultModel.zoneManager.changeSize(link))
-		// {
-		// getElement().getStyle().setFontSize((30 * link.getByteCount() / bandWidthMax) + 5,
-		// Unit.PX);
-		// // GWT.log("Bandwidth: " + (100 * link.getByteCount() / bandWidthMax) + "% - " +
-		// // link.getByteCount() + "/" + bandWidthMax);
-		//
-		// // Font size by Signal Strength:
-		// // fontSize.setValue((int) (50 + (link.getRssi() / 2)));
-		//
-		// }
-		// else
-		// {
-		// getElement().getStyle().setFontSize(15, Unit.PX);
-		// }
-
-		// if (getZone() != oldZone)
-		// {
-		// setLeft(getZone() * model.getZoneWidth() + 25);
-		// }
 	}
 
 	public String getStateSource()

@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:FlowPanel>
+		<g:Label>Device Name:</g:Label>
+		<g:TextBox ui:field="nameBox"></g:TextBox>
+		<g:Label>Device Type:</g:Label>
+		<g:ListBox ui:field="typeList"></g:ListBox>
+		<g:Label>Owner:</g:Label>
+		<g:ListBox ui:field="ownerList"></g:ListBox>
+		<g:Button ui:field="cancelButton">Cancel</g:Button>
+		<g:Button ui:field="acceptButton">Accept</g:Button>
+	</g:FlowPanel>
+</ui:UiBinder> 

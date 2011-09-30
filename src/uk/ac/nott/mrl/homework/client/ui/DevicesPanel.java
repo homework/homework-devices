@@ -185,7 +185,7 @@ public class DevicesPanel extends FlowPanel
 					@Override
 					public void onMouseDown(final MouseDownEvent event)
 					{
-						dragDevice.setupDrag(	device.getItem().getMacAddress(), device, device.toString(),
+						dragDevice.setupDrag(	device.getItem(), device, device.toString(),
 												event.getClientX(), event.getClientY(), device.getStateSource());
 					}
 				});
@@ -210,7 +210,10 @@ public class DevicesPanel extends FlowPanel
 					public void onDoubleClick(final DoubleClickEvent event)
 					{
 						popup.hide();
-						device.edit(service);
+						if(device.getItem().getIPAddress() != null)
+						{
+							device.edit(service);
+						}
 						event.preventDefault();
 					}
 				});
@@ -220,7 +223,7 @@ public class DevicesPanel extends FlowPanel
 					public void onTouchStart(final TouchStartEvent event)
 					{
 						final Touch touch = event.getChangedTouches().get(0);
-						dragDevice.setupDrag(	device.getItem().getMacAddress(), device, device.toString(),
+						dragDevice.setupDrag(	device.getItem(), device, device.toString(),
 												touch.getClientX(), touch.getClientY(), device.getStateSource());
 					}
 				});
@@ -551,25 +554,25 @@ public class DevicesPanel extends FlowPanel
 									final String macAddress = item.stringValue();
 									final Label label = new Label(macAddress);
 									label.setStyleName(DevicesClient.resources.style().listDevice());
-									label.addMouseDownHandler(new MouseDownHandler()
-									{
-										@Override
-										public void onMouseDown(final MouseDownEvent event)
-										{
-											dragDevice.setupDrag(	label.getText(), label, label.getText(),
-																	event.getClientX(), event.getClientY(), null);
-										}
-									});
-									label.addTouchStartHandler(new TouchStartHandler()
-									{
-										@Override
-										public void onTouchStart(final TouchStartEvent event)
-										{
-											final Touch touch = event.getChangedTouches().get(0);
-											dragDevice.setupDrag(	label.getText(), label, label.getText(),
-																	touch.getClientX(), touch.getClientY(), null);
-										}
-									});
+//									label.addMouseDownHandler(new MouseDownHandler()
+//									{
+//										@Override
+//										public void onMouseDown(final MouseDownEvent event)
+//										{
+//											dragDevice.setupDrag(	label.getText(), label, label.getText(),
+//																	event.getClientX(), event.getClientY(), null);
+//										}
+//									});
+//									label.addTouchStartHandler(new TouchStartHandler()
+//									{
+//										@Override
+//										public void onTouchStart(final TouchStartEvent event)
+//										{
+//											final Touch touch = event.getChangedTouches().get(0);
+//											dragDevice.setupDrag(	label.getText(), label, label.getText(),
+//																	touch.getClientX(), touch.getClientY(), null);
+//										}
+//									});
 
 									panel.add(label);
 								}

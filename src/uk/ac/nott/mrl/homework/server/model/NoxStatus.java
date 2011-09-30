@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public class NoxStatus
 {
-	private static final Logger logger = Logger.getLogger(Device.class.getName());
+	private static final Logger logger = Logger.getLogger(NoxStatus.class.getName());
 
 	public static void parseResultSet(final String results, final Model model)
 	{

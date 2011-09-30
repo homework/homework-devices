@@ -31,17 +31,21 @@ public class SetName extends HttpServlet
 
 		System.out.println("Set Name :" + macAddress + " - " + nameString);
 
-		final Device device = Model.getModel().getDevice(macAddress);
-		final String oldID = device.getID();
-		if (device != null)
+		final Device device = Model.getModel().getDeviceByMac(macAddress);
+		if(device.getIPAddress() == null)
 		{
-			//device.setDeviceName(nameString, new Date().getTime());
+			return;
 		}
+//		final String oldID = device.getID();
+//		if (device != null)
+//		{
+//			device.setDeviceName(nameString, new Date().getTime());
+//		}
 
-		Model.getModel().deviceUpdated(oldID, device);
+//		Model.getModel().deviceUpdated(oldID, device);
 
 		final Connection connection = ModelController.createRPCConnection();
-		final String query = String.format("SQL:INSERT into Leases values (\"%s\", \"%s\", \"%s\", \"ADD\") on duplicate key update", device.getMacAddress(), device.getIPAddress(), nameString);	
+		final String query = String.format("SQL:INSERT into DeviceNames values (\"%s\", \"%s\") on duplicate key update", device.getIPAddress(), nameString);	
 								
 		logger.info(query);
 		final String result = connection.call(query);

@@ -11,15 +11,13 @@ public class Model
 	private static final Model model = new Model();
 	// private static final Logger logger = Logger.getLogger(Model.class.getName());
 
-	private final Map<String, Lease> leases = new HashMap<String, Lease>();
-	private final Map<String, NoxStatus> statuses = new HashMap<String, NoxStatus>();	
 	private final Map<String, Device> devices = new HashMap<String, Device>();
 	private final Map<String, Item> items = new HashMap<String, Item>();
 
 	private long mostRecentNoxStatus = 0;
-	private long mostRecentDevice = 0;
+	private long mostRecentLink = 0;
 	private long mostRecentLease = 0;
-
+	
 	// private static final int inactive = 5000;
 	private static final int timeout = 20000;
 
@@ -33,87 +31,56 @@ public class Model
 		return timeout;
 	}
 
-	public void add(final Device device)
+	public void add(final Link link)
 	{
-		device.initCorporation();
-		mostRecentDevice = Math.max(device.getTimestamp(), mostRecentDevice);
-		final Lease lease = leases.get(device.getMacAddress());
-		if (lease != null)
+		mostRecentLink = Math.max(link.getTimestamp(), mostRecentLink);
+		Device device = getDeviceByMac(link.getMacAddress());
+		String oldID = device.getID();
+		device.update(link);
+		deviceUpdated(oldID, device);
+	}
+	
+	public Device getDeviceByIP(String ipAddress)
+	{
+		for(Device device: devices.values())
 		{
-			device.update(lease);
-		}
-		
-		final NoxStatus status = statuses.get(device.getMacAddress());
-		if(status != null)
-		{
-			device.update(status);
-		}
-
-		final Device existingDevice = devices.get(device.getMacAddress());
-		if (existingDevice != null)
-		{
-			final String oldID = existingDevice.getID();
-			existingDevice.update(device);
-			deviceUpdated(oldID, existingDevice);
-		}
-		else
-		{
-			final String id = device.getID();
-			Item item = items.get(id);
-			if (item == null)
+			if(ipAddress.equals(device.getIPAddress()))
 			{
-				item = new Item(device);
-				items.put(id, item);
-			}
-			else
-			{
-				item.add(device);
-			}
-			synchronized (devices)
-			{
-				devices.put(device.getMacAddress(), device);
+				return device;
 			}
 		}
+		return null;		
+	}
+	
+	public Device getDeviceByMac(String macAddress)
+	{
+		Device device = devices.get(macAddress);
+		if(device == null)
+		{
+			Device newDevice = new Device(macAddress);
+			newDevice.initCorporation();
+			devices.put(macAddress, newDevice);
+			return newDevice;
+		}
+		return device;
 	}
 	
 	public void add(final NoxStatus status)
 	{
 		mostRecentNoxStatus = Math.max(status.getTimestamp(), mostRecentNoxStatus);
-		final Device device = devices.get(status.getMacAddress());
-		statuses.put(status.getMacAddress(), status);
-		if (device != null)
-		{
-			final String oldID = device.getID();
-			device.update(status);
-			deviceUpdated(oldID, device);
-		}		
+		final Device device = getDeviceByMac(status.getMacAddress());
+		final String oldID = device.getID();
+		device.update(status);
+		deviceUpdated(oldID, device);
 	}
 
 	public void add(final Lease lease)
 	{
 		mostRecentLease = Math.max(lease.getTimestamp(), mostRecentLease);
-		final Device device = devices.get(lease.getMacAddress());
-		final Lease oldLease = leases.get(lease.getMacAddress());
-		if (oldLease != null)
-		{
-			oldLease.update(lease);
-			if (device != null)
-			{
-				final String oldID = device.getID();
-				device.update(oldLease);
-				deviceUpdated(oldID, device);
-			}
-		}
-		else
-		{
-			leases.put(lease.getMacAddress(), lease);
-			if (device != null)
-			{
-				final String oldID = device.getID();
-				device.update(lease);
-				deviceUpdated(oldID, device);
-			}
-		}
+		final Device device = getDeviceByMac(lease.getMacAddress());
+		final String oldID = device.getID();
+		device.update(lease);
+		deviceUpdated(oldID, device);
 	}
 
 	public void clearOld()
@@ -127,7 +94,18 @@ public class Model
 			{
 				if (timeout > device.getTimestamp())
 				{
-					removals.add(device);
+					if(device.canRemove())
+					{
+						removals.add(device);
+					}
+					else
+					{
+						Item item = items.get(device.getID());
+						if(item != null)
+						{
+							item.setOld(timestamp);
+						}
+					}
 				}
 			}
 		}
@@ -147,12 +125,20 @@ public class Model
 			{
 				item.update(device);
 			}
+			else
+			{
+				final Item newItem = new Item(device);
+				items.put(device.getID(), newItem);
+			}
 		}
 		else
 		{
 			final Item oldItem = items.get(oldID);
 			final Item newItem = items.get(device.getID());
-			oldItem.remove(device, device.getTimestamp());
+			if(oldItem != null)
+			{
+				oldItem.remove(device, device.getTimestamp());
+			}
 			if (newItem == null)
 			{
 				final Item item = new Item(device);
@@ -163,11 +149,6 @@ public class Model
 				newItem.add(device);
 			}
 		}
-	}
-
-	public Device getDevice(final String macAddress)
-	{
-		return devices.get(macAddress);
 	}
 
 	public int getDeviceCount()
@@ -190,9 +171,9 @@ public class Model
 		return items.values();
 	}
 
-	public long getMostRecentDevice()
+	public long getMostRecentLink()
 	{
-		return Math.max(mostRecentDevice, new Date().getTime() - timeout) + 1;
+		return Math.max(mostRecentLink, new Date().getTime() - timeout) + 1;
 	}
 
 	public long getMostRecentNoxStatus()
@@ -220,15 +201,4 @@ public class Model
 	{
 		items.get(item.getID());
 	}
-
-//	public void setState(final String macAddress, final State state, final long timestamp)
-//	{
-//		final Device device = devices.get(macAddress);
-//		if (device != null)
-//		{
-//			final String oldID = device.getID();
-//			device.setState(state, timestamp);
-//			deviceUpdated(oldID, device);
-//		}
-//	}
 }

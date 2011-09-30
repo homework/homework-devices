@@ -14,8 +14,10 @@ import org.hwdb.srpc.SRPC;
 import uk.ac.nott.mrl.homework.server.model.Device;
 import uk.ac.nott.mrl.homework.server.model.Item;
 import uk.ac.nott.mrl.homework.server.model.Lease;
+import uk.ac.nott.mrl.homework.server.model.Link;
 import uk.ac.nott.mrl.homework.server.model.Model;
 import uk.ac.nott.mrl.homework.server.model.NoxStatus;
+import uk.ac.nott.mrl.homework.server.model.Item.Change;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,7 +31,7 @@ public class ModelController
 	private static SRPC srpc;
 
 	private final static Logger logger = Logger.getLogger(ModelController.class.getName());
-
+	
 	public static Connection createRPCConnection() throws IOException
 	{
 		if (srpc == null)
@@ -69,13 +71,13 @@ public class ModelController
 			for (final Item item : model.getItems())
 			{
 				final long timestamp = item.getTimestamp();
-				if (timestamp < timeout)
+				if (timestamp < timeout && item.getChange() != Change.old)
 				{
 					removals.add(item);
 					continue;
 				}
 
-				if (timestamp > since)
+				if (timestamp > since || item.getChange() == Change.old)
 				{
 					result.add(item);
 				}
@@ -113,15 +115,111 @@ public class ModelController
 
 	private static void updateLinks(final Connection connection) throws Exception
 	{
-		final String s = String.format("@%016x@", Model.getModel().getMostRecentDevice() * 1000000);
+		final String s = String.format("@%016x@", Model.getModel().getMostRecentLink() * 1000000);
 		final String linkQuery = String.format("SQL:select * from Links [ since %s ]", s);
 		final String linkResults = connection.call(linkQuery);
 		if (linkResults != null)
 		{
-			Device.parseResultSet(linkResults, Model.getModel());
+			Link.parseResultSet(linkResults, Model.getModel());
 		}
 	}
 
+	public static void updateUsers(final Connection connection) throws Exception
+	{
+		final String userResults = connection.call("SQL:select * from Users");
+		if (userResults != null)
+		{
+			final String[] lines = userResults.split("\n");
+
+			for (int index = 2; index < lines.length; index++)
+			{
+				try
+				{
+					final String[] columns = lines[index].split("<\\|>");
+					final String time = columns[0].substring(1, columns[0].length() - 1);
+					final long timeLong = Long.parseLong(time, 16);
+					long timestamp = timeLong / 1000000;
+					String ipAddress = columns[1].toLowerCase();
+					String name = columns[2];
+
+					Device device = Model.getModel().getDeviceByIP(ipAddress);
+					if(device != null)
+					{
+						device.updateOwner(timestamp, name);
+					}
+				}
+				catch (final Exception e)
+				{
+					logger.log(Level.SEVERE, e.getMessage(), e);
+				}
+			}
+		}		
+	}
+	
+	public static void updateTypes(final Connection connection) throws Exception
+	{
+		final String userResults = connection.call("SQL:select * from DeviceTypes");
+		if (userResults != null)
+		{
+			final String[] lines = userResults.split("\n");
+
+			for (int index = 2; index < lines.length; index++)
+			{
+				try
+				{
+					final String[] columns = lines[index].split("<\\|>");
+					final String time = columns[0].substring(1, columns[0].length() - 1);
+					final long timeLong = Long.parseLong(time, 16);
+					long timestamp = timeLong / 1000000;
+					String ipAddress = columns[1].toLowerCase();
+					String name = columns[2];
+
+					Device device = Model.getModel().getDeviceByIP(ipAddress);
+					if(device != null)
+					{
+						device.updateType(timestamp, name);
+					}
+				}
+				catch (final Exception e)
+				{
+					logger.log(Level.SEVERE, e.getMessage(), e);
+				}
+			}
+		}		
+	}
+	
+	public static void updateNames(final Connection connection) throws Exception
+	{
+		final String userResults = connection.call("SQL:select * from DeviceNames");
+		if (userResults != null)
+		{
+			final String[] lines = userResults.split("\n");
+
+			for (int index = 2; index < lines.length; index++)
+			{
+				try
+				{
+					final String[] columns = lines[index].split("<\\|>");
+					final String time = columns[0].substring(1, columns[0].length() - 1);
+					final long timeLong = Long.parseLong(time, 16);
+					long timestamp = timeLong / 1000000;
+					String ipAddress = columns[1].toLowerCase();
+					String name = columns[2];
+
+					Device device = Model.getModel().getDeviceByIP(ipAddress);
+					if(device != null)
+					{
+						device.updateName(timestamp, name);
+					}
+				}
+				catch (final Exception e)
+				{
+					logger.log(Level.SEVERE, e.getMessage(), e);
+				}
+			}
+		}		
+	}
+	
 	public static void updateModel() throws IOException
 	{
 		final Connection connection = createRPCConnection();
@@ -132,6 +230,10 @@ public class ModelController
 			updateLinks(connection);
 
 			updatePermitted(connection);
+			
+			//updateTypes(connection);
+			//updateUsers(connection);
+			updateNames(connection);
 
 			Model.getModel().clearOld();
 		}
@@ -155,18 +257,4 @@ public class ModelController
 			NoxStatus.parseResultSet(noxResults, Model.getModel());
 		}
 	}
-
-//	public static void updatePermitted(final InputStream is, final long timestamp)
-//	{
-//		final Gson gson = new Gson();
-//		final Permitted permitted = gson.fromJson(new InputStreamReader(is), Permitted.class);
-//		for (final String macAddress : permitted.permitted())
-//		{
-//			Model.getModel().setState(macAddress, State.permitted, timestamp);
-//		}
-//		for (final String macAddress : permitted.denied())
-//		{
-//			Model.getModel().setState(macAddress, State.denied, timestamp);
-//		}
-//	}
 }

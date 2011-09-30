@@ -11,10 +11,10 @@ public class ControlDeniedZone extends Zone
 	}
 
 	@Override
-	public void add(final DevicesService service, final String macAddress)
+	public void add(final DevicesService service, final Item item)
 	{
-		service.getModel().update(macAddress, "deny");
-		service.deny(macAddress);
+		service.getModel().update(item.getMacAddress(), "deny");
+		service.deny(item.getMacAddress());
 	}
 
 	@Override
