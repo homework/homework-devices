@@ -39,7 +39,7 @@ public abstract class DeviceMetadataDialog extends Composite
 	public DeviceMetadataDialog(Item item, DevicesService service)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
-		nameBox.setName(item.getName());
+		nameBox.setText(item.getName());
 		typeList.setVisibleItemCount(1);
 		ownerList.setVisibleItemCount(1);
 		setMetadata(metadata);
