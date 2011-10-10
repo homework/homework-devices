@@ -123,7 +123,7 @@ public class DragDevice extends Label
 	{
 		if (item == null) { return; }
 		if(item.getIPAddress() == null) { return; }
-		if(stateSource != null && !stateSource.toLowerCase().equals("user")) { return; }
+		if(stateSource != null && stateSource.toLowerCase().equals("policy")) { return; }
 		if (dragState == DragState.waiting)
 		{
 			dragState = DragState.dragInit;
