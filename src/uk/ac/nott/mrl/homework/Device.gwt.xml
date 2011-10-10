@@ -2,32 +2,13 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.2.0//EN" "http://google-web-toolkit.googlecode.com/svn/tags/2.2.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to='device'>
 	<inherits name='com.google.gwt.user.User' />
-	<inherits name='com.google.gwt.user.theme.standard.Standard' />
 	<inherits name='com.google.gwt.json.JSON' />
 	<inherits name='com.google.gwt.http.HTTP' />
 
 	<entry-point class='uk.ac.nott.mrl.homework.client.DevicesClient' />
 
-	<define-property name="model" values="simple,control" />
-
-	<property-provider name="model">
-		<![CDATA[
-        	var model = __gwt_getMetaProperty("model");
-        	if(model == null)
-        	{
-        		return "simple";
-        	}
-        	return model;
-		]]>
-	</property-provider>
-	
-	<replace-with class="uk.ac.nott.mrl.homework.client.model.SimpleModel">
-		<when-type-is class="uk.ac.nott.mrl.homework.client.model.Model"/>
-	</replace-with>
-
 	<replace-with class="uk.ac.nott.mrl.homework.client.model.ControlModel">
 		<when-type-is class="uk.ac.nott.mrl.homework.client.model.Model"/>
-		<when-property-is name="model" value="control"/>
 	</replace-with>
 
 	<source path='client' />	
