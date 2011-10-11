@@ -98,6 +98,36 @@ public class SimpleModel implements Model
 					final int zone2 = getZone(o2.getItem());
 					if (zone1 != zone2 && (zone1 == 0 || zone2 == 0)) { return zone2 - zone1; }
 
+					// Old after not old					
+					final boolean old1 = "old".equals(o1.getItem().getChange());
+					final boolean old2 = "old".equals(o2.getItem().getChange());
+					if(old1 != old2)
+					{
+						if(old1)
+						{
+							return 1;
+						}
+						else
+						{
+							return -1;
+						}
+					}
+					
+					// Denied before stateless
+					final boolean denied1 = "deny".equals(o1.getItem().getState());
+					final boolean denied2 = "deny".equals(o2.getItem().getState());		
+					if(denied1 != denied2)
+					{
+						if(denied1)
+						{
+							return -1;
+						}
+						else
+						{
+							return 1;
+						}
+					}					
+				
 					return o1.getItem().getID().compareTo(o2.getItem().getID());
 				}
 				catch (final Exception e)

@@ -1,1 +1,1 @@
-{ types : ["Laptop","Desktop","Mobile","Tablet","Other"], owners: ["Dad", "Bob", "Eric"]}
+{ owners: {"Dad": "man1bundle", "Bob": "man2bundle", "Alice": "girlbundle", "Everyone": "everyonebundle"}, types : ["Laptop","Desktop","Phone","Tablet","Other"]}

@@ -17,5 +17,5 @@ public class Metadata extends JavaScriptObject
 	
 	public final native JsArrayString getTypes() /*-{ return this.types; }-*/;
 
-	public final native JsArrayString getOwners() /*-{ return this.owners; }-*/;	
+	public final native JavaScriptStringMap getOwners() /*-{ return this.owners; }-*/;	
 }

@@ -108,9 +108,9 @@ public abstract class DeviceMetadataDialog extends Composite
 				typeList.addItem(metadata.getTypes().get(index));
 			}
 			ownerList.clear();
-			for(int index = 0; index < metadata.getOwners().length(); index++)
+			for(int index = 0; index < metadata.getOwners().getKeys().length(); index++)
 			{
-				ownerList.addItem(metadata.getOwners().get(index));
+				ownerList.addItem(metadata.getOwners().getKeys().get(index));
 			}	
 		}
 	}

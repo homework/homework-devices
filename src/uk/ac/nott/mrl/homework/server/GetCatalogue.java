@@ -1,5 +1,7 @@
 package uk.ac.nott.mrl.homework.server;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hwdb.srpc.Connection;
 
 import uk.ac.nott.mrl.homework.server.model.Catalogue;
+import uk.ac.nott.mrl.homework.server.model.Metadata;
 import uk.ac.nott.mrl.homework.server.model.ResultSet;
 
 import com.google.gson.Gson;
@@ -61,6 +64,21 @@ public class GetCatalogue extends HttpServlet
 		final GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
 		final Gson gson = builder.create();
+		
+		try
+		{
+			final File file = new File(getServletContext().getRealPath("metadata.json"));
+			final Metadata metadata = gson.fromJson(new FileReader(file), Metadata.class);
+			for(String key: metadata.getOwners().keySet())
+			{
+				catalogue.addBundle(key, metadata.getOwners().get(key));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}		
+		
 		final String resultString = gson.toJson(catalogue);
 		response.setContentType("application/json");		
 		response.getWriter().println(resultString);

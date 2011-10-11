@@ -266,10 +266,10 @@ public class DevicesPanel extends FlowPanel
 						newZone.add(device);
 					}
 					device.update(item);
-					if (device == popupDevice)
-					{
-						setPopup(device);
-					}
+					//if (device == popupDevice)
+					//{
+					//		setPopup(device);
+					//}
 				}
 			}
 

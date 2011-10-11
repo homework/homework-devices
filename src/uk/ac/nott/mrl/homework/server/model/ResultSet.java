@@ -12,18 +12,20 @@ public class ResultSet implements Iterable<String[]>
 		public ResultSetIterator(final String[] lines)
 		{
 			this.lines = lines;
+			System.out.println(lines.length);
 		}
 
 		@Override
 		public boolean hasNext()
 		{
-			return index < lines.length;
+			return (index + 1) < lines.length;
 		}
 
 		@Override
 		public String[] next()
 		{
 			index++;
+			System.out.println(index);			
 			return lines[index].split("<\\|>");			
 		}
 

@@ -2,18 +2,29 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-		.important {
-			font-weight: bold;
+		.buttonPanel {
+			background-color: #79B;
+			padding: 5px;
+		}
+		
+		.popupPanel {
+			border: 3px solid #579;
+			border-radius: 0.4em;
+			-webkit-border-radius: 0.4em;
+			-moz-border-radius: 0.4em;	
+			padding: 5px;
 		}
 	</ui:style>
-	<g:FlowPanel>
+	<g:FlowPanel styleName="popupPanel">
 		<g:Label>Device Name:</g:Label>
 		<g:TextBox ui:field="nameBox"></g:TextBox>
 		<g:Label>Device Type:</g:Label>
 		<g:ListBox ui:field="typeList"></g:ListBox>
 		<g:Label>Owner:</g:Label>
 		<g:ListBox ui:field="ownerList"></g:ListBox>
-		<g:Button ui:field="cancelButton">Cancel</g:Button>
-		<g:Button ui:field="acceptButton">Accept</g:Button>
+		<g:FlowPanel styleName="{style.buttonPanel}">
+			<g:Button ui:field="cancelButton">Cancel</g:Button>
+			<g:Button ui:field="acceptButton">Accept</g:Button>
+		</g:FlowPanel>		
 	</g:FlowPanel>
 </ui:UiBinder> 
