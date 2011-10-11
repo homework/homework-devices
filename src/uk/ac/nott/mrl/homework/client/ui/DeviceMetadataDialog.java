@@ -2,14 +2,15 @@ package uk.ac.nott.mrl.homework.client.ui;
 
 import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Item;
-import uk.ac.nott.mrl.homework.client.model.Metadata;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public abstract class DeviceMetadataDialog extends Composite
 {
-	private static Metadata metadata = null;
+	private static JSONObject metadata = null;
 	
 	private static DeviceMetadataDialogUiBinder uiBinder = GWT
 			.create(DeviceMetadataDialogUiBinder.class);
@@ -51,7 +52,8 @@ public abstract class DeviceMetadataDialog extends Composite
 			{
 				try
 				{
-					setMetadata(Metadata.parse(response.getText()));
+					GWT.log(response.getText());
+					setMetadata(JSONParser.parseStrict(response.getText()).isObject());
 				} 
 				catch(Exception e)
 				{
@@ -98,18 +100,19 @@ public abstract class DeviceMetadataDialog extends Composite
 		return typeList.getItemText(typeList.getSelectedIndex());
 	}
 	
-	private void setMetadata(Metadata newMetadata)
+	private void setMetadata(JSONObject newMetadata)
 	{
 		metadata = newMetadata;
 		if(metadata != null)
 		{
 			typeList.clear();
-			for(int index = 0; index < metadata.getTypes().length(); index++)
+			JSONArray types = newMetadata.get("types").isArray();
+			for(int index = 0; index < types.size(); index++)
 			{
-				typeList.addItem(metadata.getTypes().get(index));
+				typeList.addItem(types.get(index).isString().stringValue());
 			}
 			ownerList.clear();
-			JSONObject owners = new JSONObject(metadata.getOwners());
+			JSONObject owners = metadata.get("owners").isObject();
 			for(String key: owners.keySet())
 			{
 				ownerList.addItem(key);

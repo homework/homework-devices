@@ -19,13 +19,13 @@
 		}
 	</ui:style>
 	<g:FlowPanel styleName="{style.popupPanel}">
-		<g:FlowPanel>
-		<g:Label>Device Name:</g:Label>
-		<g:TextBox ui:field="nameBox"></g:TextBox>
-		<g:Label>Device Type:</g:Label>
-		<g:ListBox ui:field="typeList"></g:ListBox>
-		<g:Label>Owner:</g:Label>
-		<g:ListBox ui:field="ownerList"></g:ListBox>
+		<g:FlowPanel styleName="{style.contentPanel}">
+			<g:Label>Device Name:</g:Label>
+			<g:TextBox ui:field="nameBox"></g:TextBox>
+			<g:Label>Device Type:</g:Label>
+			<g:ListBox ui:field="typeList"></g:ListBox>
+			<g:Label>Owner:</g:Label>
+			<g:ListBox ui:field="ownerList"></g:ListBox>
 		</g:FlowPanel>		
 		<g:FlowPanel styleName="{style.buttonPanel}">
 			<g:Button ui:field="cancelButton">Cancel</g:Button>
