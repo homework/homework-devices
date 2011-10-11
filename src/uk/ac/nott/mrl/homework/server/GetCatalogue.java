@@ -40,6 +40,7 @@ public class GetCatalogue extends HttpServlet
 				catalogue.addSubject(columns[2], columns[1]);
 			}
 		}
+		catalogue.addSubject("any", "*");
 
 		final String nameResults = connection.call("SQL:select * from DeviceNames");
 		if (nameResults != null)
