@@ -15,7 +15,7 @@
 			padding: 5px;
 		}
 	</ui:style>
-	<g:FlowPanel styleName="popupPanel">
+	<g:FlowPanel styleName="{style.popupPanel}">
 		<g:Label>Device Name:</g:Label>
 		<g:TextBox ui:field="nameBox"></g:TextBox>
 		<g:Label>Device Type:</g:Label>
