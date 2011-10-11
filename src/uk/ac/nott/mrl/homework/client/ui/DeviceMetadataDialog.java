@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -108,7 +109,8 @@ public abstract class DeviceMetadataDialog extends Composite
 				typeList.addItem(metadata.getTypes().get(index));
 			}
 			ownerList.clear();
-			for(String key: metadata.getOwners().keySet())
+			JSONObject owners = new JSONObject(metadata.getOwners());
+			for(String key: owners.keySet())
 			{
 				ownerList.addItem(key);
 			}
