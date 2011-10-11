@@ -72,6 +72,7 @@
 	</target>
 	
 	<target name="install" depends="war" description="Copies the war filoe to a local tomcat directory">
+		<delete dir="${install.dir}/control" />
 		<copy file="${warfile.dir}/control.war" todir="${install.dir}"/>
 	</target>
 </project>
