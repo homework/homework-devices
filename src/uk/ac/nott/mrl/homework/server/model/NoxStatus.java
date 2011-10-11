@@ -9,17 +9,15 @@ public class NoxStatus
 
 	public static void parseResultSet(final String results, final Model model)
 	{
-		final String[] lines = results.split("\n");
-		if (!lines[0].endsWith("<|>0<|>0<|>"))
+		final ResultSet result = new ResultSet(results);
+		if(result.getSize() != 0)
 		{
-			System.out.println("Statuses: " + results);
+			System.out.println("New statuses: " + result.getSize());
 		}
-
-		for (int index = 2; index < lines.length; index++)
-		{
+		for(String[] columns: result)
+		{			
 			try
 			{
-				final String[] columns = lines[index].split("<\\|>");
 				final NoxStatus status = new NoxStatus();
 				final String time = columns[0].substring(1, columns[0].length() - 1);
 				final long timeLong = Long.parseLong(time, 16);

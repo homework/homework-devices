@@ -10,6 +10,11 @@
 	</servlet>	
 
 	<servlet>
+		<servlet-name>getCatalogue</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.GetCatalogue</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>setDeviceStatus</servlet-name>
 		<servlet-class>uk.ac.nott.mrl.homework.server.SetDeviceStatus</servlet-class>
 	</servlet>
@@ -59,6 +64,11 @@
 			<param-value>/homework/homeworkduino/res/probe.cfg</param-value>
 		</init-param>		
 	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>getCatalogue</servlet-name>
+		<url-pattern>/device/catalogue</url-pattern>
+	</servlet-mapping>	
 	
 	<servlet-mapping>
 		<servlet-name>getChanges</servlet-name>
