@@ -40,6 +40,7 @@ public class GetCatalogue extends HttpServlet
 				catalogue.addSubject(columns[2], columns[1]);
 			}
 		}
+		catalogue.addSubject("any", "*");
 
 		final String nameResults = connection.call("SQL:select * from DeviceNames");
 		if (nameResults != null)
@@ -59,7 +60,8 @@ public class GetCatalogue extends HttpServlet
 			{
 				catalogue.addBundle(columns[1], columns[2].toLowerCase() + "bundle");
 			}
-		}		
+		}	
+		catalogue.addBundle("any", "anyonebundle");		
 		
 		final GsonBuilder builder = new GsonBuilder();
 		builder.excludeFieldsWithoutExposeAnnotation();
