@@ -12,7 +12,6 @@ public class ResultSet implements Iterable<String[]>
 		public ResultSetIterator(final String[] lines)
 		{
 			this.lines = lines;
-			System.out.println(lines.length);
 		}
 
 		@Override
@@ -24,8 +23,7 @@ public class ResultSet implements Iterable<String[]>
 		@Override
 		public String[] next()
 		{
-			index++;
-			System.out.println(index);			
+			index++;		
 			return lines[index].split("<\\|>");			
 		}
 
