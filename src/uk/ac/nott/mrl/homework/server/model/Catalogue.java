@@ -15,6 +15,12 @@ public class Catalogue
 		private Dynamic dynamic = new Dynamic(); 
 	}
 	
+	private class Meta
+	{
+		@Expose
+		private Map<String, Map<String, String>> devices = new HashMap<String, Map<String,String>>();		
+	}
+	
 	private class Dynamic
 	{
 		@Expose
@@ -22,7 +28,7 @@ public class Catalogue
 		@Expose	
 		private Map<String,String> bundlelookup = new HashMap<String, String>();
 		@Expose	
-		private Map<String, Map<String, String>> devices = new HashMap<String, Map<String,String>>();		
+		private Meta metadata = new Meta();		
 	}
 	
 	@Expose
@@ -46,11 +52,11 @@ public class Catalogue
 	
 	public void addName(String ip, String name)
 	{
-		Map<String, String> metadata = catalogue.dynamic.devices.get(ip);
+		Map<String, String> metadata = catalogue.dynamic.metadata.devices.get(ip);
 		if(metadata == null)
 		{
 			metadata = new HashMap<String, String>();
-			catalogue.dynamic.devices.put(ip, metadata);
+			catalogue.dynamic.metadata.devices.put(ip, metadata);
 		}
 		metadata.put("name", name);
 	}
