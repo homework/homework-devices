@@ -45,7 +45,7 @@ public class ResultSet implements Iterable<String[]>
 	
 	public int getSize()
 	{
-		return Math.min(0,  lines.length - 2);
+		return Math.max(0,  lines.length - 2);
 	}
 	
 	public Iterator<String[]> iterator()
