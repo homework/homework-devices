@@ -17,31 +17,38 @@ public class ControlInternetZone extends Zone
 	@Override
 	public void add(final DevicesService service, final Item item)
 	{
-		final PopupPanel popup = new PopupPanel(false, true);
-		popup.setWidget(new DeviceMetadataDialog(item, service)
+		if(item.getType() == null || item.getOwner() == null)
 		{
-			@Override
-			protected void cancel()
+			final PopupPanel popup = new PopupPanel(false, true);
+			popup.setWidget(new DeviceMetadataDialog(item, service)
 			{
-				popup.hide();
-			}
-			
-			@Override
-			protected void accept()
-			{
-				service.setStatus(item.getMacAddress(), "permit", getName(), getOwner(), getType());
-					
-				popup.hide();
+				@Override
+				protected void cancel()
+				{
+					popup.hide();
+				}
 				
-				//service.getModel().update(macAddress, "permit");
-				//service.permit(macAddress);				
-			}
-		});
-		popup.center();
-		popup.getElement().getStyle().setOpacity(1);
-		popup.show();
-		popup.getElement().getStyle().setOpacity(1);
-		popup.getElement().getStyle().setVisibility(Visibility.VISIBLE);
+				@Override
+				protected void accept()
+				{
+					service.setStatus(item.getMacAddress(), "permit", getName(), getOwner(), getType());
+						
+					popup.hide();
+					
+					//service.getModel().update(macAddress, "permit");
+					//service.permit(macAddress);				
+				}
+			});
+			popup.center();
+			popup.getElement().getStyle().setOpacity(1);
+			popup.show();
+			popup.getElement().getStyle().setOpacity(1);
+			popup.getElement().getStyle().setVisibility(Visibility.VISIBLE);
+		}
+		else
+		{
+			service.setStatus(item.getMacAddress(), "permit", null, null, null);
+		}
 	}
 
 	@Override
