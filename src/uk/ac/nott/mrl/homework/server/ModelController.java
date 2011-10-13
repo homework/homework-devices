@@ -220,7 +220,7 @@ public class ModelController
 		}		
 	}
 	
-	public static void updateModel() throws IOException
+	public static synchronized void updateModel() throws IOException
 	{
 		final Connection connection = createRPCConnection();
 

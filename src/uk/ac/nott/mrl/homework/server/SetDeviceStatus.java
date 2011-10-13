@@ -50,7 +50,7 @@ public class SetDeviceStatus extends HttpServlet
 					final String query = String.format("SQL:INSERT into Users values (\"%s\", \"%s\") on duplicate key update",
 							device.getIPAddress(), owner);
 					String result = connection.call(query);
-					if(!result.startsWith("0<|>SUCCESS"))
+					if(!result.startsWith("0<|>Success"))
 					{
 						logger.warning("Failed query:" + query + ";" + result);
 					}
@@ -69,7 +69,7 @@ public class SetDeviceStatus extends HttpServlet
 					final String query = String.format("SQL:INSERT into DeviceNames values (\"%s\", \"%s\") on duplicate key update",
 							device.getIPAddress(), name);
 					String result = connection.call(query);
-					if(!result.startsWith("0<|>SUCCESS"))
+					if(!result.startsWith("0<|>Success"))
 					{
 						logger.warning("Failed query:" + query + ";" + result);
 					}
@@ -88,7 +88,7 @@ public class SetDeviceStatus extends HttpServlet
 					final String query = String.format("SQL:INSERT into DeviceTypes values (\"%s\", \"%s\") on duplicate key update",
 							device.getIPAddress(), type);
 					String result = connection.call(query);
-					if(!result.startsWith("0<|>SUCCESS"))
+					if(!result.startsWith("0<|>Success"))
 					{
 						logger.warning("Failed query:" + query + ";" + result);
 					}
@@ -109,7 +109,11 @@ public class SetDeviceStatus extends HttpServlet
 			{
 				final String query = String.format(	"SQL:INSERT into NoxCommand values (\"%s\", \"%s\", \"%s\", \"%s\")",
 													UUID.randomUUID().toString(), command, "ETH|" + fixMacAddress(macAddress), "User");
-				connection.call(query);
+				final String result = connection.call(query);
+				if(!result.startsWith("0<|>Success"))
+				{
+					logger.warning("Failed query:" + query + ";" + result);
+				}
 	
 				Log.log(command, macAddress);
 			}
