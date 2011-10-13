@@ -38,12 +38,14 @@ public class Device extends FlowPanel
 	private final Label text = new Label();
 
 	private final TextBox textBoxName = new TextBox();
+	
+	private String sortString;
 
-	// private final Model model;
+	private final Model model;
 
 	public Device(final Model model, final Item item)
 	{
-		// this.model = model;
+		this.model = model;
 		this.item = item;
 
 		setStylePrimaryName(DevicesClient.resources.style().device());
@@ -102,6 +104,24 @@ public class Device extends FlowPanel
 
 		setLeft(25);
 		update(item);
+	}
+	
+	public String getSortString()
+	{
+		if(sortString == null)
+		{
+			String mark = "c";
+			if("old".equals(item.getChange()))
+			{
+				mark = "b";
+			}
+			else if(item.getState() != null)
+			{
+				mark = "a";
+			}
+			sortString = model.getZone(item) + mark + item.getName().toLowerCase();
+		}
+		return sortString;
 	}
 
 	private void clearQuotes()
@@ -192,6 +212,7 @@ public class Device extends FlowPanel
 
 	public void update(final Item item)
 	{
+		sortString = null;
 		if (!text.getText().equals(item.getName()))
 		{
 			text.setText(item.getName());

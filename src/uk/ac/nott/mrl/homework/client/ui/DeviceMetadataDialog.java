@@ -37,13 +37,32 @@ public abstract class DeviceMetadataDialog extends Composite
 	
 	@UiField
 	ListBox ownerList;
+	
+	private final void selectItem(final ListBox list, final String item)
+	{
+		for(int index = 0; index < list.getItemCount(); index ++)
+		{
+			if(item.toLowerCase().equals(list.getItemText(index).toLowerCase()))
+			{
+				list.setItemSelected(index, true);
+			}
+		}
+	}
 
 	public DeviceMetadataDialog(Item item, DevicesService service)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
 		nameBox.setText(item.getName());
 		typeList.setVisibleItemCount(1);
-		ownerList.setVisibleItemCount(1);
+		if(item.getType() != null)
+		{
+			selectItem(typeList, item.getType());
+		}
+		ownerList.setVisibleItemCount(1);		
+		if(item.getOwner() != null)
+		{
+			selectItem(ownerList, item.getOwner());
+		}
 		setMetadata(metadata);
 		service.getMetadata(new RequestCallback()
 		{	

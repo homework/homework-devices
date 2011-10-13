@@ -29,7 +29,7 @@ public class ControlInternetZone extends Zone
 			@Override
 			protected void accept()
 			{
-				service.setState(item.getMacAddress(), "permit", getName(), getOwner(), getType());
+				service.setStatus(item.getMacAddress(), "permit", getName(), getOwner(), getType());
 					
 				popup.hide();
 				

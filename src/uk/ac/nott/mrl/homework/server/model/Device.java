@@ -158,7 +158,7 @@ public class Device
 	public void updateName(final long time, final String name)
 	{
 		timestamp = Math.max(time, timestamp);
-		deviceName = name;
+		this.deviceName = name;
 	}
 
 	public void updateType(final long time, final String type)

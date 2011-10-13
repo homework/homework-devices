@@ -62,7 +62,7 @@ public class SimpleModel implements Model
 			{
 				GWT.log("Response " + response.getStatusCode() + ": " + response.getText());
 
-				if (200 == response.getStatusCode())
+				if (200 == response.getStatusCode() && !response.getText().trim().equals(""))
 				{
 					try
 					{
@@ -94,41 +94,7 @@ public class SimpleModel implements Model
 			{
 				try
 				{
-					final int zone1 = getZone(o1.getItem());
-					final int zone2 = getZone(o2.getItem());
-					if (zone1 != zone2 && (zone1 == 0 || zone2 == 0)) { return zone2 - zone1; }
-
-					// Old after not old					
-					final boolean old1 = "old".equals(o1.getItem().getChange());
-					final boolean old2 = "old".equals(o2.getItem().getChange());
-					if(old1 != old2)
-					{
-						if(old1)
-						{
-							return 1;
-						}
-						else
-						{
-							return -1;
-						}
-					}
-					
-					// Denied before stateless
-					final boolean denied1 = "deny".equals(o1.getItem().getState());
-					final boolean denied2 = "deny".equals(o2.getItem().getState());		
-					if(denied1 != denied2)
-					{
-						if(denied1)
-						{
-							return -1;
-						}
-						else
-						{
-							return 1;
-						}
-					}					
-				
-					return o1.getItem().getID().compareTo(o2.getItem().getID());
+					return o1.getSortString().compareTo(o2.getSortString());
 				}
 				catch (final Exception e)
 				{

@@ -24,7 +24,7 @@ public interface DevicesService
 
 	public void permit(final String macAddress);
 	
-	public void setState(final String macAddress, final String state, final String name, final String owner, final String type);
+	public void setStatus(final String macAddress, final String state, final String name, final String owner, final String type);
 
 	public void setName(final String macAddress, final String name);
 

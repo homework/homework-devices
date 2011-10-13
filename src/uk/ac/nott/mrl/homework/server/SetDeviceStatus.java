@@ -101,19 +101,22 @@ public class SetDeviceStatus extends HttpServlet
 		}
 
 		final String command = request.getParameter("command");
-		logger.info(command + " " + macAddress);
-		
-		try
+		if(command != null)
 		{
-			final String query = String.format(	"SQL:INSERT into NoxCommand values (\"%s\", \"%s\", \"%s\", \"%s\")",
-												UUID.randomUUID().toString(), command, "ETH|" + fixMacAddress(macAddress), "User");
-			connection.call(query);
-
-			Log.log(command, macAddress);
-		}
-		catch (final Exception e)
-		{
-			logger.log(Level.SEVERE, e.getMessage(), e);
+			logger.info(command + " " + macAddress);
+			
+			try
+			{
+				final String query = String.format(	"SQL:INSERT into NoxCommand values (\"%s\", \"%s\", \"%s\", \"%s\")",
+													UUID.randomUUID().toString(), command, "ETH|" + fixMacAddress(macAddress), "User");
+				connection.call(query);
+	
+				Log.log(command, macAddress);
+			}
+			catch (final Exception e)
+			{
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
 		}
 		
 		connection.disconnect();

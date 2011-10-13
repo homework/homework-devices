@@ -123,11 +123,29 @@ public class DevicesServiceImpl implements DevicesService
 	{
 		serverRequest(GWT.getHostPageBaseURL() + "metadata.json", callback);
 	}
-
+	
 	@Override
-	public void setState(String macAddress, String state, String name,
+	public void setStatus(String macAddress, String state, String name,
 			String owner, String type)
 	{
-		serverRequest(GWT.getModuleBaseURL() + "status?command=" + state + "&macAddress=" + macAddress + "&name=" + name + "&owner=" + owner + "&type=" + type + "&since=" + model.getLastUpdated());
+		String url = GWT.getModuleBaseURL() + "status?macAddress=" + macAddress;
+		if(state != null)
+		{
+			url = url + "&command=" + state;
+		}
+		if(name != null)
+		{
+			url = url + "&name=" + name;
+		}
+		if(owner != null)
+		{
+			url = url + "&owner=" + owner;
+		}
+		if(type != null)
+		{
+			url = url + "&type=" + type;
+		}
+		url = url + "&since=" + model.getLastUpdated();
+		serverRequest(url);
 	}
 }

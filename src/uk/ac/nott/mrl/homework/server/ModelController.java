@@ -231,8 +231,8 @@ public class ModelController
 
 			updatePermitted(connection);
 			
-			//updateTypes(connection);
-			//updateUsers(connection);
+			updateTypes(connection);
+			updateUsers(connection);
 			updateNames(connection);
 
 			Model.getModel().clearOld();

@@ -50,6 +50,16 @@ public class Item extends JavaScriptObject
 		return this.change;
 	}-*/;
 
+	public final native String getOwner()
+	/*-{
+		return this.owner;
+	}-*/;
+	
+	public final native String getType()
+	/*-{
+		return this.type;
+	}-*/;
+	
 	public final native String getCompany()
 	/*-{
 		return this.company;

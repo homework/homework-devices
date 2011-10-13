@@ -440,24 +440,19 @@ public class DevicesPanel extends FlowPanel
 
 		int top = 15;
 		int maxDevice = 0;
-		int currentZone = 0;
+		char currentZone = 0;
 		for (final Device device : devices)
 		{
-			if (currentZone != model.getZone(device.getItem()))
+			if (currentZone != device.getSortString().charAt(0))
 			{
-				currentZone = model.getZone(device.getItem());
+				currentZone = device.getSortString().charAt(0);
 				top = 15;
 			}
-			// if(dragDevice.getState() == DragState.dragging && device.getLink() != null &&
-			// device.getLink().getMacAddress().equals(dragDevice.getLink().getMacAddress()))
-			// {
-			// continue;
-			// }
-			device.setTop(top);
-			top = top + device.getOffsetHeight() + 15;
 
+			device.setTop(top);
+			top += device.getOffsetHeight() + 15;
+			maxDevice = Math.max(maxDevice, top);
 		}
-		maxDevice = Math.max(maxDevice, top);
 
 		maxDevice = Math.max(maxDevice, getElement().getClientHeight());
 		updateClientHeight(maxDevice);
@@ -503,6 +498,16 @@ public class DevicesPanel extends FlowPanel
 			panel.add(panel2);
 		}
 
+		if(item.getOwner() != null)
+		{
+			panel.add(new Label("Owner: " + item.getOwner()));
+		}
+		
+		if(item.getType() != null)
+		{
+			panel.add(new Label("Device Type: " + item.getType()));
+		}
+		
 		if (item.getMacAddress() != null)
 		{
 			if (item.getIPAddress() != null && item.getState() == null)
@@ -515,18 +520,53 @@ public class DevicesPanel extends FlowPanel
 
 			panel.add(new Label("MAC Address: " + item.getMacAddress()));
 
-			final Anchor renameLink = new Anchor("Rename Device");
-			renameLink.setStylePrimaryName(DevicesClient.resources.style().popupLink());
-			renameLink.addClickHandler(new ClickHandler()
+//			final Anchor renameLink = new Anchor("Rename Device");
+//			renameLink.addClickHandler(new ClickHandler()
+//			{
+//				@Override
+//				public void onClick(final ClickEvent event)
+//				{
+//					popup.setVisible(false);
+//					device.edit(service);
+//				}
+//			});
+//			panel.add(renameLink);
+			
+			if(item.getIPAddress() != null)
 			{
-				@Override
-				public void onClick(final ClickEvent event)
-				{
-					popup.setVisible(false);
-					device.edit(service);
-				}
-			});
-			panel.add(renameLink);
+				Anchor editLink = new Anchor("Edit Details");
+				editLink.setStylePrimaryName(DevicesClient.resources.style().popupLink());				
+				editLink.addClickHandler(new ClickHandler()
+				{	
+					@Override
+					public void onClick(ClickEvent event)
+					{
+						final PopupPanel popup = new PopupPanel(false, true);
+						popup.setWidget(new DeviceMetadataDialog(item, service)
+						{
+							@Override
+							protected void cancel()
+							{
+								popup.hide();
+							}
+							
+							@Override
+							protected void accept()
+							{
+								service.setStatus(item.getMacAddress(), null, getName(), getOwner(), getType());
+									
+								popup.hide();
+							}
+						});
+						popup.center();
+						popup.getElement().getStyle().setOpacity(1);
+						popup.show();
+						popup.getElement().getStyle().setOpacity(1);
+						popup.getElement().getStyle().setVisibility(Visibility.VISIBLE);						
+					}
+				});
+				panel.add(editLink);
+			}			
 		}
 		else
 		{
