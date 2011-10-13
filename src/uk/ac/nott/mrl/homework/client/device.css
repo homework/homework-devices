@@ -88,6 +88,10 @@ body
 	float:left;
 }
 
+.glass {
+	background-color: rgba(0,0,0,0.5);
+}
+
 .dragDevice {
 	position: absolute;
 	background-color: #79B;	

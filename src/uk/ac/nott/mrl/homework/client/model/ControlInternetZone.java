@@ -20,6 +20,8 @@ public class ControlInternetZone extends Zone
 		if(item.getType() == null || item.getOwner() == null)
 		{
 			final PopupPanel popup = new PopupPanel(false, true);
+			popup.setGlassEnabled(true);
+			popup.setGlassStyleName(DevicesClient.resources.style().glass());			
 			popup.setWidget(new DeviceMetadataDialog(item, service)
 			{
 				@Override

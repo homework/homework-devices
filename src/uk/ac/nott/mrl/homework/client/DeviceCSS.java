@@ -14,6 +14,8 @@ public interface DeviceCSS extends CssResource
 
 	String detailTitle();
 
+	String glass();
+	
 	String device();
 
 	String deviceAnim();

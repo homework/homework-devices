@@ -519,18 +519,6 @@ public class DevicesPanel extends FlowPanel
 			}
 
 			panel.add(new Label("MAC Address: " + item.getMacAddress()));
-
-//			final Anchor renameLink = new Anchor("Rename Device");
-//			renameLink.addClickHandler(new ClickHandler()
-//			{
-//				@Override
-//				public void onClick(final ClickEvent event)
-//				{
-//					popup.setVisible(false);
-//					device.edit(service);
-//				}
-//			});
-//			panel.add(renameLink);
 			
 			if(item.getIPAddress() != null)
 			{
@@ -541,13 +529,16 @@ public class DevicesPanel extends FlowPanel
 					@Override
 					public void onClick(ClickEvent event)
 					{
-						final PopupPanel popup = new PopupPanel(false, true);
-						popup.setWidget(new DeviceMetadataDialog(item, service)
+						popup.hide();
+						final PopupPanel deviceEditPopup = new PopupPanel(false, true);
+						deviceEditPopup.setGlassEnabled(true);
+						deviceEditPopup.setGlassStyleName(DevicesClient.resources.style().glass());
+						deviceEditPopup.setWidget(new DeviceMetadataDialog(item, service)
 						{
 							@Override
 							protected void cancel()
 							{
-								popup.hide();
+								deviceEditPopup.hide();
 							}
 							
 							@Override
@@ -555,14 +546,14 @@ public class DevicesPanel extends FlowPanel
 							{
 								service.setStatus(item.getMacAddress(), null, getName(), getOwner(), getType());
 									
-								popup.hide();
+								deviceEditPopup.hide();
 							}
 						});
-						popup.center();
-						popup.getElement().getStyle().setOpacity(1);
-						popup.show();
-						popup.getElement().getStyle().setOpacity(1);
-						popup.getElement().getStyle().setVisibility(Visibility.VISIBLE);						
+						deviceEditPopup.center();
+						deviceEditPopup.getElement().getStyle().setOpacity(1);
+						deviceEditPopup.show();
+						deviceEditPopup.getElement().getStyle().setOpacity(1);
+						deviceEditPopup.getElement().getStyle().setVisibility(Visibility.VISIBLE);						
 					}
 				});
 				panel.add(editLink);

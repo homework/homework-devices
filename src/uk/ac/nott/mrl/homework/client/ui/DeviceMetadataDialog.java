@@ -38,13 +38,19 @@ public abstract class DeviceMetadataDialog extends Composite
 	@UiField
 	ListBox ownerList;
 	
+	private final Item item;
+	
 	private final void selectItem(final ListBox list, final String item)
 	{
+		GWT.log("Find " + item);
 		for(int index = 0; index < list.getItemCount(); index ++)
 		{
-			if(item.toLowerCase().equals(list.getItemText(index).toLowerCase()))
+			GWT.log(list.getValue(index));
+			if(item.toLowerCase().equals(list.getValue(index).toLowerCase()))
 			{
-				list.setItemSelected(index, true);
+				GWT.log("Set selected index " + index + ": " + list.getValue(index));
+				list.setSelectedIndex(index);
+				return;
 			}
 		}
 	}
@@ -52,17 +58,10 @@ public abstract class DeviceMetadataDialog extends Composite
 	public DeviceMetadataDialog(Item item, DevicesService service)
 	{
 		initWidget(uiBinder.createAndBindUi(this));
+		this.item = item;
 		nameBox.setText(item.getName());
 		typeList.setVisibleItemCount(1);
-		if(item.getType() != null)
-		{
-			selectItem(typeList, item.getType());
-		}
 		ownerList.setVisibleItemCount(1);		
-		if(item.getOwner() != null)
-		{
-			selectItem(ownerList, item.getOwner());
-		}
 		setMetadata(metadata);
 		service.getMetadata(new RequestCallback()
 		{	
@@ -138,6 +137,15 @@ public abstract class DeviceMetadataDialog extends Composite
 			{
 				ownerList.addItem(key);
 			}
+			if(item.getType() != null)
+			{
+				selectItem(typeList, item.getType());
+			}
+			if(item.getOwner() != null)
+			{
+				selectItem(ownerList, item.getOwner());
+			}
+			nameBox.setFocus(true);
 		}
 	}
 }
