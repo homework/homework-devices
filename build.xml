@@ -1,3 +1,4 @@
+<!DOCTYPE project>
 <project default="war" basedir=".">
 
 	<!-- Set catalina.home, hamcrest.home and junit.home in build.properties -->
