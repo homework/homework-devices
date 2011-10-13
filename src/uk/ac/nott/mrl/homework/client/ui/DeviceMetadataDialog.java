@@ -86,6 +86,8 @@ public abstract class DeviceMetadataDialog extends Composite
 			{
 			}
 		});
+		
+		nameBox.setFocus(true);
 	}
 	
 	@UiHandler("acceptButton")
