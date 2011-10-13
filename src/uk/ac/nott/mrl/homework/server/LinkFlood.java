@@ -28,17 +28,19 @@ public class LinkFlood extends HttpServlet
 				while (true)
 				{
 					final Random random = new Random();
-					final String randomMac = String.format(	"%x:%x:%x:%x:%x:%x", random.nextInt(256),
+					final String randomMac = String.format(	"%02x:%02x:%02x:%02x:%02x:%02x", random.nextInt(256),
 															random.nextInt(256), random.nextInt(256),
 															random.nextInt(256), random.nextInt(256),
 															random.nextInt(256));
 					final String query = String.format(	"SQL:INSERT into Links values (\"%s\", '0', '0', '0', '0')",
 														randomMac);
 					final String result = connection.call(query);
-					if (!result.startsWith("0<|>SUCCESS"))
+					if (!result.startsWith("0<|>Success"))
 					{
 						logger.warning("Failed query:" + query + ";" + result);
 					}
+					
+					Thread.sleep(10);
 				}
 			}
 			catch (final Exception e)
@@ -58,7 +60,7 @@ public class LinkFlood extends HttpServlet
 			}
 		}
 	}
-
+	
 	@Override
 	public void init() throws ServletException
 	{
