@@ -115,7 +115,7 @@ public class Device extends FlowPanel
 			{
 				mark = "b";
 			}
-			else if(item.getState() != null)
+			else if(item.getState() != null || item.getIPAddress() != null)
 			{
 				mark = "a";
 			}
