@@ -464,6 +464,16 @@ public class DevicesPanel extends FlowPanel
 
 		final Item item = device.getItem();
 
+		if(item.getOwner() != null)
+		{
+			panel.add(new Label("Owner: " + item.getOwner()));
+		}
+		
+		if(item.getType() != null)
+		{
+			panel.add(new Label("Device Type: " + item.getType()));
+		}
+		
 		if(item.getStateSource() != null && !item.getStateSource().toLowerCase().equals("user") && item.getState() != null)
 		{
 			if(item.getState().toLowerCase().equals("deny") || item.getState().toLowerCase().equals("blacklist"))
@@ -498,16 +508,6 @@ public class DevicesPanel extends FlowPanel
 			panel.add(panel2);
 		}
 
-		if(item.getOwner() != null)
-		{
-			panel.add(new Label("Owner: " + item.getOwner()));
-		}
-		
-		if(item.getType() != null)
-		{
-			panel.add(new Label("Device Type: " + item.getType()));
-		}
-		
 		if (item.getMacAddress() != null)
 		{
 			if (item.getIPAddress() != null && item.getState() == null)
