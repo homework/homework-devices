@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,11 +50,12 @@ public class ModelController
 		synchronized (model)
 		{
 			final Item item = model.getItem(group);
-			final Collection<String> macAddresses = new ArrayList<String>();
+			final List<String> macAddresses = new ArrayList<String>();
 			for (final Device device : item.getDevices())
 			{
 				macAddresses.add(device.getMacAddress());
 			}
+			Collections.sort(macAddresses);
 			final Gson gson = new Gson();
 
 			final String result = gson.toJson(macAddresses);
