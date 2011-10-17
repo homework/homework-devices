@@ -206,7 +206,7 @@ public class Device extends FlowPanel
 			addStyleName(DevicesClient.resources.style().deviceAnim());
 		}
 		//getElement().getStyle().setTop(top, Unit.PX);
-		getElement().getStyle().setProperty("webkitTransform", "translate3d(0," + top + "0)");
+		getElement().getStyle().setProperty("webkitTransform", "translate3d(0px," + top + "px ,0px)");
 	}
 
 	@Override
