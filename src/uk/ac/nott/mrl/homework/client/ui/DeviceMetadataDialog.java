@@ -14,7 +14,6 @@ import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -61,7 +60,6 @@ public abstract class DeviceMetadataDialog extends Composite
 		initWidget(uiBinder.createAndBindUi(this));
 		this.item = item;
 		nameBox.setText(item.getName());
-		nameBox.setText(Window.Navigator.getUserAgent());
 		typeList.setVisibleItemCount(1);
 		ownerList.setVisibleItemCount(1);		
 		setMetadata(metadata);
