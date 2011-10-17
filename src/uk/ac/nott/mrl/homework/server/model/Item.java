@@ -94,16 +94,6 @@ public class Item
 	{
 		return company;
 	}
-	
-	public String getOwner()
-	{
-		return owner;
-	}
-	
-	public String getType()
-	{
-		return type;
-	}
 
 	public Iterable<Device> getDevices()
 	{
