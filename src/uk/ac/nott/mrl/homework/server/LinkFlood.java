@@ -47,13 +47,13 @@ public class LinkFlood extends HttpServlet
 																	random.nextInt(256), random.nextInt(256),
 																	random.nextInt(256), random.nextInt(256),
 																	random.nextInt(256));
-							final String query = String.format(	"SQL:INSERT into Links values (\"%s\", '0', '0', '0', '0')",
+							final String query = String.format(	"SQL:INSERT into Links values (\"%s\", '0.0', '0', '0', '0')",
 																randomMac);
 							final String result = connection.call(query);
 							if (!result.startsWith("0<|>Success"))
 							{
 								logger.warning("Failed query:" + query + ";" + result);
-								Thread.sleep(1000);
+								Thread.sleep(5000);
 							}
 							
 							Thread.sleep(10);
