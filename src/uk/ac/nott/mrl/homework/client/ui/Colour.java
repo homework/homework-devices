@@ -36,9 +36,9 @@ public class Colour
     
     public void mixWithWhite(final double percent)
     {
-    	r += ((255 - r) * percent);
-    	g += ((255 - g) * percent);
-    	b += ((255 - b) * percent);    	
+    	r += ((255 - r) * (1.0 - percent));
+    	g += ((255 - g) * (1.0 - percent));
+    	b += ((255 - b) * (1.0 - percent));    	
     }
 
     private String pad (String in)
