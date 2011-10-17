@@ -110,8 +110,12 @@ public class Device extends FlowPanel
 	{
 		if(sortString == null)
 		{
-			String mark = "c";
+			String mark = "d";
 			if("old".equals(item.getChange()))
+			{
+				mark = "c";
+			}
+			else if("del".equals(item.getLeaseAction()))
 			{
 				mark = "b";
 			}
