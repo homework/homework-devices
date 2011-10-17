@@ -51,7 +51,7 @@ public class Device extends FlowPanel
 		this.model = model;
 		this.item = item;
 
-		setStylePrimaryName(DevicesClient.resources.style().device());
+		setStyleName(DevicesClient.resources.style().device());
 
 		text.setStyleName(DevicesClient.resources.style().deviceName());
 		text.setText(item.getName());
@@ -266,11 +266,18 @@ public class Device extends FlowPanel
 	public void update(final Item item)
 	{
 		sortString = null;
+		this.item = item;		
 		if (!text.getText().equals(item.getName()))
 		{
 			text.setText(item.getName());
 		}
 
+		final ZonePanel zone = (ZonePanel) getParent();
+		if (zone != null)
+		{
+			setStyleName(zone.getZone().getDeviceStyle(item));
+		}		
+		
 		if("old".equals(item.getChange()))
 		{
 			setOpacity(0.2);
@@ -278,14 +285,6 @@ public class Device extends FlowPanel
 		else
 		{
 			setOpacity(item.getOpacity());
-		}
-
-		this.item = item;
-
-		final ZonePanel zone = (ZonePanel) getParent();
-		if (zone != null)
-		{
-			setStyleName(zone.getZone().getDeviceStyle(item));
 		}
 	}
 
