@@ -43,7 +43,7 @@ public class LinkFlood extends HttpServlet
 						while (true)
 						{
 							final Random random = new Random();
-							final String randomMac = String.format(	"%02x:%02x:%02x:%02x:%02x:%02x", random.nextInt(256),
+							final String randomMac = String.format(	"%02x%02x%02x%02x%02x%02x", random.nextInt(256),
 																	random.nextInt(256), random.nextInt(256),
 																	random.nextInt(256), random.nextInt(256),
 																	random.nextInt(256));
@@ -53,6 +53,7 @@ public class LinkFlood extends HttpServlet
 							if (!result.startsWith("0<|>Success"))
 							{
 								logger.warning("Failed query:" + query + ";" + result);
+								Thread.sleep(1000);
 							}
 							
 							Thread.sleep(10);
