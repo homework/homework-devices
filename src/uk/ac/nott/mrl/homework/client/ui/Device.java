@@ -217,7 +217,7 @@ public class Device extends FlowPanel
 		return text.getText();
 	}
 	
-	private void setOpacity(final double opacity)
+	public void setOpacity(final double opacity)
 	{
 		if(opacity > 1)
 		{
@@ -227,34 +227,40 @@ public class Device extends FlowPanel
 		{
 			if(mobile)
 			{
-				// Get original colour & Calculate intermediate colour
-				// Feels more than a little hacky.
-				Colour border;
-				Colour bg;
-				Colour text = new Colour(0,0,0);
-				if(getStyleName().equals(DevicesClient.resources.style().device()) || getStyleName().equals(DevicesClient.resources.style().requestingDevice()))
+				final ZonePanel zone = (ZonePanel) getParent();
+				if(zone != null)
 				{
-					border = new Colour(85, 119, 153);
-					bg = new Colour(119, 153, 187);	
+					String styleName = zone.getZone().getDeviceStyle(item);
+					// Get original colour & Calculate intermediate colour
+					// Feels more than a little hacky.
+					Colour border;
+					Colour bg;
+					Colour text = new Colour(0,0,0);
+					if(styleName.equals(DevicesClient.resources.style().device()) || styleName.equals(DevicesClient.resources.style().requestingDevice()))
+					{
+						border = new Colour(85, 119, 153);
+						bg = new Colour(119, 153, 187);	
+					}
+					else if(styleName.equals(DevicesClient.resources.style().deniedDevice()))
+					{
+						border = new Colour(170, 102, 102);
+						bg = new Colour(187, 153, 153);
+					}
+					else
+					{
+						border = new Colour(119, 119, 119);
+						bg = new Colour(153,153, 153);
+					}
+					
+					border.mixWithWhite(opacity);
+					bg.mixWithWhite(opacity);
+					text.mixWithWhite(opacity);
+					
+					getElement().getStyle().setBackgroundColor(bg.getHexValue());
+					getElement().getStyle().setBorderColor(border.getHexValue());
+					getElement().getStyle().setColor(text.getHexValue());
+					
 				}
-				else if(getStyleName().equals(DevicesClient.resources.style().deniedDevice()))
-				{
-					border = new Colour(170, 102, 102);
-					bg = new Colour(187, 153, 153);
-				}
-				else
-				{
-					border = new Colour(119, 119, 119);
-					bg = new Colour(153,153, 153);
-				}
-				
-				border.mixWithWhite(opacity);
-				bg.mixWithWhite(opacity);
-				text.mixWithWhite(opacity);
-				
-				getElement().getStyle().setBackgroundColor(bg.getHexValue());
-				getElement().getStyle().setBorderColor(border.getHexValue());
-				getElement().getStyle().setColor(text.getHexValue());
 			}
 			else
 			{

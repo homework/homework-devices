@@ -238,7 +238,7 @@ public class DevicesPanel extends FlowPanel
 				{
 					deviceMap.remove(item.getID());
 					removed.add(device);
-					device.getElement().getStyle().setOpacity(0);
+					device.setOpacity(0);
 					device.getElement().getStyle().setVisibility(Visibility.HIDDEN);
 				}
 			}
