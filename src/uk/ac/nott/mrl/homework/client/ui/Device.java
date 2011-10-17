@@ -215,6 +215,11 @@ public class Device extends FlowPanel
 	
 	private void setOpacity(final double opacity)
 	{
+		if(opacity > 1)
+		{
+			setOpacity(1);
+			return;
+		}
 		if(mobile)
 		{
 			// Get original colour & Calculate intermediate colour
