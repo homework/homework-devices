@@ -98,7 +98,7 @@ public class ModelController
 		writer.flush();
 	}
 
-	private static void updateLeases(final Connection connection) throws Exception
+	public static void updateLeases(final Connection connection) throws Exception
 	{
 		String leaseQuery = "SQL:select * from Leases";
 		if (Model.getModel().getMostRecentLease() != 0)

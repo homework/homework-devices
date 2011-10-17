@@ -59,6 +59,11 @@ public class Item extends JavaScriptObject
 	/*-{
 		return this.type;
 	}-*/;
+
+	public final native String getLeaseAction()
+	/*-{
+		return this.leaseAction;
+	}-*/;	
 	
 	public final native String getCompany()
 	/*-{

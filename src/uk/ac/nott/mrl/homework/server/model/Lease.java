@@ -4,11 +4,6 @@ import java.util.Date;
 
 public class Lease
 {
-	public enum Action
-	{
-		add, del, old, upd
-	}
-
 	// private static final Logger logger = Logger.getLogger(Lease.class.getName());
 
 	public static void parseResultSet(final String results, final Model model)
@@ -26,7 +21,7 @@ public class Lease
 				final String time = columns[0].substring(1, columns[0].length() - 1);
 				final long timeLong = Long.parseLong(time, 16);
 				lease.timestamp = new Date(timeLong / 1000000).getTime();
-				lease.action = Action.valueOf(columns[4].toLowerCase());
+				lease.action = columns[4].toLowerCase();
 				lease.macAddress = columns[1].toLowerCase();
 				lease.ipAddress = columns[2];
 				lease.hostName = columns[3];
@@ -48,19 +43,13 @@ public class Lease
 		}
 	}
 
-	private Action action;
+	private String action;
 	private String hostName;
 	private String ipAddress;
 	private String macAddress;
 	private long timestamp;
-	private transient Action nameAction;
 
-	public void clearIPAddress()
-	{
-		ipAddress = null;
-	}
-
-	public Action getAction()
+	public String getAction()
 	{
 		return action;
 	}
@@ -87,24 +76,11 @@ public class Lease
 
 	public void update(final Lease lease)
 	{
-		if (lease.getAction() == Action.del)
+		if (lease.getIpAddress() != null)
 		{
-			clearIPAddress();
+			ipAddress = lease.getIpAddress();
 		}
-		else
-		{
-			if (lease.getIpAddress() != null)
-			{
-				ipAddress = lease.getIpAddress();
-			}
-
-			if (nameAction != Action.upd || lease.getAction() == Action.upd)
-			{
-				hostName = lease.getHostName();
-				nameAction = lease.getAction();
-			}
-		}
-
+		action = lease.getAction();
 		timestamp = lease.getTimestamp();
 	}
 }

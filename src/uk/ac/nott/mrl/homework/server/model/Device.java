@@ -13,6 +13,7 @@ public class Device
 	private String stateSource;
 	private String type;
 	private String owner;
+	private String leaseAction;
 
 	private String state;
 	private long timestamp;
@@ -49,6 +50,11 @@ public class Device
 	public String getStateSource()
 	{
 		return stateSource;
+	}
+	
+	public String getLeaseAction()
+	{
+		return leaseAction;
 	}
 	
 	public String getCompany()
@@ -178,7 +184,12 @@ public class Device
 		timestamp = Math.max(status.getTimestamp(), timestamp);
 		state = status.getState();
 		stateSource = status.getSource();
-		removable = false;
+		updateRemovable();
+	}
+	
+	private void updateRemovable()
+	{
+		removable = state == null && (ipAddress == null || "del".equals(leaseAction)); 
 	}
 	
 	public void update(final Lease lease)
@@ -186,6 +197,7 @@ public class Device
 		ipAddress = lease.getIpAddress();
 		hostName = lease.getHostName();
 		timestamp = Math.max(lease.getTimestamp(), timestamp);
-		removable = false;
+		leaseAction = lease.getAction();
+		updateRemovable();
 	}
 }

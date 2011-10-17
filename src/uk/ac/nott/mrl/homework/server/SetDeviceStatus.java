@@ -37,9 +37,18 @@ public class SetDeviceStatus extends HttpServlet
 		
 
 		final String macAddress = request.getParameter("macAddress");
-		final Device device = Model.getModel().getDeviceByMac(macAddress);
 		
 		final Connection connection = ModelController.createRPCConnection();
+		try
+		{
+			ModelController.updateLeases(connection);
+		}
+		catch (Exception e1)
+		{
+			e1.printStackTrace();
+		}
+
+		final Device device = Model.getModel().getDeviceByMac(macAddress);
 		final String owner = request.getParameter("owner");
 		if(device != null && device.getIPAddress() != null)
 		{

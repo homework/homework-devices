@@ -35,7 +35,7 @@ public class Zone
 		{
 			return DevicesClient.resources.style().deniedDevice();
 		}
-		else if (item.getIPAddress() != null)
+		else if ("add".equals(item.getLeaseAction()))
 		{
 			if ("permit".equals(item.getState()) || "whitelist".equals(item.getState()))
 			{
