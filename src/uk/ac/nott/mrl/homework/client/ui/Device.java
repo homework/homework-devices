@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
-	private static final boolean mobile = Window.Navigator.getUserAgent().matches("Mozilla/5\\.0 \\((iPad)|(iPhone)|(iPod)|(android)|(webOS)/i"); 
+	private static final boolean mobile = Window.Navigator.getUserAgent().matches("Mozilla/5\\.0 \\(((iPad)|(iPhone)|(iPod)|(android)|(webOS)).*"); 
 	
 	private boolean init = false;
 
@@ -222,42 +222,44 @@ public class Device extends FlowPanel
 		if(opacity > 1)
 		{
 			setOpacity(1);
-			return;
-		}
-		if(mobile)
-		{
-			// Get original colour & Calculate intermediate colour
-			// Feels more than a little hacky.
-			Colour border;
-			Colour bg;
-			Colour text = new Colour(0,0,0);
-			if(getStyleName().equals(DevicesClient.resources.style().device()) || getStyleName().equals(DevicesClient.resources.style().requestingDevice()))
-			{
-				border = new Colour(85, 119, 153);
-				bg = new Colour(119, 153, 187);	
-			}
-			else if(getStyleName().equals(DevicesClient.resources.style().deniedDevice()))
-			{
-				border = new Colour(170, 102, 102);
-				bg = new Colour(187, 153, 153);
-			}
-			else
-			{
-				border = new Colour(119, 119, 119);
-				bg = new Colour(153,153, 153);
-			}
-			
-			border.mixWithWhite(opacity);
-			bg.mixWithWhite(opacity);
-			text.mixWithWhite(opacity);
-			
-			getElement().getStyle().setBackgroundColor(bg.getHexValue());
-			getElement().getStyle().setBorderColor(border.getHexValue());
-			getElement().getStyle().setColor(text.getHexValue());
 		}
 		else
 		{
-			getElement().getStyle().setOpacity(opacity);
+			if(mobile)
+			{
+				// Get original colour & Calculate intermediate colour
+				// Feels more than a little hacky.
+				Colour border;
+				Colour bg;
+				Colour text = new Colour(0,0,0);
+				if(getStyleName().equals(DevicesClient.resources.style().device()) || getStyleName().equals(DevicesClient.resources.style().requestingDevice()))
+				{
+					border = new Colour(85, 119, 153);
+					bg = new Colour(119, 153, 187);	
+				}
+				else if(getStyleName().equals(DevicesClient.resources.style().deniedDevice()))
+				{
+					border = new Colour(170, 102, 102);
+					bg = new Colour(187, 153, 153);
+				}
+				else
+				{
+					border = new Colour(119, 119, 119);
+					bg = new Colour(153,153, 153);
+				}
+				
+				border.mixWithWhite(opacity);
+				bg.mixWithWhite(opacity);
+				text.mixWithWhite(opacity);
+				
+				getElement().getStyle().setBackgroundColor(bg.getHexValue());
+				getElement().getStyle().setBorderColor(border.getHexValue());
+				getElement().getStyle().setColor(text.getHexValue());
+			}
+			else
+			{
+				getElement().getStyle().setOpacity(opacity);
+			}
 		}
 	}
 
