@@ -170,10 +170,11 @@ body
 }
 
 .devicePanel {
-	min-height: 100%;
+	height: 100%;
 	width: 100%;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	position: absolute;
 }
 
 .popupLink {
