@@ -65,6 +65,8 @@ public class Item
 	private String owner;
 	@Expose
 	private String type;
+	@Expose
+	private String leaseAction;
 	
 	private Map<String, Device> devices = new HashMap<String, Device>();
 
@@ -172,6 +174,21 @@ public class Item
 		this.timestamp = timestamp;
 	}
 	
+	public String getOwner()
+	{
+		return owner;
+	}
+
+	public String getType() 
+	{
+		return type;
+	}
+
+	public String getLeaseAction() 
+	{
+		return leaseAction;
+	}
+
 	private void update(final long timestamp)
 	{
 		synchronized (devices)
@@ -184,6 +201,7 @@ public class Item
 				change = Change.removed;
 				macAddress = null;
 				ipAddress = null;
+				leaseAction = null;
 				rssi = null;
 				type = null;
 				owner = null;
@@ -203,6 +221,7 @@ public class Item
 				company = device.getCompany();
 				macAddress = device.getMacAddress();
 				ipAddress = device.getIPAddress();
+				leaseAction = device.getLeaseAction();
 				state = device.getState();
 				stateSource = device.getStateSource();
 				rssi = device.getRssi();
@@ -217,6 +236,7 @@ public class Item
 				change = null;
 				macAddress = null;
 				ipAddress = null;
+				leaseAction = null;
 				rssi = null;
 				type = null;
 				owner = null;

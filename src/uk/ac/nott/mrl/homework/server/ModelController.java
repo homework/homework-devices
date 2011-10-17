@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +19,7 @@ import uk.ac.nott.mrl.homework.server.model.Lease;
 import uk.ac.nott.mrl.homework.server.model.Link;
 import uk.ac.nott.mrl.homework.server.model.Model;
 import uk.ac.nott.mrl.homework.server.model.NoxStatus;
+import uk.ac.nott.mrl.homework.server.model.ResultSet;
 import uk.ac.nott.mrl.homework.server.model.Item.Change;
 
 import com.google.gson.Gson;
@@ -47,11 +50,12 @@ public class ModelController
 		synchronized (model)
 		{
 			final Item item = model.getItem(group);
-			final Collection<String> macAddresses = new ArrayList<String>();
+			final List<String> macAddresses = new ArrayList<String>();
 			for (final Device device : item.getDevices())
 			{
 				macAddresses.add(device.getMacAddress());
 			}
+			Collections.sort(macAddresses);
 			final Gson gson = new Gson();
 
 			final String result = gson.toJson(macAddresses);
@@ -98,7 +102,7 @@ public class ModelController
 		writer.flush();
 	}
 
-	private static void updateLeases(final Connection connection) throws Exception
+	public static void updateLeases(final Connection connection) throws Exception
 	{
 		String leaseQuery = "SQL:select * from Leases";
 		if (Model.getModel().getMostRecentLease() != 0)
@@ -127,95 +131,80 @@ public class ModelController
 	public static void updateUsers(final Connection connection) throws Exception
 	{
 		final String userResults = connection.call("SQL:select * from Users");
-		if (userResults != null)
-		{
-			final String[] lines = userResults.split("\n");
-
-			for (int index = 2; index < lines.length; index++)
+		final ResultSet result = new ResultSet(userResults);
+		for(String[] columns: result)
+		{			
+			try
 			{
-				try
+				final String time = columns[0].substring(1, columns[0].length() - 1);
+				final long timeLong = Long.parseLong(time, 16);
+				long timestamp = timeLong / 1000000;
+				String ipAddress = columns[1].toLowerCase();
+				String name = columns[2];
+				
+				Device device = Model.getModel().getDeviceByIP(ipAddress);
+				if(device != null)
 				{
-					final String[] columns = lines[index].split("<\\|>");
-					final String time = columns[0].substring(1, columns[0].length() - 1);
-					final long timeLong = Long.parseLong(time, 16);
-					long timestamp = timeLong / 1000000;
-					String ipAddress = columns[1].toLowerCase();
-					String name = columns[2];
-
-					Device device = Model.getModel().getDeviceByIP(ipAddress);
-					if(device != null)
-					{
-						device.updateOwner(timestamp, name);
-					}
+					device.updateOwner(timestamp, name);
 				}
-				catch (final Exception e)
-				{
-					logger.log(Level.SEVERE, e.getMessage(), e);
-				}
+			}
+			catch (final Exception e)
+			{
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}		
 	}
 	
 	public static void updateTypes(final Connection connection) throws Exception
 	{
-		final String userResults = connection.call("SQL:select * from DeviceTypes");
-		if (userResults != null)
-		{
-			final String[] lines = userResults.split("\n");
-
-			for (int index = 2; index < lines.length; index++)
+		final String results = connection.call("SQL:select * from DeviceTypes");
+		final ResultSet result = new ResultSet(results);
+		for(String[] columns: result)
+		{			
+			try
 			{
-				try
-				{
-					final String[] columns = lines[index].split("<\\|>");
-					final String time = columns[0].substring(1, columns[0].length() - 1);
-					final long timeLong = Long.parseLong(time, 16);
-					long timestamp = timeLong / 1000000;
-					String ipAddress = columns[1].toLowerCase();
-					String name = columns[2];
+				final String time = columns[0].substring(1, columns[0].length() - 1);
+				final long timeLong = Long.parseLong(time, 16);
+				long timestamp = timeLong / 1000000;
+				String ipAddress = columns[1].toLowerCase();
+				String name = columns[2];
 
-					Device device = Model.getModel().getDeviceByIP(ipAddress);
-					if(device != null)
-					{
-						device.updateType(timestamp, name);
-					}
-				}
-				catch (final Exception e)
+				Device device = Model.getModel().getDeviceByIP(ipAddress);
+				if(device != null)
 				{
-					logger.log(Level.SEVERE, e.getMessage(), e);
+					device.updateType(timestamp, name);
 				}
+			}
+			catch (final Exception e)
+			{
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}		
 	}
 	
 	public static void updateNames(final Connection connection) throws Exception
 	{
-		final String userResults = connection.call("SQL:select * from DeviceNames");
-		if (userResults != null)
-		{
-			final String[] lines = userResults.split("\n");
-
-			for (int index = 2; index < lines.length; index++)
+		final String results = connection.call("SQL:select * from DeviceNames");
+		final ResultSet result = new ResultSet(results);
+		for(String[] columns: result)
+		{			
+			try
 			{
-				try
-				{
-					final String[] columns = lines[index].split("<\\|>");
-					final String time = columns[0].substring(1, columns[0].length() - 1);
-					final long timeLong = Long.parseLong(time, 16);
-					long timestamp = timeLong / 1000000;
-					String ipAddress = columns[1].toLowerCase();
-					String name = columns[2];
+				final String time = columns[0].substring(1, columns[0].length() - 1);
+				final long timeLong = Long.parseLong(time, 16);
+				long timestamp = timeLong / 1000000;
+				String ipAddress = columns[1].toLowerCase();
+				String name = columns[2];
 
-					Device device = Model.getModel().getDeviceByIP(ipAddress);
-					if(device != null)
-					{
-						device.updateName(timestamp, name);
-					}
-				}
-				catch (final Exception e)
+				Device device = Model.getModel().getDeviceByIP(ipAddress);
+				if(device != null)
 				{
-					logger.log(Level.SEVERE, e.getMessage(), e);
+					device.updateName(timestamp, name);
 				}
+			}
+			catch (final Exception e)
+			{
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}		
 	}

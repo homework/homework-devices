@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Model
-{
+{	
 	private static final Model model = new Model();
 	// private static final Logger logger = Logger.getLogger(Model.class.getName());
 
