@@ -207,6 +207,10 @@ public class Device extends FlowPanel
 		}
 		//getElement().getStyle().setTop(top, Unit.PX);
 		getElement().getStyle().setProperty("webkitTransform", "translate3d(0px," + top + "px ,0px)");
+		getElement().getStyle().setProperty("mozTransform", "translate3d(0px," + top + "px ,0px)");
+		getElement().getStyle().setProperty("msTransform", "translate3d(0px," + top + "px ,0px)");
+		getElement().getStyle().setProperty("oTransform", "translate3d(0px," + top + "px ,0px)");
+		getElement().getStyle().setProperty("transform", "translate3d(0px," + top + "px ,0px)");		
 	}
 
 	@Override

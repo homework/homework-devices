@@ -10,14 +10,13 @@ body
 	border-left: 0;
 	border-bottom-right-radius: 0.4em;
 	border-top-right-radius: 0.4em;
-	-webkit-border-bottom-right-radius: 0.4em;
-	-webkit-border-top-right-radius: 0.4em;
-	-moz-border-radius-bottomright: 0.4em;
-	-moz-border-radius-topright: 0.4em;
 	padding: 3px;
 	padding-right: 0.5em;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 	white-space: nowrap;
 }
 
@@ -28,14 +27,13 @@ body
 	border-left: 0;
 	border-bottom-right-radius: 0.4em;
 	border-top-right-radius: 0.4em;
-	-webkit-border-bottom-right-radius: 0.4em;
-	-webkit-border-top-right-radius: 0.4em;
-	-moz-border-radius-bottomright: 0.4em;
-	-moz-border-radius-topright: 0.4em;
 	padding: 3px;
 	padding-right: 0.5em;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 	white-space: nowrap;
 }
 
@@ -46,14 +44,13 @@ body
 	border-left: 0;
 	border-bottom-right-radius: 0.4em;
 	border-top-right-radius: 0.4em;
-	-webkit-border-bottom-right-radius: 0.4em;
-	-webkit-border-top-right-radius: 0.4em;
-	-moz-border-radius-bottomright: 0.4em;
-	-moz-border-radius-topright: 0.4em;
 	padding: 3px;
 	padding-right: 0.5em;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 	white-space: nowrap;
 }
 
@@ -64,14 +61,13 @@ body
 	border-left: 0;
 	border-bottom-right-radius: 0.4em;
 	border-top-right-radius: 0.4em;
-	-webkit-border-bottom-right-radius: 0.4em;
-	-webkit-border-top-right-radius: 0.4em;
-	-moz-border-radius-bottomright: 0.4em;
-	-moz-border-radius-topright: 0.4em;
 	padding: 3px;
 	padding-right: 0.5em;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 	white-space: nowrap;
 }
 
@@ -84,6 +80,9 @@ body
 	margin: 5px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 	white-space: nowrap;
 	float:left;
 }
@@ -102,17 +101,22 @@ body
 	padding-right: 0.5em;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 	white-space: nowrap;
 	-webkit-box-shadow: 2px 2px 5px #AAA;
+	box-shadow: 2px 2px 5px #AAA;	
 	z-index: 100;
 }
 
 .deviceAnim
 {
 	-webkit-transition: top 4s ease, opacity 2s ease, visibility 2s ease, -webkit-transform 4s ease;
-	-moz-transition: top 4s ease, opacity 2s ease, visibility 2s ease;
-	-o-transition: top 4s ease, opacity 2s ease, visibility 2s ease;
-	transition: top 4s ease, opacity 2s ease, visibility 2s ease;
+	-moz-transition: top 4s ease, opacity 2s ease, visibility 2s ease -moz-transform 4s ease;
+	-ms-transition: top 4s ease, opacity 2s ease, visibility 2s ease -ms-transform 4s ease;	
+	-o-transition: top 4s ease, opacity 2s ease, visibility 2s ease -o-transform 4s ease;
+	transition: top 4s ease, opacity 2s ease, visibility 2s ease transform 4s ease;
 }
 
 .popup {
@@ -120,11 +124,10 @@ body
 	border: 3px solid #F0E68C;
 	max-width: 450px;
 	border-radius: 0.5em;
-	border-top-right-radius: 0.5em;
-	-webkit-border-radius: 0.5em;
-	-webkit-box-shadow: 2px 2px 5px #AAA;
+	box-shadow: 2px 2px 5px #AAA;		
 	-webkit-transition: visibility 1s ease, opacity 1s ease;
 	-moz-transition: visibility 1s ease, opacity 1s ease;
+	-ms-transition: visibility 1s ease, opacity 1s ease;	
 	-o-transition: visibility 1s ease, opacity 1s ease;
 	transition: visibility 1s ease, opacity 1s ease;
 	z-index: 200;	
@@ -175,6 +178,9 @@ body
 	width: 100%;
 	-webkit-user-select: none;
 	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 	position: absolute;
 }
 
@@ -225,8 +231,6 @@ body
 	border-left: 3px solid #579;
 	background-color: #79B;
 	border-bottom-left-radius: 10px;
-	-webkit-border-bottom-left-radius: 10px;
-	-moz-border-radius-bottomleft: 10px;
 }
 
 .detailTitle {
@@ -250,6 +254,4 @@ body
 	border: 2px solid #579;
 	background-color: #BCD;
 	border-radius: 10px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
 }
