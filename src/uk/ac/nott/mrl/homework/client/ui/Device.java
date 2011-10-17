@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
-	private static final boolean mobile = Window.Navigator.getUserAgent().matches("Mozilla/5\\.0 \\(((iPad)|(iPhone)|(iPod)|(android)|(webOS)).*"); 
+	private static final boolean mobile = false;// Window.Navigator.getUserAgent().matches("Mozilla/5\\.0 \\(((iPad)|(iPhone)|(iPod)|(android)|(webOS)).*"); 
 	
 	private boolean init = false;
 
