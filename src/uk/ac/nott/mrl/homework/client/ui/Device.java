@@ -22,12 +22,15 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
+	private static final boolean mobile = Window.Navigator.getUserAgent().matches("/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i"); 
+	
 	private boolean init = false;
 
 	// private boolean isSignalDevice = false;
@@ -209,6 +212,45 @@ public class Device extends FlowPanel
 	{
 		return text.getText();
 	}
+	
+	private void setOpacity(final double opacity)
+	{
+		if(mobile)
+		{
+			// Get original colour & Calculate intermediate colour
+			// Feels more than a little hacky.
+			Colour border;
+			Colour bg;
+			Colour text = new Colour(0,0,0);
+			if(getStyleName().equals(DevicesClient.resources.style().device()) || getStyleName().equals(DevicesClient.resources.style().requestingDevice()))
+			{
+				border = new Colour(85, 119, 153);
+				bg = new Colour(119, 153, 187);	
+			}
+			else if(getStyleName().equals(DevicesClient.resources.style().deniedDevice()))
+			{
+				border = new Colour(170, 102, 102);
+				bg = new Colour(187, 153, 153);
+			}
+			else
+			{
+				border = new Colour(119, 119, 119);
+				bg = new Colour(153,153, 153);
+			}
+			
+			border.mixWithWhite(opacity);
+			bg.mixWithWhite(opacity);
+			text.mixWithWhite(opacity);
+			
+			getElement().getStyle().setBackgroundColor(bg.getHexValue());
+			getElement().getStyle().setBorderColor(border.getHexValue());
+			getElement().getStyle().setColor(text.getHexValue());
+		}
+		else
+		{
+			getElement().getStyle().setOpacity(opacity);
+		}
+	}
 
 	public void update(final Item item)
 	{
@@ -220,11 +262,11 @@ public class Device extends FlowPanel
 
 		if("old".equals(item.getChange()))
 		{
-			getElement().getStyle().setOpacity(0.2);
+			setOpacity(0.2);
 		}
 		else
 		{
-			getElement().getStyle().setOpacity(item.getOpacity());
+			setOpacity(item.getOpacity());
 		}
 
 		this.item = item;
