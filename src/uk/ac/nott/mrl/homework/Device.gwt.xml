@@ -8,8 +8,17 @@
 	<entry-point class='uk.ac.nott.mrl.homework.client.DevicesClient' />
 
 	<replace-with class="uk.ac.nott.mrl.homework.client.model.ControlModel">
-		<when-type-is class="uk.ac.nott.mrl.homework.client.model.Model"/>
+		<when-type-is class="uk.ac.nott.mrl.homework.client.model.Model" />
 	</replace-with>
 
-	<source path='client' />	
+	<replace-with class="uk.ac.nott.mrl.homework.client.ui.TransformImpl">
+		<when-type-is class="uk.ac.nott.mrl.homework.client.ui.Transform" />
+	</replace-with>
+
+	<replace-with class="uk.ac.nott.mrl.homework.client.ui.TransformImplSafari">
+		<when-type-is class="uk.ac.nott.mrl.homework.client.ui.Transform" />
+		<when-property-is name="user.agent" value="safari" />
+	</replace-with>
+
+	<source path='client' />
 </module>

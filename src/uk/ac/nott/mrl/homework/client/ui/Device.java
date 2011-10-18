@@ -28,9 +28,6 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
-	private boolean init = false;
-
-	// private boolean isSignalDevice = false;
 	private Item item;
 
 	private DevicesService service;
@@ -42,6 +39,8 @@ public class Device extends FlowPanel
 	private String sortString;
 
 	private final Model model;
+	
+	private static final Transform transform = GWT.create(Transform.class);
 
 	public Device(final Model model, final Item item)
 	{
@@ -197,20 +196,8 @@ public class Device extends FlowPanel
 
 	public void setTop(final int top)
 	{
-		if (!init)
-		{
-			init = true;
-		}
-		else
-		{
-			addStyleName(DevicesClient.resources.style().deviceAnim());
-		}
-		//getElement().getStyle().setTop(top, Unit.PX);
-		getElement().getStyle().setProperty("webkitTransform", "translate3d(0px," + top + "px ,0px)");
-		getElement().getStyle().setProperty("mozTransform", "translate3d(0px," + top + "px ,0px)");
-		getElement().getStyle().setProperty("msTransform", "translate3d(0px," + top + "px ,0px)");
-		getElement().getStyle().setProperty("oTransform", "translate3d(0px," + top + "px ,0px)");
-		getElement().getStyle().setProperty("transform", "translate3d(0px," + top + "px ,0px)");		
+		transform.translateY(getElement(), top);
+		addStyleName(DevicesClient.resources.style().deviceAnim());
 	}
 
 	@Override
