@@ -28,6 +28,8 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
+	private boolean init = false;
+	
 	private Item item;
 
 	private DevicesService service;
@@ -196,8 +198,15 @@ public class Device extends FlowPanel
 
 	public void setTop(final int top)
 	{
+		if(!init)
+		{
+			init = true;
+		}
+		else
+		{
+			addStyleName(DevicesClient.resources.style().deviceAnim());			
+		}
 		transform.translateY(getElement(), top);
-		addStyleName(DevicesClient.resources.style().deviceAnim());
 	}
 
 	@Override
