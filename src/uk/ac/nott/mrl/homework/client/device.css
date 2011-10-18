@@ -113,10 +113,10 @@ body
 .deviceAnim
 {
 	-webkit-transition: top 4s ease, opacity 2s ease, visibility 2s ease, -webkit-transform 4s ease;
-	-moz-transition: top 4s ease, opacity 2s ease, visibility 2s ease -moz-transform 4s ease;
-	-ms-transition: top 4s ease, opacity 2s ease, visibility 2s ease -ms-transform 4s ease;	
-	-o-transition: top 4s ease, opacity 2s ease, visibility 2s ease -o-transform 4s ease;
-	transition: top 4s ease, opacity 2s ease, visibility 2s ease transform 4s ease;
+	-moz-transition: top 4s ease, opacity 2s ease, visibility 2s ease, -moz-transform 4s ease;
+	-ms-transition: top 4s ease, opacity 2s ease, visibility 2s ease, -ms-transform 4s ease;	
+	-o-transition: top 4s ease, opacity 2s ease, visibility 2s ease, -o-transform 4s ease;
+	transition: top 4s ease, opacity 2s ease, visibility 2s ease, transform 4s ease;
 }
 
 .popup {
