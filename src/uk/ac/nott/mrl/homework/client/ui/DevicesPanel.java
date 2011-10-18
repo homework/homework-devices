@@ -652,8 +652,7 @@ public class DevicesPanel extends FlowPanel
 
 	private void updateLayout()
 	{
-		final int bottom = -RootPanel.get().getElement().getScrollTop();
-		GWT.log(RootPanel.get().getElement().getScrollTop() + "," + Window.getScrollTop());
+		final int bottom = -Window.getScrollTop();
 		for (final ZoneDetail detail : zoneDetails)
 		{
 			detail.getElement().getStyle().setBottom(bottom, Unit.PX);
