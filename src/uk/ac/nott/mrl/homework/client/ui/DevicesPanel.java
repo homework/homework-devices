@@ -366,34 +366,6 @@ public class DevicesPanel extends FlowPanel
 			}
 		}, TouchMoveEvent.getType());
 
-		// addDomHandler(new TouchMoveHandler()
-		// {
-		// @Override
-		// public void onTouchMove(TouchMoveEvent event)
-		// {
-		// for(ZonePanel zone: zones)
-		// {
-		// int relX = event.getChangedTouches().get(0).getRelativeX(zone.getElement());
-		// int relY = event.getChangedTouches().get(0).getRelativeY(zone.getElement());
-		// if(relX > 0 && relX < zone.getOffsetWidth() && relY > 0 && relY < zone.getOffsetWidth())
-		// {
-		// dragDevice.setDragZone(zone);
-		// }
-		// }
-		// zoneDetails.get(0).setText("T" + event.getChangedTouches().length() + ": " +
-		// event.getChangedTouches().get(0).getClientX() +", " +
-		// event.getChangedTouches().get(0).getClientY());
-		// if(dragDevice.getState() != DragState.waiting)
-		// {
-		// event.stopPropagation();
-		// event.preventDefault();
-		//
-		// dragDevice.handleDrag(event.getChangedTouches().get(0).getClientX(),
-		// event.getChangedTouches().get(0).getClientY());
-		// }
-		// }
-		// }, TouchMoveEvent.getType());
-
 		addDomHandler(new ClickHandler()
 		{
 			@Override
@@ -681,6 +653,7 @@ public class DevicesPanel extends FlowPanel
 	private void updateLayout()
 	{
 		final int bottom = -RootPanel.get().getElement().getScrollTop();
+		GWT.log(RootPanel.get().getElement().getScrollTop() + "," + Window.getScrollTop());
 		for (final ZoneDetail detail : zoneDetails)
 		{
 			detail.getElement().getStyle().setBottom(bottom, Unit.PX);
