@@ -15,12 +15,12 @@ import org.hwdb.srpc.SRPC;
 
 import uk.ac.nott.mrl.homework.server.model.Device;
 import uk.ac.nott.mrl.homework.server.model.Item;
+import uk.ac.nott.mrl.homework.server.model.Item.Change;
 import uk.ac.nott.mrl.homework.server.model.Lease;
 import uk.ac.nott.mrl.homework.server.model.Link;
 import uk.ac.nott.mrl.homework.server.model.Model;
 import uk.ac.nott.mrl.homework.server.model.NoxStatus;
 import uk.ac.nott.mrl.homework.server.model.ResultSet;
-import uk.ac.nott.mrl.homework.server.model.Item.Change;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +34,7 @@ public class ModelController
 	private static SRPC srpc;
 
 	private final static Logger logger = Logger.getLogger(ModelController.class.getName());
-	
+
 	public static Connection createRPCConnection() throws IOException
 	{
 		if (srpc == null)
@@ -128,92 +128,6 @@ public class ModelController
 		}
 	}
 
-	public static void updateUsers(final Connection connection) throws Exception
-	{
-		final String userResults = connection.call("SQL:select * from Users");
-		final ResultSet result = new ResultSet(userResults);
-		for(String[] columns: result)
-		{			
-			try
-			{
-				final String time = columns[0].substring(1, columns[0].length() - 1);
-				final long timeLong = Long.parseLong(time, 16);
-				long timestamp = timeLong / 1000000;
-				String ipAddress = columns[1].toLowerCase();
-				String name = columns[2];
-				
-				Device device = Model.getModel().getDeviceByIP(ipAddress);
-				if(device != null)
-				{
-					device.updateOwner(timestamp, name);
-				}
-			}
-			catch (final Exception e)
-			{
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			}
-		}		
-	}
-	
-	public static void updateTypes(final Connection connection) throws Exception
-	{
-		final String results = connection.call("SQL:select * from DeviceTypes");
-		final ResultSet result = new ResultSet(results);
-		for(String[] columns: result)
-		{			
-			try
-			{
-				final String time = columns[0].substring(1, columns[0].length() - 1);
-				final long timeLong = Long.parseLong(time, 16);
-				long timestamp = timeLong / 1000000;
-				String ipAddress = columns[1].toLowerCase();
-				String name = columns[2];
-
-				Device device = Model.getModel().getDeviceByIP(ipAddress);
-				if(device != null)
-				{
-					device.updateType(timestamp, name);
-				}
-			}
-			catch (final Exception e)
-			{
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			}
-		}		
-	}
-	
-	public static void updateNames(final Connection connection) throws Exception
-	{
-		final String results = connection.call("SQL:select * from DeviceNames");
-		final ResultSet result = new ResultSet(results);
-		for(String[] columns: result)
-		{			
-			try
-			{
-				final String time = columns[0].substring(1, columns[0].length() - 1);
-				final long timeLong = Long.parseLong(time, 16);
-				long timestamp = timeLong / 1000000;
-				String ipAddress = columns[1].toLowerCase();
-				String name = columns[2];
-
-				Device device = Model.getModel().getDeviceByIP(ipAddress);
-				if(device != null)
-				{
-					logger.info("Name " + device.getMacAddress() + ": " + name);
-					device.updateName(timestamp, name);
-				}
-				else
-				{
-					logger.info("Cannot find device for " + name + ": " + ipAddress);					
-				}
-			}
-			catch (final Exception e)
-			{
-				logger.log(Level.SEVERE, e.getMessage(), e);
-			}
-		}		
-	}
-	
 	public static synchronized void updateModel() throws IOException
 	{
 		final Connection connection = createRPCConnection();
@@ -224,7 +138,7 @@ public class ModelController
 			updateLinks(connection);
 
 			updatePermitted(connection);
-			
+
 			updateTypes(connection);
 			updateUsers(connection);
 			updateNames(connection);
@@ -241,6 +155,35 @@ public class ModelController
 		}
 	}
 
+	public static void updateNames(final Connection connection) throws Exception
+	{
+		final String results = connection.call("SQL:select * from DeviceNames");
+		final ResultSet result = new ResultSet(results);
+		for (final String[] columns : result)
+		{
+			try
+			{
+				final String time = columns[0].substring(1, columns[0].length() - 1);
+				final long timeLong = Long.parseLong(time, 16);
+				final long timestamp = timeLong / 1000000;
+				final String ipAddress = columns[1].toLowerCase();
+				final String name = columns[2];
+
+				final Device device = Model.getModel().getDeviceByIP(ipAddress);
+				if (device != null)
+				{
+					final String oldID = device.getID();
+					device.updateName(timestamp, name);
+					Model.getModel().deviceUpdated(oldID, device);
+				}
+			}
+			catch (final Exception e)
+			{
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
+		}
+	}
+
 	private static void updatePermitted(final Connection connection) throws IOException
 	{
 		final String s = String.format("@%016x@", Model.getModel().getMostRecentNoxStatus() * 1000000);
@@ -249,6 +192,64 @@ public class ModelController
 		if (noxResults != null)
 		{
 			NoxStatus.parseResultSet(noxResults, Model.getModel());
+		}
+	}
+
+	public static void updateTypes(final Connection connection) throws Exception
+	{
+		final String results = connection.call("SQL:select * from DeviceTypes");
+		final ResultSet result = new ResultSet(results);
+		for (final String[] columns : result)
+		{
+			try
+			{
+				final String time = columns[0].substring(1, columns[0].length() - 1);
+				final long timeLong = Long.parseLong(time, 16);
+				final long timestamp = timeLong / 1000000;
+				final String ipAddress = columns[1].toLowerCase();
+				final String name = columns[2];
+
+				final Device device = Model.getModel().getDeviceByIP(ipAddress);
+				if (device != null)
+				{
+					final String oldID = device.getID();
+					device.updateType(timestamp, name);
+					Model.getModel().deviceUpdated(oldID, device);
+				}
+			}
+			catch (final Exception e)
+			{
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
+		}
+	}
+
+	public static void updateUsers(final Connection connection) throws Exception
+	{
+		final String userResults = connection.call("SQL:select * from Users");
+		final ResultSet result = new ResultSet(userResults);
+		for (final String[] columns : result)
+		{
+			try
+			{
+				final String time = columns[0].substring(1, columns[0].length() - 1);
+				final long timeLong = Long.parseLong(time, 16);
+				final long timestamp = timeLong / 1000000;
+				final String ipAddress = columns[1].toLowerCase();
+				final String name = columns[2];
+
+				final Device device = Model.getModel().getDeviceByIP(ipAddress);
+				if (device != null)
+				{
+					final String oldID = device.getID();
+					device.updateOwner(timestamp, name);
+					Model.getModel().deviceUpdated(oldID, device);
+				}
+			}
+			catch (final Exception e)
+			{
+				logger.log(Level.SEVERE, e.getMessage(), e);
+			}
 		}
 	}
 }
