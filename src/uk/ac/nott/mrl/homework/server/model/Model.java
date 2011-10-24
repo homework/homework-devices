@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Model
-{	
+{
 	private static final Model model = new Model();
 	// private static final Logger logger = Logger.getLogger(Model.class.getName());
 
@@ -17,7 +17,7 @@ public class Model
 	private long mostRecentNoxStatus = 0;
 	private long mostRecentLink = 0;
 	private long mostRecentLease = 0;
-	
+
 	// private static final int inactive = 5000;
 	private static final int timeout = 20000;
 
@@ -31,55 +31,30 @@ public class Model
 		return timeout;
 	}
 
-	public void add(final Link link)
-	{
-		mostRecentLink = Math.max(link.getTimestamp(), mostRecentLink);
-		Device device = getDeviceByMac(link.getMacAddress());
-		String oldID = device.getID();
-		device.update(link);
-		deviceUpdated(oldID, device);
-	}
-	
-	public Device getDeviceByIP(String ipAddress)
-	{
-		for(Device device: devices.values())
-		{
-			if(ipAddress.equals(device.getIPAddress()))
-			{
-				return device;
-			}
-		}
-		return null;		
-	}
-	
-	public Device getDeviceByMac(String macAddress)
-	{
-		Device device = devices.get(macAddress);
-		if(device == null)
-		{
-			Device newDevice = new Device(macAddress);
-			newDevice.initCorporation();
-			devices.put(macAddress, newDevice);
-			return newDevice;
-		}
-		return device;
-	}
-	
-	public void add(final NoxStatus status)
-	{
-		mostRecentNoxStatus = Math.max(status.getTimestamp(), mostRecentNoxStatus);
-		final Device device = getDeviceByMac(status.getMacAddress());
-		final String oldID = device.getID();
-		device.update(status);
-		deviceUpdated(oldID, device);
-	}
-
 	public void add(final Lease lease)
 	{
 		mostRecentLease = Math.max(lease.getTimestamp(), mostRecentLease);
 		final Device device = getDeviceByMac(lease.getMacAddress());
 		final String oldID = device.getID();
 		device.update(lease);
+		deviceUpdated(oldID, device);
+	}
+
+	public void add(final Link link)
+	{
+		mostRecentLink = Math.max(link.getTimestamp(), mostRecentLink);
+		final Device device = getDeviceByMac(link.getMacAddress());
+		final String oldID = device.getID();
+		device.update(link);
+		deviceUpdated(oldID, device);
+	}
+
+	public void add(final NoxStatus status)
+	{
+		mostRecentNoxStatus = Math.max(status.getTimestamp(), mostRecentNoxStatus);
+		final Device device = getDeviceByMac(status.getMacAddress());
+		final String oldID = device.getID();
+		device.update(status);
 		deviceUpdated(oldID, device);
 	}
 
@@ -94,14 +69,14 @@ public class Model
 			{
 				if (timeout > device.getTimestamp())
 				{
-					if(device.canRemove())
+					if (device.canRemove())
 					{
 						removals.add(device);
 					}
 					else
 					{
-						Item item = items.get(device.getID());
-						if(item != null)
+						final Item item = items.get(device.getID());
+						if (item != null)
 						{
 							item.setOld(timestamp);
 						}
@@ -135,7 +110,7 @@ public class Model
 		{
 			final Item oldItem = items.get(oldID);
 			final Item newItem = items.get(device.getID());
-			if(oldItem != null)
+			if (oldItem != null)
 			{
 				oldItem.remove(device, device.getTimestamp());
 			}
@@ -149,6 +124,28 @@ public class Model
 				newItem.add(device);
 			}
 		}
+	}
+
+	public Device getDeviceByIP(final String ipAddress)
+	{
+		for (final Device device : devices.values())
+		{
+			if (ipAddress.equals(device.getIPAddress())) { return device; }
+		}
+		return null;
+	}
+
+	public Device getDeviceByMac(final String macAddress)
+	{
+		final Device device = devices.get(macAddress);
+		if (device == null)
+		{
+			final Device newDevice = new Device(macAddress);
+			newDevice.initCorporation();
+			devices.put(macAddress, newDevice);
+			return newDevice;
+		}
+		return device;
 	}
 
 	public int getDeviceCount()
@@ -171,6 +168,11 @@ public class Model
 		return items.values();
 	}
 
+	public long getMostRecentLease()
+	{
+		return mostRecentLease + 1;
+	}
+
 	public long getMostRecentLink()
 	{
 		return Math.max(mostRecentLink, new Date().getTime() - timeout) + 1;
@@ -179,11 +181,6 @@ public class Model
 	public long getMostRecentNoxStatus()
 	{
 		return mostRecentNoxStatus + 1;
-	}
-	
-	public long getMostRecentLease()
-	{
-		return mostRecentLease + 1;
 	}
 
 	public void remove(final Device device, final long timestamp)

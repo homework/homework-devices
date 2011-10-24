@@ -199,7 +199,12 @@ public class ModelController
 				Device device = Model.getModel().getDeviceByIP(ipAddress);
 				if(device != null)
 				{
+					logger.info("Name " + device.getMacAddress() + ": " + name);
 					device.updateName(timestamp, name);
+				}
+				else
+				{
+					logger.info("Cannot find device for " + name + ": " + ipAddress);					
 				}
 			}
 			catch (final Exception e)
