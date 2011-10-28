@@ -14,7 +14,7 @@ import org.hwdb.srpc.Connection;
 
 public class LinkFlood extends HttpServlet
 {
-	private final static int count = 1000;
+	private final static int count = 100;
 	private final static Logger logger = Logger.getLogger(LinkFlood.class.getName());
 
 	@Override
@@ -72,7 +72,7 @@ public class LinkFlood extends HttpServlet
 							}
 							else
 							{
-								Thread.sleep(1000);
+								Thread.sleep(100);
 							}
 						}
 					}
