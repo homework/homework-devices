@@ -42,6 +42,6 @@ public class Log extends HttpServlet
 		final String details = request.getRemoteAddr() + ": " + URLDecoder.decode(request.getParameter("details"), "UTF-8");
 
 		log(type, details);
-		logger.info(type + ": " + details);
+		//logger.info(type + ": " + details);
 	}
 }

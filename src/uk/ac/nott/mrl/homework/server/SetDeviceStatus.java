@@ -124,7 +124,7 @@ public class SetDeviceStatus extends HttpServlet
 		final String command = request.getParameter("command");
 		if(command != null)
 		{
-			logger.info(command + " " + macAddress);
+			//logger.info(command + " " + macAddress);
 			
 			try
 			{

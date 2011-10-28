@@ -34,6 +34,7 @@ public class LinkFlood extends HttpServlet
 			@Override
 			public void run()
 			{
+				final Random random = new Random();				
 				logger.info("Starting Link Flooding");
 				while (true)
 				{
@@ -43,8 +44,6 @@ public class LinkFlood extends HttpServlet
 						connection = ModelController.createRPCConnection();
 						while (true)
 						{
-							final Random random = new Random();
-							final StringBuffer query = new StringBuffer("SQL:INSERT into Links values ");
 							for(int index = 0; index < count; index++)
 							{
 								final String randomMac = String.format(	"%02x%02x%02x%02x%02x%02x", random.nextInt(256),
@@ -52,28 +51,19 @@ public class LinkFlood extends HttpServlet
 																		random.nextInt(256), random.nextInt(256),
 																		random.nextInt(256));
 
-								final String values = String.format(	"(\"%s\", '0.0', '0', '0', '0')",
+						
+								final String query = String.format(	"SQL:INSERT into Links values (\"%s\", '0.0', '0', '0', '0')",
 																	randomMac);
-								
-								if(index != 0)
-								{
-									query.append(",");
-								}
 
-								query.append(values);
+								final String result = connection.call(query.toString());
+								if (!result.startsWith("0<|>Success"))
+								{
+									logger.warning("Failed query:" + query + ";" + result);
+									Thread.sleep(5000);
+								}
 							}
 							
-
-							final String result = connection.call(query.toString());
-							if (!result.startsWith("0<|>Success"))
-							{
-								logger.warning("Failed query:" + query + ";" + result);
-								Thread.sleep(5000);
-							}
-							else
-							{
-								Thread.sleep(100);
-							}
+							Thread.sleep(100);
 						}
 					}
 					catch (final Exception e)
