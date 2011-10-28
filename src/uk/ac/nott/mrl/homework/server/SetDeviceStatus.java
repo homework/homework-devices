@@ -63,6 +63,10 @@ public class SetDeviceStatus extends HttpServlet
 					{
 						logger.warning("Failed query:" + query + ";" + result);
 					}
+					else
+					{
+						Log.log("Set Device User", request.getRemoteAddr() + ": " + device.getIPAddress() + " = " + owner);						
+					}						
 				}
 				catch(Exception e)
 				{
@@ -82,6 +86,10 @@ public class SetDeviceStatus extends HttpServlet
 					{
 						logger.warning("Failed query:" + query + ";" + result);
 					}
+					else
+					{
+						Log.log("Set Device Name", request.getRemoteAddr() + ": " + device.getIPAddress() + " = " + name);						
+					}					
 				}
 				catch(Exception e)
 				{
@@ -100,6 +108,10 @@ public class SetDeviceStatus extends HttpServlet
 					if(!result.startsWith("0<|>Success"))
 					{
 						logger.warning("Failed query:" + query + ";" + result);
+					}
+					else
+					{
+						Log.log("Set Device Type", request.getRemoteAddr() + ": " + device.getIPAddress() + " = " + type);						
 					}
 				}
 				catch(Exception e)
@@ -123,8 +135,10 @@ public class SetDeviceStatus extends HttpServlet
 				{
 					logger.warning("Failed query:" + query + ";" + result);
 				}
-	
-				Log.log(command, macAddress);
+				else
+				{
+					Log.log(command, request.getRemoteAddr() + ": " + macAddress);					
+				}
 			}
 			catch (final Exception e)
 			{

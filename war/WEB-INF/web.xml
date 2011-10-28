@@ -20,49 +20,14 @@
 	</servlet>
 
 	<servlet>
-		<servlet-name>setName</servlet-name>
-		<servlet-class>uk.ac.nott.mrl.homework.server.SetName</servlet-class>
-	</servlet>
-
-	<servlet>
 		<servlet-name>log</servlet-name>
 		<servlet-class>uk.ac.nott.mrl.homework.server.Log</servlet-class>
 	</servlet>
 
 	<servlet>
-		<servlet-name>getTrayMode</servlet-name>		
-		<servlet-class>uk.ac.nott.mrl.homework.server.GetTrayMode</servlet-class>
-		<init-param>
-			<param-name>filepath</param-name>
-			<param-value>/homework/homeworkduino/res/role.cfg</param-value>
-		</init-param>		
-	</servlet>
-
-	<servlet>
-		<servlet-name>nextTrayMode</servlet-name>		
-		<servlet-class>uk.ac.nott.mrl.homework.server.NextTrayMode</servlet-class>
-		<init-param>
-			<param-name>filepath</param-name>
-			<param-value>/homework/homeworkduino/res/role.cfg</param-value>
-		</init-param>		
-	</servlet>
-
-	<servlet>
-		<servlet-name>getTrayDevice</servlet-name>		
-		<servlet-class>uk.ac.nott.mrl.homework.server.GetTrayDevice</servlet-class>
-		<init-param>
-			<param-name>filepath</param-name>
-			<param-value>/homework/homeworkduino/res/probe.cfg</param-value>
-		</init-param>		
-	</servlet>
-
-	<servlet>
-		<servlet-name>setTrayDevice</servlet-name>		
-		<servlet-class>uk.ac.nott.mrl.homework.server.SetTrayDevice</servlet-class>
-		<init-param>
-			<param-name>filepath</param-name>
-			<param-value>/homework/homeworkduino/res/probe.cfg</param-value>
-		</init-param>		
+		<servlet-name>linkFlood</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.homework.server.LinkFlood</servlet-class>
+		<!-- <load-on-startup /> -->
 	</servlet>
 
 	<servlet-mapping>
@@ -83,31 +48,6 @@
 	<servlet-mapping>
 		<servlet-name>log</servlet-name>
 		<url-pattern>/device/log</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>setName</servlet-name>
-		<url-pattern>/device/setName</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>getTrayMode</servlet-name>
-		<url-pattern>/device/getTrayMode</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>nextTrayMode</servlet-name>
-		<url-pattern>/device/nextTrayMode</url-pattern>
-	</servlet-mapping>	
-
-	<servlet-mapping>
-		<servlet-name>getTrayDevice</servlet-name>
-		<url-pattern>/device/getTrayDevice</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>setTrayDevice</servlet-name>
-		<url-pattern>/device/setTrayDevice</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>

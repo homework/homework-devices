@@ -39,7 +39,7 @@ public class Log extends HttpServlet
 		response.setContentType("application/json");
 
 		final String type = URLDecoder.decode(request.getParameter("type"), "UTF-8");
-		final String details = URLDecoder.decode(request.getParameter("details"), "UTF-8");
+		final String details = request.getRemoteAddr() + ": " + URLDecoder.decode(request.getParameter("details"), "UTF-8");
 
 		log(type, details);
 		logger.info(type + ": " + details);

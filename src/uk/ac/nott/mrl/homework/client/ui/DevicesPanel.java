@@ -20,8 +20,6 @@ import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -152,7 +150,6 @@ public class DevicesPanel extends FlowPanel
 
 	private final DevicesService service;
 	private String signalDeviceMac;
-	private final TrayPanel trayPanel;
 
 	private final List<ZonePanel> zones = new ArrayList<ZonePanel>();
 	private final List<ZoneDetail> zoneDetails = new ArrayList<ZoneDetail>();
@@ -202,19 +199,6 @@ public class DevicesPanel extends FlowPanel
 						popup.getElement().getStyle().setOpacity(1);
 						popup.getElement().getStyle().setVisibility(Visibility.VISIBLE);
 						fadeTimer.schedule(10000);
-					}
-				});
-				device.addDoubleClickHandler(new DoubleClickHandler()
-				{
-					@Override
-					public void onDoubleClick(final DoubleClickEvent event)
-					{
-						popup.hide();
-						if(device.getItem().getIPAddress() != null)
-						{
-							device.edit(service);
-						}
-						event.preventDefault();
 					}
 				});
 				device.addTouchStartHandler(new TouchStartHandler()
@@ -374,24 +358,11 @@ public class DevicesPanel extends FlowPanel
 				event.preventDefault();
 			}
 		}, ClickEvent.getType());
-
-		trayPanel = new TrayPanel(service);
-		add(trayPanel);
 	}
 
 	public Object getSelected()
 	{
 		return selected;
-	}
-
-	public RequestCallback getTrayDeviceCallback()
-	{
-		return callback;
-	}
-
-	public RequestCallback getTrayModeCallback()
-	{
-		return trayPanel.getTrayModeCallback();
 	}
 
 	private ZonePanel getZone(final int index)

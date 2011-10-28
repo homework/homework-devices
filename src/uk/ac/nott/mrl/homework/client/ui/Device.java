@@ -1,30 +1,21 @@
 package uk.ac.nott.mrl.homework.client.ui;
 
 import uk.ac.nott.mrl.homework.client.DevicesClient;
-import uk.ac.nott.mrl.homework.client.DevicesService;
 import uk.ac.nott.mrl.homework.client.model.Item;
 import uk.ac.nott.mrl.homework.client.model.Model;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TextBox;
 
 public class Device extends FlowPanel
 {
@@ -32,12 +23,8 @@ public class Device extends FlowPanel
 	
 	private Item item;
 
-	private DevicesService service;
-
 	private final Label text = new Label();
 
-	private final TextBox textBoxName = new TextBox();
-	
 	private String sortString;
 
 	private final Model model;
@@ -53,55 +40,8 @@ public class Device extends FlowPanel
 
 		text.setStyleName(DevicesClient.resources.style().deviceName());
 		text.setText(item.getName());
-		textBoxName.setMaxLength(80);
 		add(text);
 		// updateStyle(null);
-
-		add(textBoxName);
-		textBoxName.addBlurHandler(new BlurHandler()
-		{
-			@Override
-			public void onBlur(final BlurEvent event)
-			{
-				cancelEdit();
-			}
-		});
-		textBoxName.addKeyDownHandler(new KeyDownHandler()
-		{
-			@Override
-			public void onKeyDown(final KeyDownEvent event)
-			{
-				clearQuotes();
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-				{
-					GWT.log("Accept");
-					acceptEdit();
-				}
-				else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
-				{
-					cancelEdit();
-				}
-			}
-		});
-		textBoxName.addKeyUpHandler(new KeyUpHandler()
-		{
-			@Override
-			public void onKeyUp(final KeyUpEvent event)
-			{
-				clearQuotes();
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
-				{
-					GWT.log("Accept");
-					acceptEdit();
-				}
-				else if (event.getNativeKeyCode() == KeyCodes.KEY_ESCAPE)
-				{
-					cancelEdit();
-				}
-			}
-		});
-		
-		textBoxName.setVisible(false);
 
 		setLeft(25);
 		update(item);
@@ -129,18 +69,6 @@ public class Device extends FlowPanel
 		return sortString;
 	}
 
-	private void clearQuotes()
-	{
-		textBoxName.setText(textBoxName.getText().replace("\"", ""));
-	}
-	
-	public void acceptEdit()
-	{
-		text.setText(textBoxName.getText());
-		textBoxName.setFocus(false);
-		service.setName(item.getMacAddress(), textBoxName.getText());
-	}
-
 	public void addClickHandler(final ClickHandler handler)
 	{
 		addDomHandler(handler, ClickEvent.getType());
@@ -159,25 +87,6 @@ public class Device extends FlowPanel
 	public void addTouchStartHandler(final TouchStartHandler handler)
 	{
 		addDomHandler(handler, TouchStartEvent.getType());
-	}
-
-	public void cancelEdit()
-	{
-		service.log("Name Edit Ended", item.getName());
-		textBoxName.setFocus(false);
-		textBoxName.setVisible(false);
-		text.setVisible(true);
-	}
-
-	public void edit(final DevicesService service)
-	{
-		this.service = service;
-		if (item.getMacAddress() == null) { return; }
-		service.log("Name Edit Started", item.getName());
-		textBoxName.setText(text.getText());
-		text.setVisible(false);
-		textBoxName.setVisible(true);
-		textBoxName.setFocus(true);
 	}
 
 	public Item getItem()

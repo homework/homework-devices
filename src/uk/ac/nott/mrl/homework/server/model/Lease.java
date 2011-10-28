@@ -9,10 +9,10 @@ public class Lease
 	public static void parseResultSet(final String results, final Model model)
 	{
 		final ResultSet result = new ResultSet(results);
-		if(result.getSize() != 0)
-		{
-			System.out.println("New leases: " + result.getSize());
-		}
+//		if(result.getSize() != 0)
+//		{
+//			System.out.println("New leases: " + result.getSize());
+//		}
 		for(String[] columns: result)
 		{			
 			try

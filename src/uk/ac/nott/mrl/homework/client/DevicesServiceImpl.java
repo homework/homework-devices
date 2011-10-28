@@ -37,18 +37,6 @@ public class DevicesServiceImpl implements DevicesService
 	}
 
 	@Override
-	public void getTrayDevice(final RequestCallback callback)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "getTrayDevice", callback);
-	}
-
-	@Override
-	public void getTrayMode(final RequestCallback callback)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "getTrayMode", callback);
-	}
-
-	@Override
 	public void getUpdates(final RequestCallback callback)
 	{
 		serverRequest(GWT.getModuleBaseURL() + "changes?since=" + model.getLastUpdated(), callback);
@@ -59,12 +47,6 @@ public class DevicesServiceImpl implements DevicesService
 	{
 		serverRequest(GWT.getModuleBaseURL() + "log?type=" + URL.encodeQueryString(type) + "&details="
 				+ URL.encodeQueryString(details));
-	}
-
-	@Override
-	public void nextTrayMode(final RequestCallback callback)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "nextTrayMode", callback);
 	}
 
 	@Override
@@ -90,26 +72,6 @@ public class DevicesServiceImpl implements DevicesService
 		{
 			GWT.log(e.getMessage(), e);
 		}
-	}
-
-	@Override
-	public void setName(final String macAddress, final String name)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "setName?macAddress=" + macAddress + "&name="
-				+ URL.encodeQueryString(name) + "&since=" + model.getLastUpdated());
-	}
-
-	@Override
-	public void setResource(final String macAddress, final boolean resource)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "setResource?macAddress=" + macAddress + "&resource=" + resource
-				+ "&since=" + model.getLastUpdated());
-	}
-
-	@Override
-	public void setTrayDevice(final String macAddress)
-	{
-		serverRequest(GWT.getModuleBaseURL() + "setTrayDevice?macAddress=" + macAddress);
 	}
 
 	public void setZone(final String macAddress, final int zone)

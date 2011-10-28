@@ -61,7 +61,7 @@ public class SetName extends HttpServlet
 			since = (long) Double.parseDouble(sinceString);
 		}
 
-		Log.log("Rename Device", macAddress);
+		Log.log("Rename Device", request.getRemoteAddr() + ": " + macAddress);
 
 		ModelController.listItems(response.getWriter(), since);
 	}
