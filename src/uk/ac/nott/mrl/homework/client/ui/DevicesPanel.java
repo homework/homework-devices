@@ -486,10 +486,9 @@ public class DevicesPanel extends FlowPanel
 							
 							@Override
 							protected void accept()
-							{
-								service.setStatus(item.getMacAddress(), null, getName(), getOwner(), getType());
-									
+							{		
 								deviceEditPopup.hide();
+								service.setStatus(item.getMacAddress(), null, getName(), getOwner(), getType());
 							}
 						});
 						deviceEditPopup.center();
