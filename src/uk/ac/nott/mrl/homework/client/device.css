@@ -2,9 +2,10 @@ body
 {
 	margin: 0px;
 	font-family: Verdana, sans-serif;
+	font-size: 14px;
 }
 
-input
+input, select, button
 {
 	font-size: 16px;
 }
